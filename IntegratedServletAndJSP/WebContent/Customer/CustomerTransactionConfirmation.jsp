@@ -30,7 +30,7 @@
 Total Cost: $10.00 <br>
 <br>
 
-<input type="button"  value="View Orders"/> <br>
+<input type="button" onclick="location.href='ViewOrders.jsp';" value="View Orders"/> <br>
 <br>
 <!-- Navigation links --> 
 <a href="CustomerHomePage.jsp"> Home Page </a> <br>
