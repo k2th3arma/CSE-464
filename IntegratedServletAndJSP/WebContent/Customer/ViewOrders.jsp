@@ -10,35 +10,27 @@
 <a href="CustomerHomePage.jsp"> Home </a> <br>
 <a href="../Welcome.jsp"> Log out</a> <br>
 <body>
-<table>
+<h1>View Orders</h1> <br> <br>
+<table border="1">
+<thead>
 <tr>
 <th>Order Number</th>
 <th>Order Total</th>
 <th>Ordered Date</th>
 <th>Manage Order</th>
 </tr>
-
+</thead>
+<tbody>
 <tr>
-<td>654</td>
-<td>$42.00</td>
+<td>001</td>
+<td>$10.00</td>
 <td>1/18/18</td>
-<td><a href="ManageOrder.jsp">Manage</a>
+<td><a href="ManageOrder.jsp">001</a>
 </tr>
+</tbody>
 </table>
 	
 </body>
 
 
-
-<style>
-    table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        align-self:auto;
-    }
-
-    th, td {
-        padding: 5px;
-    }
-</style>
 </html>

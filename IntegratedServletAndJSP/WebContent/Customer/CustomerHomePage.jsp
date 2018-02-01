@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Homepage</title>
 </head>
@@ -20,8 +21,8 @@ Search Bar <input type=text name=Search><br>
 <!-- Navigation links --> 
 <a href="CustomerHomePage.jsp"> Home Page </a> <br>
 <a href="ViewOrders.jsp"> View Orders </a> <br>
-<a href="Register.jsp"> New User </a> <br>
-<a href="Welcome.jsp"> Log Out </a> <br>
+<a href="../Register.jsp"> New User </a> <br>
+<a href="../Welcome.jsp"> Log Out </a> <br>
 
 
 </body>

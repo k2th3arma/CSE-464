@@ -6,7 +6,17 @@
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        align-self:auto;
+    }
 
+    th, td {
+        padding: 5px;
+    }
+</style>
 
 
 
