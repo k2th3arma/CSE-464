@@ -6,7 +6,7 @@
 			    var x = document.forms["userForm"]["userName"].value;
 			    var y = document.forms["userForm"]["password"].value;
 			    var z = document.forms["userForm"]["password2"].value;
-			    
+			    var zip = document.forms["userForm"]["zip"].value;
 			    if (x == "") {
 			        alert("Username must be filled out");
 			        return false;
@@ -21,6 +21,19 @@
 			    	alert("Passwords don't match");
 			    	return false;
 			    }
+			    
+			    if(validateZip(zip) == false){
+			    	alert("Zip Code is too short");
+			    	return false;
+			    }
+			}
+			function validateZip(zip){
+				var count = zip.length;
+				if(count < 5){
+					return false;
+				}else{
+					return true;
+				}
 			}
 	   </script>	   
 	<body id="back">
@@ -32,14 +45,20 @@
 		<div id="rcorners2" class="container2">
 		<form action	=Register name="userForm" onsubmit="return validateForm()" method="post" >
 		
-			First Name: <input type=text name=firstName> <br>
-			Last Name: <input type=text name=lastName> <br>
-			User Name: <input type=text name=userName>				<br>
-			Password:  <input type=password name=password id="one"> <br>
-			Password:  <input type=password name=password2 id="two"><br>
-			User Type: <select name="user"> 
-				<option>Customer</option>
-				<option>Owner</option>
+			First Name: 	<input type=text name=firstName> <br>
+			Last Name: 		<input type=text name=lastName> <br>
+			User Name: 		<input type=text name=userName>				<br>
+			Password:  		<input type=password name=password id="one"> <br>
+			Password:  		<input type=password name=password2 id="two"><br>
+			Email: 			<input type=text name=email><br>
+			Phone Number: 	<input type=text name=phone><br>
+			Address :		<input type=text name= address><br>	
+			City:			<input type=text name=city><br>
+			State:			<input type=text name=state><br>
+			Zip code			<input type=text name=zip><br>	
+			User Type: 		<select name="type"> 
+				<option>customer</option>
+				<option>owner</option>
 			</select> <br>		
 						
 			

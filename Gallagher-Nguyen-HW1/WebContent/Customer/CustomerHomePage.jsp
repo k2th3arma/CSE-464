@@ -1,28 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<jsp:include page="../Shared/Partial.jsp"></jsp:include>
+
+<title>Customer Home Page</title>
 <html>
-<head>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Homepage</title>
-</head>
 <body>
 
 <h1> Customer Homepage</h1>
+
 <h2> Welcome!</h2>
 
 <br>
 
-Search Bar <input type=text name=Search><br>
-<input type="button" onclick="location.href='MovieSearchResults.jsp';" value="Search"/> <br> 
-<br>
+<div id="rcorners2" class="container2">
+	<form action="../MovieServlet" name="userForm" method="get" >
+		Search Bar <input type=text name=Search><br>
+		Search Type <select name=type> 
+			<option>Title</option>
+			<option>Year</option>
+			<option>Length</option>
+			<option>MPAA</option>
+			<option>Genre</option>
+			<option>Theatre</option>
+			<option>Showroom</option>
+			</select> <br>
+		<input type=submit value=Movie> <br> 
+	</form>
+</div>
+		
 
-<!-- Navigation links --> 
-<a href="CustomerHomePage.jsp"> Home Page </a> <br>
-<a href="ViewOrders.jsp"> View Orders </a> <br>
-<a href="../Register.jsp"> New User </a> <br>
-<a href="../Welcome.jsp"> Log Out </a> <br>
 
 
 </body>

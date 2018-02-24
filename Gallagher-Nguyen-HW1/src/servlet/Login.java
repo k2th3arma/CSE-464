@@ -1,4 +1,5 @@
 package servlet;
+
 import model.UsersDB;
 
 import java.io.FileInputStream;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Users;
 
@@ -34,11 +36,16 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
+		HttpSession session = request.getSession();
 		
 		UsersDB user = new UsersDB();
+		Users usr = new Users();
 		
 		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
 		{
+			session.setAttribute("user_name", userName);
+			usr.setLog(true);
+			System.out.println(userName);
 			response.sendRedirect("Customer/CustomerHomePage.jsp");
 		} 
 		else

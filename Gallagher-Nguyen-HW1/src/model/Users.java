@@ -13,17 +13,50 @@ public class Users {
 		private String lastName;
 		private String userName;
 		private String password;
+		private String email;
+		private String phone;
+		private Address address;		
+		private String type;
+		private boolean log;
 		
 		public Users() {
 			super();
 		}
-		public Users(String firstName, String lastName, String userName,
-				String password) {
+		public Users(String firstName, String lastName, String userName, String password, String email, String phone, Address address, String type) {
 			super();
 			this.firstName = firstName;
 			this.lastName = lastName;
 			this.userName = userName;
 			this.password = password;
+			this.email = email;
+			this.phone = phone;
+			this.address = address;
+			this.type = type;
+		}
+		
+		public String getEmail() {
+			return email;
+		}
+		public void setEmail(String email) {
+			this.email = email;
+		}
+		public String getPhone() {
+			return phone;
+		}
+		public void setPhone(String phone) {
+			this.phone = phone;
+		}
+		public Address getAddress() {
+			return address;
+		}
+		public void setAddress(Address address) {
+			this.address = address;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
 		}
 		public String getFirstName() {
 			return firstName;
@@ -48,6 +81,12 @@ public class Users {
 		}
 		public void setPassword(String password) {
 			this.password = password;
+		}
+		public boolean getLog(){
+			return this.log;
+		}
+		public void setLog(boolean log){
+			this.log = log;
 		}
 	
 	public void registerUser(Users aUser, String propFilePath) {
