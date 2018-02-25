@@ -88,6 +88,11 @@ public class Users {
 		public void setLog(boolean log){
 			this.log = log;
 		}
+		
+		@Override
+		public String toString(){
+			return firstName +" "+ lastName +" "+ userName + " "+ password +" "+ email +" "+ address +" "+ type;
+		}
 	
 	public void registerUser(Users aUser, String propFilePath) {
 		

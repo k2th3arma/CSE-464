@@ -19,6 +19,15 @@ import model.TheatreDB;
 import model.Showroom;
 import model.ShowroomDB;
 
+import model.MovieShowing;
+import model.MovieShowingDB;
+
+import model.Review;
+import model.ReviewDB;
+
+import model.Transaction;
+import model.TransactionDB;
+
 /**
  * Servlet implementation class MovieServlet
  */
@@ -49,6 +58,12 @@ public class MovieServlet extends HttpServlet {
 		TheatreDB theatre = new TheatreDB();
 		
 		ShowroomDB showroom = new ShowroomDB();
+		
+		MovieShowingDB movieShowing = new MovieShowingDB();
+		
+		ReviewDB review = new ReviewDB();
+		
+		TransactionDB transaction = new TransactionDB();
 		
 		if(type.contentEquals("Title")){
 			
@@ -100,6 +115,17 @@ public class MovieServlet extends HttpServlet {
 		}
 		else if(type.contentEquals("Showroom")){
 			System.out.println(showroom.getShowroom(search));
+		}
+		else if(type.contentEquals("MovieShowing")){
+			System.out.println(movieShowing.GetMovieShowing(search));
+		}
+		else if(type.contentEquals("Review")){
+			System.out.println(review.GetReviewByMovie(search));
+		}
+		else if(type.contentEquals("Transaction")){
+			//System.out.println(transaction.GetTransactionByID(Integer.parseInt(search)));
+			
+			System.out.println(transaction.GetTransactionByUser(search));
 		}
 		else{
 			response.sendError(404, "Error");

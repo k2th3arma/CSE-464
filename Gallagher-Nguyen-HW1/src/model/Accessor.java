@@ -56,6 +56,235 @@ public class Accessor {
 			
 		}
 		
+		public Transaction GetTransactionByID(int ID){
+			String SQL = "SELECT * FROM Transaction;";
+		    Statement stat;
+		   
+		    Transaction transaction = new Transaction();
+		    
+		    Utilities util = new Utilities();
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						transaction.setCardNumber(rs.getString(2));
+						transaction.setMonth(rs.getString(3));
+						transaction.setYear(rs.getString(4));
+						transaction.setUser(GetUserByID(rs.getInt(5)));
+						transaction.setAddress(util.splitDBEntry(rs.getString(6), transaction.getUser().getUserName()));
+						transaction.setCode(rs.getInt(7));
+												
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return transaction;
+			
+			
+		}
+		
+		public Transaction GetTransactionByUser(String userName){
+			String SQL = "SELECT * FROM Transaction;";
+		    Statement stat;
+		   
+		    Transaction transaction = new Transaction();
+		    
+		    Utilities util = new Utilities();
+		    
+		    int ID = GetUserIDByName(userName);
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					
+					if(ID == rs.getInt(5)) {
+						transaction.setCardNumber(rs.getString(2));
+						transaction.setMonth(rs.getString(3));
+						transaction.setYear(rs.getString(4));
+						transaction.setUser(GetUserByID(rs.getInt(5)));
+						transaction.setAddress(util.splitDBEntry(rs.getString(6), transaction.getUser().getUserName()));
+						transaction.setCode(rs.getInt(7));
+												
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return transaction;
+			
+			
+		}
+		
+		public void addTransaction(Transaction transaction){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				String cardNumber = transaction.getCardNumber();
+				String month = transaction.getMonth();
+				String year = transaction.getYear();
+				int user_ID = GetUserIDByName(transaction.getUser().getUserName());
+				String address = transaction.getAddress().toString();
+				int code = transaction.getCode();
+						
+				
+				sql = "INSERT INTO Transaction (card_number, month, year, user_id, address, code)"+
+						"VALUES ('" + cardNumber +
+						"', '" + month +
+						"', '" + year +
+						"', '" + user_ID +
+						"', '" + address +
+						"', '" + code +
+						 "')";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+		}
+		
+		public Review returnReviewByTitle(String title) {
+			String SQL = "SELECT * FROM Review;";
+		    Statement stat;
+		   
+		    Review review = new Review();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(title.equals( rs.getString(5) )) {
+						review.setDescription(rs.getString(2));
+						review.setRating(rs.getInt(3));
+						review.setUser(GetUserByID(rs.getInt(4)));
+						review.setMovie(returnMovieByTitle(rs.getString(5)));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return review;
+		}
+		
+		public int GetUserIDByName(String userName){
+			String SQL = "SELECT * FROM Users;";
+		    Statement stat;
+		   
+		    Users user = new Users();
+		    int value = 0;
+		    Utilities util = new Utilities();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(userName.equals(rs.getString(4))) {
+						value = rs.getInt(1);
+						
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return value;
+		}
+		
+		public Users GetUserByID(int ID){
+			String SQL = "SELECT * FROM Users;";
+		    Statement stat;
+		   
+		    Users user = new Users();
+		    
+		    Utilities util = new Utilities();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						user.setFirstName(rs.getString(2));
+						user.setLastName(rs.getString(3));
+						user.setUserName(rs.getString(4));
+						user.setPassword(rs.getString(5));
+						user.setPhone(rs.getString(6));
+						user.setAddress(util.splitDBEntry(rs.getString(7), rs.getString(4)));
+						user.setEmail(rs.getString(8));
+						user.setType(rs.getString(9));
+						
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return user;
+			
+			
+		}
+		
+		public MovieShowing returnMovieShowingByTitle(String title) {
+			String SQL = "SELECT * FROM MovieShowing;";
+		    Statement stat;
+		   
+		    MovieShowing movie = new MovieShowing();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(title.equals( rs.getString(2) )) {
+						movie.setMovie(returnMovieByTitle(rs.getString(2)));
+						movie.setShowroom(GetShowroomByID(rs.getInt(3)));
+						movie.setSeatSold(rs.getInt(4));
+						movie.setSeatCount(rs.getInt(5));
+						movie.setPrice(rs.getString(6));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return movie;
+		}
+		
 		public void addShowroom(Showroom showroom){
 
 			try{
@@ -77,6 +306,35 @@ public class Accessor {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		public Showroom GetShowroomByID(int ID){
+			String SQL = "SELECT * from Showroom";
+		    Statement stat;   		    
+		    
+		    Showroom showroom = new Showroom();		
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					if(ID == rs.getInt(1) ) {
+						//showroom = new Showroom(rs.getString(2),rs.getInt(3),rs.getInt(4));
+						showroom.setTheatre(rs.getString(2));
+						showroom.setCapacity(rs.getInt(3));
+						showroom.setRoomNumber(rs.getInt(4));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return showroom;
 		}
 		
 		public ArrayList<Showroom> getShowroomByTheatre(String theatre) {

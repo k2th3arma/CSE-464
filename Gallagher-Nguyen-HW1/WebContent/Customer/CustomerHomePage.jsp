@@ -21,6 +21,9 @@
 			<option>Genre</option>
 			<option>Theatre</option>
 			<option>Showroom</option>
+			<option>MovieShowing</option>
+			<option>Review</option>
+			<option>Transaction</option>
 			</select> <br>
 		<input type=submit value=Movie> <br> 
 	</form>
