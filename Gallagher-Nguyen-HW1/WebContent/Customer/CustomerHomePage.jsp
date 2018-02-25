@@ -24,6 +24,7 @@
 			<option>MovieShowing</option>
 			<option>Review</option>
 			<option>Transaction</option>
+			<option>Order</option>
 			</select> <br>
 		<input type=submit value=Movie> <br> 
 	</form>

@@ -28,6 +28,9 @@ import model.ReviewDB;
 import model.Transaction;
 import model.TransactionDB;
 
+import model.Order;
+import model.OrderDB;
+
 /**
  * Servlet implementation class MovieServlet
  */
@@ -64,6 +67,8 @@ public class MovieServlet extends HttpServlet {
 		ReviewDB review = new ReviewDB();
 		
 		TransactionDB transaction = new TransactionDB();
+		
+		OrderDB order = new OrderDB();
 		
 		if(type.contentEquals("Title")){
 			
@@ -126,6 +131,11 @@ public class MovieServlet extends HttpServlet {
 			//System.out.println(transaction.GetTransactionByID(Integer.parseInt(search)));
 			
 			System.out.println(transaction.GetTransactionByUser(search));
+		}
+		else if(type.contentEquals("Order")){
+			//System.out.println(order.GetOrderByID(Integer.parseInt(search)));
+			
+			System.out.println(order.GetOrdersByUser(Integer.parseInt(search)));
 		}
 		else{
 			response.sendError(404, "Error");

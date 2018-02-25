@@ -56,6 +56,117 @@ public class Accessor {
 			
 		}
 		
+		public void addOrder(Order order){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int user = GetUserIDByName(order.getUser().getUserName());
+				String address = order.getAddress().toString();
+				String total = order.getOrderTotal();
+				int count = order.getCount();
+				int showing = GetMovieShowingIDByName( order.getMovie().getMovie().getTitle() );
+				String status = order.getStatus();
+						
+				
+				sql = "INSERT INTO Order (user_id, address, order_total, ticket_count, showing_id, status)"+
+						"VALUES ('" + user +
+						"', '" + address +
+						"', '" + total +
+						"', '" + count +
+						"', '" + showing +
+						"', '" + status +
+						 "')";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+			
+		}
+		
+		public Order GetOrderByID(int ID){
+			String SQL = "SELECT * FROM Orders;";
+		    Statement stat;
+		   
+		    Order order = new Order();
+		    
+		    Utilities util = new Utilities();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						order.setUser(GetUserByID(rs.getInt(2)));
+						order.setAddress(util.splitDBEntry(rs.getString(3), order.getUser().getUserName()));
+						order.setOrderTotal(rs.getString(4));
+						order.setCount(rs.getInt(5));
+						order.setMovie(GetMovieShowingByID(rs.getInt(6)));
+						order.setStatus(rs.getString(7));
+						
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return order;
+			
+			
+		}
+		
+		public ArrayList<Order> GetOrdersByUser(int ID){
+			String SQL = "SELECT * FROM Orders;";
+		    Statement stat;
+		   
+		    ArrayList<Order> orders = new ArrayList<Order>();
+		    
+		    Utilities util = new Utilities();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(2)) {
+						Order order = new Order(GetUserByID(rs.getInt(2)),
+												util.splitDBEntry(rs.getString(3), GetUserNameByID(rs.getInt(2))),
+												rs.getString(4),
+												rs.getInt(5),
+												GetMovieShowingByID(rs.getInt(6)),
+												rs.getString(7)
+								
+								);
+						/*
+						order.setUser(GetUserByID(rs.getInt(2)));
+						order.setAddress(util.splitDBEntry(rs.getString(3), order.getUser().getUserName()));
+						order.setOrderTotal(rs.getString(4));
+						order.setCount(rs.getInt(5));
+						order.setMovie(GetMovieShowingByID(rs.getInt(6)));
+						order.setStatus(rs.getString(7));
+						*/
+						orders.add(order);
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return orders;
+			
+			
+		}
+		
 		public Transaction GetTransactionByID(int ID){
 			String SQL = "SELECT * FROM Transaction;";
 		    Statement stat;
@@ -217,6 +328,40 @@ public class Accessor {
 			return value;
 		}
 		
+		public String GetUserNameByID(int ID){
+			String SQL = "SELECT * FROM Users;";
+		    Statement stat;
+		   
+		    Users user = new Users();
+		    
+		    Utilities util = new Utilities();
+		    
+		    String returnValue = "";
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						
+						returnValue = rs.getString(4);
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return returnValue;
+			
+			
+		}
+		
 		public Users GetUserByID(int ID){
 			String SQL = "SELECT * FROM Users;";
 		    Statement stat;
@@ -253,6 +398,63 @@ public class Accessor {
 			return user;
 			
 			
+		}
+		
+		public int GetMovieShowingIDByName(String title) {
+			String SQL = "SELECT * FROM MovieShowing;";
+		    Statement stat;
+		   
+		    MovieShowing movie = new MovieShowing();
+		    int value = 0;
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(title.equalsIgnoreCase(rs.getString(2))) {
+						value = rs.getInt(1);
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return value;
+		}
+		
+		public MovieShowing GetMovieShowingByID(int ID) {
+			String SQL = "SELECT * FROM MovieShowing;";
+		    Statement stat;
+		   
+		    MovieShowing movie = new MovieShowing();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						movie.setMovie(returnMovieByTitle(rs.getString(2)));
+						movie.setShowroom(GetShowroomByID(rs.getInt(3)));
+						movie.setSeatSold(rs.getInt(4));
+						movie.setSeatCount(rs.getInt(5));
+						movie.setPrice(rs.getString(6));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return movie;
 		}
 		
 		public MovieShowing returnMovieShowingByTitle(String title) {
