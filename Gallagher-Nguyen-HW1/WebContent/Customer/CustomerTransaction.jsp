@@ -59,7 +59,7 @@ Total Cost: $10.00 <br>
 		<option>10</option>
 		<option>11</option>
 		<option>12</option>
-	</select>/
+	</select>
 	<select name="expDay">
 		<option>01</option>
 		<option>02</option>

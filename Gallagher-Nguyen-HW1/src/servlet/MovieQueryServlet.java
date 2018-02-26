@@ -34,13 +34,13 @@ import model.OrderDB;
 /**
  * Servlet implementation class MovieServlet
  */
-public class MovieServlet extends HttpServlet {
+public class MovieQueryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MovieServlet() {
+    public MovieQueryServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

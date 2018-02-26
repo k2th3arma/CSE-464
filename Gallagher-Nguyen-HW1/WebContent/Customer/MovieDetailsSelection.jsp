@@ -24,7 +24,12 @@ Overall Rating: 4.5/5 Stars <br><br>
 Name: John Smith<br>
 Date: 1/09/17<br>
 Rating: 5/5 Stars<br>
-Best movie ever! <br> <br>
+Best movie ever! <br>
+<br>
+<input type="button" onclick="location.href='CustomerReview.jsp';" value="Add Review"/>
+ <br>
+ <br>
+
 
 <!-- Navigation links --> 
 <a href="CustomerHomePage.jsp"> Home Page </a> <br>
