@@ -56,6 +56,37 @@ public class Accessor {
 			
 		}
 		
+		public void UpdateOrder(Order order){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int orderNumber = order.getOrderNumber();
+				int user = GetUserIDByName(order.getUser().getUserName());
+				String address = order.getAddress().toString();
+				String total = order.getOrderTotal();
+				int count = order.getCount();
+				int showing = GetMovieShowingIDByName( order.getMovie().getMovie().getTitle() );
+				String status = order.getStatus();
+						
+				
+				sql = "Update Orders (user_id, address, order_total, ticket_count, showing_id, status)"+
+						"VALUES ('" + user +
+						"', '" + address +
+						"', '" + total +
+						"', '" + count +
+						"', '" + showing +
+						"', '" + status +
+						 "') Where 'order_id'='" + orderNumber + "'";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+			
+		}
+		
 		public void addOrder(Order order){
 			try{
 				stmt = conn.createStatement();
@@ -68,7 +99,7 @@ public class Accessor {
 				String status = order.getStatus();
 						
 				
-				sql = "INSERT INTO Order (user_id, address, order_total, ticket_count, showing_id, status)"+
+				sql = "INSERT INTO Orders (user_id, address, order_total, ticket_count, showing_id, status)"+
 						"VALUES ('" + user +
 						"', '" + address +
 						"', '" + total +
@@ -100,6 +131,7 @@ public class Accessor {
 				while (rs.next()){
 										
 					if(ID == rs.getInt(1)) {
+						order.setOrderNumber(rs.getInt(1));
 						order.setUser(GetUserByID(rs.getInt(2)));
 						order.setAddress(util.splitDBEntry(rs.getString(3), order.getUser().getUserName()));
 						order.setOrderTotal(rs.getString(4));
@@ -136,7 +168,8 @@ public class Accessor {
 				while (rs.next()){
 										
 					if(ID == rs.getInt(2)) {
-						Order order = new Order(GetUserByID(rs.getInt(2)),
+						Order order = new Order(rs.getInt(1),
+												GetUserByID(rs.getInt(2)),
 												util.splitDBEntry(rs.getString(3), GetUserNameByID(rs.getInt(2))),
 												rs.getString(4),
 												rs.getInt(5),
@@ -270,6 +303,33 @@ public class Accessor {
 			
 		}
 		
+		public void addReview(Review review){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				String description = review.getDescription();
+				int rating = review.getRating();
+				int user = GetUserIDByName(review.getUser().getUserName());
+				String movie = review.getMovie().getTitle();
+				String date = review.getDate();
+						
+				
+				sql = "INSERT INTO Review (description, rating, user, movie, date)"+
+						"VALUES ('" + description +
+						"', '" + rating +
+						"', '" + user +
+						"', '" + movie +
+						"', '" + date +
+						 "')";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+		}
+		
 		public Review returnReviewByTitle(String title) {
 			String SQL = "SELECT * FROM Review;";
 		    Statement stat;
@@ -286,6 +346,7 @@ public class Accessor {
 						review.setRating(rs.getInt(3));
 						review.setUser(GetUserByID(rs.getInt(4)));
 						review.setMovie(returnMovieByTitle(rs.getString(5)));
+						review.setDate(rs.getString(6));
 						
 					} 
 			    }
@@ -444,6 +505,8 @@ public class Accessor {
 						movie.setSeatSold(rs.getInt(4));
 						movie.setSeatCount(rs.getInt(5));
 						movie.setPrice(rs.getString(6));
+						movie.setStartTime(rs.getString(7));
+						movie.setEndTime(rs.getString(8));
 						
 					} 
 			    }
@@ -474,6 +537,8 @@ public class Accessor {
 						movie.setSeatSold(rs.getInt(4));
 						movie.setSeatCount(rs.getInt(5));
 						movie.setPrice(rs.getString(6));
+						movie.setStartTime(rs.getString(7));
+						movie.setEndTime(rs.getString(8));
 						
 					} 
 			    }
@@ -632,14 +697,16 @@ public class Accessor {
 				String mpaa = movie.getMpaa();
 				String description = movie.getDescription();
 				String genre = movie.getGenre();
+				String location = movie.getLocation();
 				
-				sql = "INSERT INTO Movie (title, year, length, mpaa, description, genre)"+
+				sql = "INSERT INTO Movie (title, year, length, mpaa, description, genre, location)"+
 						"VALUES ('" + title +
 						"', '" + year +
 						"', '" + length +
 						"', '" + mpaa +
 						"', '" + description +
 						"', '" + genre +
+						"', '" + location +
 						 "')";			
 					
 				
@@ -668,6 +735,7 @@ public class Accessor {
 						movie.setMpaa(rs.getString(4));
 						movie.setDescription(rs.getString(5));
 						movie.setGenre(rs.getString(6));
+						movie.setLocation(rs.getString(7));
 					} 
 			    }
 				
@@ -693,7 +761,7 @@ public class Accessor {
 				
 				while (rs.next()){
 					if(year.equals( rs.getString(2) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6) );
+						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
 						movies.add(movie);
 					} 
 			    }
@@ -720,7 +788,7 @@ public class Accessor {
 				
 				while (rs.next()){
 					if(length.equals( rs.getString(3) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6) );
+						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
 						movies.add(movie);
 					} 
 			    }
@@ -747,7 +815,7 @@ public class Accessor {
 				
 				while (rs.next()){
 					if(mpaa.equals( rs.getString(4) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6) );
+						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
 						movies.add(movie);
 					} 
 			    }
@@ -774,7 +842,7 @@ public class Accessor {
 				
 				while (rs.next()){
 					if(genre.equals( rs.getString(6) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6) );
+						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
 						movies.add(movie);
 					} 
 			    }

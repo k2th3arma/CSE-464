@@ -2,6 +2,7 @@ package model;
 
 public class Order {
 
+	private int orderNumber;
 	private Users user;
 	private Address address;
 	private String orderTotal;
@@ -13,13 +14,23 @@ public class Order {
 		super();
 	}
 	
-	public Order(Users user, Address address, String orderTotal, int count, MovieShowing movie, String status){
+	public Order(int orderNumber, Users user, Address address, String orderTotal, int count, MovieShowing movie, String status){
+		this.orderNumber = orderNumber;
 		this.user = user;
 		this.address = address;
 		this.orderTotal = orderTotal;
 		this.count = count;
 		this.movie = movie;
 		this.status = status;
+	}
+
+	
+	public int getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(int orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	public Users getUser() {

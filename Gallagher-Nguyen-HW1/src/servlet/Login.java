@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,16 +37,24 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
+		String persist = request.getParameter("persist");
 		HttpSession session = request.getSession();
 		
 		UsersDB user = new UsersDB();
 		Users usr = new Users();
 		
+		
 		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
 		{
+			if(persist.equals(true)){
+				Cookie cookie = new Cookie("User", userName);	
+				response.addCookie(cookie);
+			}
 			session.setAttribute("user_name", userName);
 			usr.setLog(true);
+					
 			System.out.println(userName);
+			
 			response.sendRedirect("Customer/CustomerHomePage.jsp");
 		} 
 		else

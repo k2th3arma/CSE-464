@@ -11,4 +11,11 @@ public class ReviewDB {
     	
     	return review;
 	}
+	
+	public void addReview(Review review){
+		Accessor db = new Accessor();
+    	db.connectMeIn();
+    	db.addReview(review);
+    	db.closeConnection();
+	}
 }

@@ -28,6 +28,7 @@
 		
 			User Name: <input type=text name=userName>		<br>
 			Password:  <input type=password name=password>	<br>
+			Remember Me? <input type="checkbox" name=persist> <br>
 			
 			<input type=submit value=Login> <br>  		
 		</form>

@@ -1,21 +1,19 @@
 package servlet;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
+//import java.sql.Date;
+import java.util.Date;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import util.Utilities;
-import model.Users;
-import model.UsersDB;
 import model.Address;
 import model.AddressDB;
+import model.Users;
+import model.UsersDB;
+import util.Utilities;
 
 /**
  * Servlet implementation class Register
@@ -48,12 +46,26 @@ public class Register extends HttpServlet {
 		String zip = request.getParameter("zip");
 		String type = request.getParameter("type");
 		
+		Date date = new Date();
+		
+		
+		
 		//String address = street +" "+ city +", "+ state +" "+ zip;
+		System.out.println(date.toString());
 		
 		Utilities util = new Utilities();
 		if(!util.Check(password, passwordTwo)){
 			response.sendRedirect("Register.jsp");
 		}
+		if(!email.contains("@") && !email.contains(".com") ){
+			response.sendRedirect("Register.jsp");
+		}
+		if(phone.toCharArray().length < 10 | phone.toCharArray().length < 10){
+			response.sendRedirect("Register.jsp");
+		}
+		if(zip.toCharArray().length < 5 | zip.toCharArray().length > 5){
+			response.sendRedirect("Register.jsp");
+		}		
 		else
 		{
 			

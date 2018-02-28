@@ -6,17 +6,20 @@ public class Review {
 	private int rating;
 	private Users user;
 	private Movie movie;
+	private String date;
 	
 	public Review(){
 		super();
 	}
 	
-	public Review(String description, int rating, Users user,  Movie movie ){
+	public Review(String description, int rating, Users user,  Movie movie, String date ){
 		this.description = description;
 		this.rating = rating;
 		this.user = user;
 		this.movie = movie;
+		this.date = date;
 	}
+	
 
 	public String getDescription() {
 		return description;
@@ -50,9 +53,18 @@ public class Review {
 		this.movie = movie;
 	}
 	
+	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	@Override
 	public String toString(){
-		return description +" "+ rating +" {"+ user +"} {"+ movie + "}";
+		return description +" "+ rating +" {"+ user +"} {"+ movie + "}" +" "+ date;
 	}
 	
 	

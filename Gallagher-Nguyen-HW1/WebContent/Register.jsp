@@ -3,6 +3,7 @@
 <html>	
 	<script>
 			function validateForm() {
+				
 			    var x = document.forms["userForm"]["userName"].value;
 			    var y = document.forms["userForm"]["password"].value;
 			    var z = document.forms["userForm"]["password2"].value;
@@ -51,11 +52,11 @@
 			Password:  		<input type=password name=password id="one"> <br>
 			Password:  		<input type=password name=password2 id="two"><br>
 			Email: 			<input type=text name=email><br>
-			Phone Number: 	<input type=text name=phone><br>
-			Address :		<input type=text name= address><br>	
+			Phone Number: 	<input type="number" name=phone><br>
+			Address :		<input type=text name= address><br>
 			City:			<input type=text name=city><br>
 			State:			<input type=text name=state><br>
-			Zip code			<input type=text name=zip><br>	
+			Zip code			<input type=number name=zip><br>	
 			User Type: 		<select name="type"> 
 				<option>customer</option>
 				<option>owner</option>

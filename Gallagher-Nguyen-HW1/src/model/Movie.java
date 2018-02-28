@@ -7,17 +7,19 @@ public class Movie {
 	private String mpaa;
 	private String description;
 	private String genre;
+	private String location;
 	
 	public Movie(){
 		super();
 	}
-	public Movie(String title, String year, String length, String mpaa, String description, String genre){
+	public Movie(String title, String year, String length, String mpaa, String description, String genre, String location){
 		this.title = title;
 		this.year = year;
 		this.length = length;
 		this.mpaa = mpaa;
 		this.description = description;
 		this.genre = genre;
+		this.location = location;
 	}
 	public String getTitle() {
 		return title;
@@ -54,6 +56,13 @@ public class Movie {
 	}
 	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	public String toString(){
 		return title +" "+ year +" "+ length +" "+ mpaa +" "+ description +" "+genre;
