@@ -54,7 +54,7 @@ public class MovieServlet extends HttpServlet {
 		String type = request.getParameter("type");
 		HttpSession session = request.getSession();
 		
-		System.out.println("The search point: "+search +", The type: "+ type);
+		//System.out.println("The search point: "+search +", The type: "+ type);
 		
 		MovieDB movie = new MovieDB();
 				
@@ -74,7 +74,11 @@ public class MovieServlet extends HttpServlet {
 			
 			System.out.println(movie.getMovie(search).toString());
 			
+			System.out.println(movieShowing.GetMovieShowing(search).toString());
+			
 			session.setAttribute("Movies", movie.getMovie(search));
+			
+			session.setAttribute("MoviesShowing", movieShowing.GetMovieShowing(search));
 			
 			response.sendRedirect("Customer/MovieSearchResults.jsp");
 			

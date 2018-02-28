@@ -42,20 +42,18 @@ public class Login extends HttpServlet {
 		
 		UsersDB user = new UsersDB();
 		Users usr = new Users();
+		Cookie cookie = new Cookie("User", userName);	
 		
 		
 		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
 		{
-			if(persist.equals(true)){
-				Cookie cookie = new Cookie("User", userName);	
-				response.addCookie(cookie);
-			}
 			session.setAttribute("user_name", userName);
 			usr.setLog(true);
 					
 			System.out.println(userName);
 			
 			response.sendRedirect("Customer/CustomerHomePage.jsp");
+			response.addCookie(cookie);
 		} 
 		else
 		{
