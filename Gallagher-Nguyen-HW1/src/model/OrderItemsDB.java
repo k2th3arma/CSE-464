@@ -1,50 +1,48 @@
 package model;
 
-import java.util.*;
-
-public class OrderDB {
+public class OrderItemsDB {
 
 	//Add Method
-	public void addOrder(Order order){
+	public void addOrderItems(OrderItems order){
 		Accessor db = new Accessor();
        	db.connectMeIn();
-       	db.addOrder(order);
+       	db.addOrderItems(order);
        	db.closeConnection();
 	}
 	
 	//Get Methods
-	public Order GetOrderByID(int ID){
+	public OrderItems GetOrderItemsByID(int ID){
 		Accessor db = new Accessor();
     	db.connectMeIn();
-    	Order order = db.GetOrderByID(ID);
+    	OrderItems order = db.GetOrderItemsByID(ID);
     	db.closeConnection();
     	
     	return order;
 		
 	}
 	
-	public ArrayList<Order> GetOrdersByUser(int ID){
+	public OrderItems GetOrdersItemsByUser(int ID){
 		Accessor db = new Accessor();
     	db.connectMeIn();
-    	ArrayList<Order> order = db.GetOrdersByUser(ID);
+    	OrderItems order = db.GetOrderItemsByOrder(ID);
     	db.closeConnection();
     	
     	return order;
 	}
 	
-	//Update Methods
-	public void updateOrder(Order order){
+	//Update Method
+	public void updateOrder(OrderItems order){
 		Accessor db = new Accessor();
        	db.connectMeIn();
-       	db.UpdateOrder(order);
+       	db.UpdateOrderItems(order);
        	db.closeConnection();
 	}
 	
 	//Remove Method
-	public void removeOrder(Order order){
+	public void removeOrder(OrderItems order){
 		Accessor db = new Accessor();
        	db.connectMeIn();
-       	db.removeOrder(order);
+       	db.removeOrderItems(order);
        	db.closeConnection();
 	}
 }

@@ -37,24 +37,27 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		String persist = request.getParameter("persist");
+		boolean persist = request.getParameter("persist") != null;
 		HttpSession session = request.getSession();
 		
 		UsersDB user = new UsersDB();
 		Users usr = new Users();
-		
+		Cookie cookie = new Cookie("user_name", userName);
 		
 		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
 		{
-			if(persist.equals(true)){
-				Cookie cookie = new Cookie("User", userName);	
+			
+			if(persist){
+				System.out.println("true");
 				response.addCookie(cookie);
 			}
+
 			session.setAttribute("user_name", userName);
 			usr.setLog(true);
 					
 			System.out.println(userName);
 			
+
 			response.sendRedirect("Customer/CustomerHomePage.jsp");
 		} 
 		else

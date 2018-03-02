@@ -56,7 +56,8 @@
 			Address :		<input type=text name= address><br>
 			City:			<input type=text name=city><br>
 			State:			<input type=text name=state><br>
-			Zip code			<input type=number name=zip><br>	
+			Zip code:			<input type=number name=zip><br>
+			Birthday:	<input type=text	name=birthday><br>
 			User Type: 		<select name="type"> 
 				<option>customer</option>
 				<option>owner</option>

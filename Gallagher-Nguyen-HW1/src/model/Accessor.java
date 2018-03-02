@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-
-import util.Utilities;
-	
 	
 public class Accessor {
 
@@ -25,28 +22,288 @@ public class Accessor {
 		static final String USER = "rgallagher"; 
 		static final String PASS = "9RaFi8";   
 		
-		public void createUsersTable() {
+		
+		//Connection Methods
+		public void connectMeIn() {
+			try{
+				//Register the JDBC driver
+				Class.forName("com.mysql.jdbc.Driver");			
+			}catch(ClassNotFoundException e){
+				System.err.println(e);
+				System.exit (-1);
+			}
+			try {
+				 //Open a connection
+				conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			} catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
+			
+		public void closeConnection(){
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		//User Methods
+		public boolean findUserByUsername(String aUserName) {
+			boolean userExists = false;
+			String SQL = "SELECT * from Users";
+		    Statement stat;
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){	
+					if(aUserName.equals( rs.getString(14) )) {
+						userExists = true;
+					}    
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return userExists;
+		}
+		
+		public boolean findUserByPassword(String password) {
+			boolean passwordMatches = false;
+			String SQL = "SELECT * from users";
+		    Statement stat;
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){	
+					if(password.equals( rs.getString(15) )) {
+						passwordMatches = true;
+					}    
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return passwordMatches;
+		}
+			
+		public Users returnUserByUsername(String aUserName) {
+			String SQL = "SELECT * from users";
+		    Statement stat;
+		   
+		    Users user = new Users();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					if(aUserName.equals( rs.getString(14) )) {
+						user.setFirstName(rs.getString(2));
+						user.setLastName(rs.getString(3));
+						user.setAddress(rs.getString(4));
+						user.setCity(rs.getString(5));
+						user.setState(rs.getString(6));
+						user.setPostalCode(rs.getString(7));
+						user.setEmail(rs.getString(8));			
+						user.setPhone(rs.getString(9));
+						user.setBirthday(rs.getString(10));												
+						user.setType(rs.getString(11));
+						user.setStatus(rs.getInt(12));
+						user.setNumberOfVisits(rs.getInt(13));						
+						user.setUserName(rs.getString(14));
+						user.setPassword(rs.getString(15));
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return user;
+		}
+	
+		public void displayAllUsers() {
+			String SQL = "SELECT * from users";
+		    Statement stat;
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+			        System.out.println(rs.getString(1) + " " + rs.getString(2) +  " " + rs.getString(3)
+			        		+ " " + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7)
+			        		+ " " + rs.getString(8) + " " + rs.getString(9) );
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public int GetUserIDByName(String userName){
+			String SQL = "SELECT * FROM users;";
+		    Statement stat;
+		   
+		    int value = 0;
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(userName.equals(rs.getString(14))) {
+						value = rs.getInt(1);
+						
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return value;
+		}
+		
+		public String GetUserNameByID(int ID){
+			String SQL = "SELECT * FROM users;";
+		    Statement stat;
+
+		    String returnValue = "";
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						
+						returnValue = rs.getString(14);
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return returnValue;
+			
+			
+		}
+		
+		public Users GetUserByID(int ID){
+			String SQL = "SELECT * FROM users;";
+		    Statement stat;
+		   
+		    Users user = new Users();
+
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						user.setFirstName(rs.getString(2));
+						user.setLastName(rs.getString(3));
+						user.setAddress(rs.getString(4));
+						user.setCity(rs.getString(5));
+						user.setState(rs.getString(6));
+						user.setPostalCode(rs.getString(7));
+						user.setEmail(rs.getString(8));			
+						user.setPhone(rs.getString(9));
+						user.setBirthday(rs.getString(10));												
+						user.setType(rs.getString(11));
+						user.setStatus(rs.getInt(12));
+						user.setNumberOfVisits(rs.getInt(13));						
+						user.setUserName(rs.getString(14));
+						user.setPassword(rs.getString(15));
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return user;
+			
+			
+		}
+		
+		public void addSingleUser(Users aUser) {
 			  
 			try {
 			  stmt = conn.createStatement();
-			
 			  String sql;
-			  sql = "DROP TABLE IF EXISTS Users";
+			  
+			  String firstName = aUser.getFirstName();
+			  String lastName = aUser.getLastName();
+			  String userName = aUser.getUserName();
+			  String password = aUser.getPassword();
+			  String address = aUser.getAddress();
+			  String city = aUser.getCity();
+			  String state = aUser.getState();
+			  String postalCode = aUser.getPostalCode();
+			  String email = aUser.getEmail();
+			  String phone = aUser.getPhone();
+			  String birthday = aUser.getBirthday(); 
+			  String type = aUser.getType();
+			  int status = aUser.getStatus();
+			  int numberOfVisits = aUser.getNumberOfVisits();
+			  
+
+			  sql = "INSERT INTO users (FirstName, " + 
+					  					"LastName, "
+					  					+ "Address,"
+					  					+ "City,"
+					  					+ "State, "
+					  					+ "PostalCode, "
+					  					+ "EmailAddress, "
+					  					+ "PhoneNumber, "
+					  					+ "Birthday, "
+					  					+ "Type,"
+					  					+ "Status, "
+					  					+ "NumOfVisits, "
+					  					+ "Username, "
+					  					+ "Password)" +
+			          "VALUES ('" + firstName +
+					  "', '" + lastName + 
+					  "', '" + address + 
+					  "', '" + city + 
+					  "', '" + state +
+					  "', '" + postalCode +
+					  "', '" + email +
+					  "', '" + phone +
+					  "', '" + birthday +
+					  "', '" + type +
+					  "', '" + status +
+					  "', '" + numberOfVisits +
+					  "', '" + userName +
+					  "', '" + password +
+					  "')";
 			  stmt.executeUpdate(sql);
-
-			  sql = "CREATE TABLE Users " +
-			          "(ID INT NOT NULL AUTO_INCREMENT," +
-			          " First_Name VARCHAR(255), " + 
-			          " Last_Name VARCHAR(255), " + 
-			          " User_Name VARCHAR(255), " + 
-			          " Password VARCHAR(255)," +
-			          "PRIMARY KEY(ID))"; 
-
-			  stmt.executeUpdate(sql);
-
-//			  sql = "INSERT INTO Users (First_Name, Last_Name, User_Name, Password)" +
-//			          "VALUES ('Richard', 'Feynman', 'feynman', '1234')";
-//			  stmt.executeUpdate(sql);
 			  
 			  
 			  } catch (SQLException e) {
@@ -56,27 +313,594 @@ public class Accessor {
 			
 		}
 		
-		public void UpdateOrder(Order order){
+		public void updateSingleUser(Users aUser){
+			try {
+				  stmt = conn.createStatement();
+				  String sql;
+				  
+				  int ID = aUser.getUserID();
+				  String firstName = aUser.getFirstName();
+				  String lastName = aUser.getLastName();
+				  String userName = aUser.getUserName();
+				  String password = aUser.getPassword();
+				  String address = aUser.getAddress();
+				  String city = aUser.getCity();
+				  String state = aUser.getState();
+				  String postalCode = aUser.getPostalCode();
+				  String email = aUser.getEmail();
+				  String phone = aUser.getPhone();
+				  String birthday = aUser.getBirthday(); 
+				  String type = aUser.getType();
+				  int status = aUser.getStatus();
+				  int numberOfVisits = aUser.getNumberOfVisits();
+				  
+
+				  sql = "Update users (FirstName, " + 
+						  					"LastName, "
+						  					+ "Address,"
+						  					+ "City,"
+						  					+ "State, "
+						  					+ "PostalCode, "
+						  					+ "EmailAddress, "
+						  					+ "PhoneNumber, "
+						  					+ "Birthday, "
+						  					+ "Type,"
+						  					+ "Status, "
+						  					+ "NumOfVisits, "
+						  					+ "Username, "
+						  					+ "Password)" +
+				          "VALUES ('" + firstName +
+						  "', '" + lastName + 
+						  "', '" + address + 
+						  "', '" + city + 
+						  "', '" + state +
+						  "', '" + postalCode +
+						  "', '" + email +
+						  "', '" + phone +
+						  "', '" + birthday +
+						  "', '" + type +
+						  "', '" + status +
+						  "', '" + numberOfVisits +
+						  "', '" + userName +
+						  "', '" + password +
+						  "') Where 'Id'='" + ID + "'";	
+				  stmt.executeUpdate(sql);
+				  
+				  
+				  } catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+				
+		}
+		
+		public void removeSingleUser(Users aUser){
+			try {
+				  stmt = conn.createStatement();
+				  String sql;
+				  
+				  int ID = aUser.getUserID();
+				  
+				  sql = "DELETE FROM users  Where 'Id'='" + ID + "'";	
+				  
+				  stmt.executeUpdate(sql);
+				  
+				  
+				  } catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+		}
+		
+		
+		//Movie Methods
+		public void addMovie(Movie movie){
+
 			try{
 				stmt = conn.createStatement();
 				String sql;
-				int orderNumber = order.getOrderNumber();
-				int user = GetUserIDByName(order.getUser().getUserName());
-				String address = order.getAddress().toString();
-				String total = order.getOrderTotal();
-				int count = order.getCount();
-				int showing = GetMovieShowingIDByName( order.getMovie().getMovie().getTitle() );
-				String status = order.getStatus();
+				String title = movie.getTitle();
+				String description = movie.getDescription();
+				String thumbnail = movie.getThumbnail();
+				String rating = movie.getRating();
+				
+				sql = "INSERT INTO movies (Movie name, Description, Thumbnail, Rating)"+
+						"VALUES ('" + title +
+						"', '" + description +
+						"', '" + thumbnail +
+						"', '" + rating +
+						 "')";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+		
+		public Movie returnMovieByTitle(String title) {
+			String SQL = "SELECT * from movies";
+		    Statement stat;
+		   
+		    Movie movie = new Movie();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					if(title.equals( rs.getString(2) )) {
+						movie.setMovieID(rs.getInt(1));
+						movie.setTitle(rs.getString(2));
+						movie.setDescription(rs.getString(3));
+						movie.setThumbnail(rs.getString(4));
+						movie.setRating(rs.getString(5));
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return movie;
+		}
+		
+		public void updateMovie(Movie movie){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int movieID = movie.getMovieID();
+				String title = movie.getTitle();
+				String description = movie.getDescription();
+				String thumbnail = movie.getThumbnail();
+				String rating = movie.getRating();
+				
+				sql = "UPDATE movies (Movie name, Description, Thumbnail, Rating)"+
+						"VALUES ('" + title +
+						"', '" + description +
+						"', '" + thumbnail +
+						"', '" + rating +
+						 "') Where 'Id'='" + movieID + "'";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void removeMovie(Movie movie){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int movieID = movie.getMovieID();
+				
+				sql = "DELETE FROM movies Where 'id'='" + movieID + "'";			
+							
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		
+		//Theatre Methods
+		public void addTheatre(Theatre theatre){
+
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				String name = theatre.getName();
+				int owner = theatre.getOwner();
+				String address = theatre.getAddress();
+				String city = theatre.getCity();
+				String state = theatre.getState();
+				String postalCode = theatre.getPostalCode();
+
+				sql = "INSERT INTO theatreBuildings (Name, Address, ownerID, City, State, PostalCode)"+
+						"VALUES ('" + name +
+						"', '" + address +
+						"', '" + owner +
+						"', '" + city +
+						"', '" + state +
+						"', '" + postalCode +
+						 "')";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+		
+		public Theatre returnTheatreByName(String name) {
+			String SQL = "SELECT * from theatreBuildings";
+		    Statement stat;
+		   
+		    Theatre theatre = new Theatre();
+
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					if(name.equals( rs.getString(2) )) {
+						theatre.setName(rs.getString(2));
+						theatre.setAddress(rs.getString(3));
+						theatre.setOwner(rs.getInt(4));
+						theatre.setCity(rs.getString(5));
+						theatre.setState(rs.getString(6));
+						theatre.setPostalCode(rs.getString(7));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return theatre;
+		}		
+			
+		public void updateTheatre(Theatre theatre){
+
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = theatre.getTheatreID();
+				String name = theatre.getName();
+				int owner = theatre.getOwner();
+				String address = theatre.getAddress();
+				String city = theatre.getCity();
+				String state = theatre.getState();
+				String postalCode = theatre.getPostalCode();
+
+				sql = "UPDATE theatreBuildings (Name, Address, ownerID, City, State, PostalCode)"+
+						"VALUES ('" + name +
+						"', '" + address +
+						"', '" + owner +
+						"', '" + city +
+						"', '" + state +
+						"', '" + postalCode +
+						 "') Where 'Id'='" + ID + "'";				
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+		
+		public void removeTheatre(Theatre theatre){
+
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = theatre.getTheatreID();
+		
+				sql = "DELETE FROM theatreBuildings Where 'Id'='" + ID + "'";				
+					
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+		
+		
+		//Showroom Methods
+		public void addShowroom(Showroom showroom){
+
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int seats = showroom.getSeats();
+				int theatre = showroom.getTheatre();
+				
+				sql = "INSERT INTO Showrooms (availableSeats, theatreBuilding)"+
+						"VALUES ('" + seats +
+						"', '" + theatre +
+						 "')";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public Showroom GetShowroomByID(int ID){
+			String SQL = "SELECT * from Showrooms";
+		    Statement stat;   		    
+		    
+		    Showroom showroom = new Showroom();		
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					if(ID == rs.getInt(1) ) {
+						showroom.setSeats(rs.getInt(2));
+						showroom.setTheatre(rs.getInt(3));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return showroom;
+		}
+		
+		public ArrayList<Showroom> getShowroomByTheatre(int theatre) {
+			String SQL = "SELECT * from Showrooms";
+		    Statement stat;   		    
+		    
+		    ArrayList<Showroom> showrooms = new ArrayList<Showroom>();		
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					if(theatre == rs.getInt(3)) {
+						Showroom showroom = new Showroom();
+						showroom.setSeats(rs.getInt(2));
+						showroom.setTheatre(rs.getInt(3));
+						showrooms.add(showroom);
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return showrooms;
+		}	
+		
+		public void updateShowroom(Showroom showroom){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = showroom.getShowroomID();
+				int seats = showroom.getSeats();
+				int theatre = showroom.getTheatre();
+				
+				sql = "UPDATE Showrooms (availableSeats, theatreBuilding)"+
+						"VALUES ('" + seats +
+						"', '" + theatre +
+						 "') Where 'Id'='" + ID + "'";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void removeShowroom(Showroom showroom){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = showroom.getShowroomID();
+				
+				sql = "DELETE FROM Showrooms Where 'Id'='" + ID + "'";			
+					
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		//MovieShowing Methods
+		public void addMovieShowing(MovieShowing movie){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int price = movie.getPrice();
+				int numberPurchased = movie.getNumberPurchased();
+				String startTime = movie.getStartTime();
+				String endTime = movie.getEndTime();
+				int movieID = movie.getMovieID();
+				int showroomID = movie.getShowroomID();
+				
+				sql = "INSERT INTO movieShowing (Price, NumberPurchased, StartTime, EndTime, movieID, showroomID)"+
+						"VALUES ('" + price +
+						"', '" + numberPurchased +
+						"', '" + startTime +
+						"', '" + endTime +
+						"', '" + movieID +
+						"', '" + showroomID +
+						 "')";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public MovieShowing GetMovieShowingByID(int ID) {
+			String SQL = "SELECT * FROM movieShowing;";
+		    Statement stat;
+		   
+		    MovieShowing movie = new MovieShowing();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						movie.setPrice(rs.getInt(2));
+						movie.setNumberPurchased(rs.getInt(3));
+						movie.setStartTime(rs.getString(4));
+						movie.setEndTime(rs.getString(5));
+						movie.setMovieID(rs.getInt(6));
+						movie.setShowroomID(rs.getInt(7));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return movie;
+		}
+		
+		public MovieShowing GetMovieShowingByMovie(int id) {
+			String SQL = "SELECT * FROM movieShowing;";
+		    Statement stat;
+		   
+		    MovieShowing movie = new MovieShowing();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(id == rs.getInt(6)) {
+						movie.setPrice(rs.getInt(2));
+						movie.setNumberPurchased(rs.getInt(3));
+						movie.setStartTime(rs.getString(4));
+						movie.setEndTime(rs.getString(5));
+						movie.setMovieID(rs.getInt(6));
+						movie.setShowroomID(rs.getInt(7));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return movie;
+		}
+		
+		public MovieShowing GetMovieShowingByShowroom(int id) {
+			String SQL = "SELECT * FROM movieShowing;";
+		    Statement stat;
+		   
+		    MovieShowing movie = new MovieShowing();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(id == rs.getInt(7)) {
+						movie.setPrice(rs.getInt(2));
+						movie.setNumberPurchased(rs.getInt(3));
+						movie.setStartTime(rs.getString(4));
+						movie.setEndTime(rs.getString(5));
+						movie.setMovieID(rs.getInt(6));
+						movie.setShowroomID(rs.getInt(7));
+						
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return movie;
+		}
+		
+		public void updateMovieShowing(MovieShowing movie){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int Id = movie.getShowingID();
+				int price = movie.getPrice();
+				int numberPurchased = movie.getNumberPurchased();
+				String startTime = movie.getStartTime();
+				String endTime = movie.getEndTime();
+				int movieID = movie.getMovieID();
+				int showroomID = movie.getShowroomID();
+				
+				sql = "UPDATE movieShowing (Price, NumberPurchased, StartTime, EndTime, movieID, showroomID)"+
+						"VALUES ('" + price +
+						"', '" + numberPurchased +
+						"', '" + startTime +
+						"', '" + endTime +
+						"', '" + movieID +
+						"', '" + showroomID +
+						 "') Where 'Id'='" + Id + "'";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void removeMovieShowing(MovieShowing movie){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int Id = movie.getShowingID();
+				
+				sql = "DELETE FROM movieShowing Where 'Id'='" + Id + "'";			
+					
+				
+				stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+				
+		
+		//Review Methods
+		public void addReview(Review review){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int movieID = review.getMovieID();
+				int userID = review.getUserID();
+				String date = review.getDate();
+				int rating = review.getRating();
+				String description = review.getDescription();
 						
 				
-				sql = "Update Orders (user_id, address, order_total, ticket_count, showing_id, status)"+
-						"VALUES ('" + user +
-						"', '" + address +
-						"', '" + total +
-						"', '" + count +
-						"', '" + showing +
-						"', '" + status +
-						 "') Where 'order_id'='" + orderNumber + "'";
+				sql = "INSERT INTO customerreviews (movieID, userID, ReviewDate, Rating, Review)"+
+						"VALUES ('" + movieID +
+						"', '" + userID +
+						"', '" + date +
+						"', '" + rating +
+						"', '" + description +
+						 "')";
 				
 				 stmt.executeUpdate(sql);
 			}catch (SQLException e) {
@@ -84,28 +908,312 @@ public class Accessor {
 				e.printStackTrace();
 		}
 			
+		}
+		
+		public Review GetReviewByID(int ID) {
+			String SQL = "SELECT * FROM customerreview;";
+		    Statement stat;
+		   
+		    Review review = new Review();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						review.setReviewID(rs.getInt(1));
+						review.setMovieID(rs.getInt(2));
+						review.setUserID(rs.getInt(3));
+						review.setDate(rs.getString(4));
+						review.setRating(rs.getInt(5));
+						review.setDescription(rs.getString(6));
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return review;
+		}
+		
+		public Review GetReviewByMovieID(int ID) {
+			String SQL = "SELECT * FROM customerreview;";
+		    Statement stat;
+		   
+		    Review review = new Review();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(2)) {
+						review.setReviewID(rs.getInt(1));
+						review.setMovieID(rs.getInt(2));
+						review.setUserID(rs.getInt(3));
+						review.setDate(rs.getString(4));
+						review.setRating(rs.getInt(5));
+						review.setDescription(rs.getString(6));
+					} 
+			    }
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return review;
+		}
+		
+		public Review GetReviewByUserID(int ID) {
+			String SQL = "SELECT * FROM customerreview;";
+		    Statement stat;
+		   
+		    Review review = new Review();
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(3)) {
+						review.setReviewID(rs.getInt(1));
+						review.setMovieID(rs.getInt(2));
+						review.setUserID(rs.getInt(3));
+						review.setDate(rs.getString(4));
+						review.setRating(rs.getInt(5));
+						review.setDescription(rs.getString(6));
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return review;
+		}
+		
+		public void updateReview(Review review){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = review.getReviewID();
+				int movieID = review.getMovieID();
+				int userID = review.getUserID();
+				String date = review.getDate();
+				int rating = review.getRating();
+				String description = review.getDescription();
+						
+				
+				sql = "UPDATE customerreviews (movieID, userID, ReviewDate, Rating, Review)"+
+						"VALUES ('" + movieID +
+						"', '" + userID +
+						"', '" + date +
+						"', '" + rating +
+						"', '" + description +
+						 "') Where 'Id'='" + ID + "'";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
 			
 		}
 		
+		public void removeReview(Review review){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = review.getReviewID();
+				
+				sql = "DELETE FROM customerreviews Where 'Id'='" + ID + "'";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+		}
+		
+		
+		//Credit Card Methods
+		public void addTransaction(Transaction transaction){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				String cardHolder = transaction.getCardHolderName();
+				String cardNumber = transaction.getCardNumber();
+				float balance = transaction.getBalance();
+				String type = transaction.getCardType();
+				int userID = transaction.getUserID();
+				String cvv = transaction.getCVV();
+				String expiration = transaction.getExpiration();
+						
+				
+				sql = "INSERT INTO creditcards (CardHolderName, CreditCardNumber, Balance CardType, UserId, CVV, ExpirationDate)"+
+						"VALUES ('" + cardHolder +
+						"', '" + cardNumber +
+						"', '" + balance +
+						"', '" + type +
+						"', '" + userID +
+						"', '" + cvv +
+						"', '" + expiration +
+						 "')";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+		}
+		
+		public Transaction GetTransactionByID(int ID){
+			String SQL = "SELECT * FROM creditcards;";
+		    Statement stat;
+		   
+		    Transaction transaction = new Transaction();
+		        
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+										
+					if(ID == rs.getInt(1)) {
+						transaction.setCardHolderName(rs.getString(2));
+						transaction.setCardNumber(rs.getString(3));
+						transaction.setBalance(rs.getFloat(4));
+						transaction.setCardType(rs.getString(5));
+						transaction.setUserID(rs.getInt(6));
+						transaction.setCVV(rs.getString(7));
+						transaction.setExpiration(rs.getString(8));
+												
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return transaction;
+			
+			
+		}
+		
+		public Transaction GetTransactionByUserID(int ID){
+			String SQL = "SELECT * FROM creditcards;";
+		    Statement stat;
+		   
+		    Transaction transaction = new Transaction();
+		    
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				
+				while (rs.next()){
+					
+					if(ID == rs.getInt(6)) {
+						transaction.setCardHolderName(rs.getString(2));
+						transaction.setCardNumber(rs.getString(3));
+						transaction.setBalance(rs.getFloat(4));
+						transaction.setCardType(rs.getString(5));
+						transaction.setUserID(rs.getInt(6));
+						transaction.setCVV(rs.getString(7));
+						transaction.setExpiration(rs.getString(8));
+												
+					} 
+			    }
+				
+			    stat.close();
+			        
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return transaction;
+			
+			
+		}
+			
+		public void updateTransaction(Transaction transaction){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = transaction.getCreditCardID();
+				String cardHolder = transaction.getCardHolderName();
+				String cardNumber = transaction.getCardNumber();
+				float balance = transaction.getBalance();
+				String type = transaction.getCardType();
+				int userID = transaction.getUserID();
+				String cvv = transaction.getCVV();
+				String expiration = transaction.getExpiration();
+						
+				
+				sql = "UPDATE creditcards (CardHolderName, CreditCardNumber, Balance CardType, UserId, CVV, ExpirationDate)"+
+						"VALUES ('" + cardHolder +
+						"', '" + cardNumber +
+						"', '" + balance +
+						"', '" + type +
+						"', '" + userID +
+						"', '" + cvv +
+						"', '" + expiration +
+						 "') Where 'Id'='" + ID + "'";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+		}
+		
+		public void removeTransaction(Transaction transaction){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int ID = transaction.getCreditCardID();
+				
+				sql = "DELETE FROM creditcards Where 'Id'='" + ID + "'";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+		}
+		
+		
+		//Order Methods		
 		public void addOrder(Order order){
 			try{
 				stmt = conn.createStatement();
 				String sql;
-				int user = GetUserIDByName(order.getUser().getUserName());
-				String address = order.getAddress().toString();
-				String total = order.getOrderTotal();
-				int count = order.getCount();
-				int showing = GetMovieShowingIDByName( order.getMovie().getMovie().getTitle() );
-				String status = order.getStatus();
+
+				int userID = order.getUserID();
+				int cost = order.getCost();
+				String date = order.getOrderDate();
+				String address = order.getAddress();
+				String card = order.getCardNumber();
 						
 				
-				sql = "INSERT INTO Orders (user_id, address, order_total, ticket_count, showing_id, status)"+
-						"VALUES ('" + user +
+				sql = "INSERT INTO orders (CustomerId, TotalCost, OrderDate, BillingAddress, CreditCardNumber)"+
+						"VALUES ('" + userID +
+						"', '" + cost +
+						"', '" + date +
 						"', '" + address +
-						"', '" + total +
-						"', '" + count +
-						"', '" + showing +
-						"', '" + status +
+						"', '" + card +
 						 "')";
 				
 				 stmt.executeUpdate(sql);
@@ -118,12 +1226,11 @@ public class Accessor {
 		}
 		
 		public Order GetOrderByID(int ID){
-			String SQL = "SELECT * FROM Orders;";
+			String SQL = "SELECT * FROM orders;";
 		    Statement stat;
 		   
 		    Order order = new Order();
 		    
-		    Utilities util = new Utilities();
 			try {
 				stat = conn.createStatement();
 				ResultSet rs = stat.executeQuery(SQL);
@@ -131,13 +1238,12 @@ public class Accessor {
 				while (rs.next()){
 										
 					if(ID == rs.getInt(1)) {
-						order.setOrderNumber(rs.getInt(1));
-						order.setUser(GetUserByID(rs.getInt(2)));
-						order.setAddress(util.splitDBEntry(rs.getString(3), order.getUser().getUserName()));
-						order.setOrderTotal(rs.getString(4));
-						order.setCount(rs.getInt(5));
-						order.setMovie(GetMovieShowingByID(rs.getInt(6)));
-						order.setStatus(rs.getString(7));
+						order.setOrderID(rs.getInt(1));
+						order.setUserID(rs.getInt(2));
+						order.setCost(rs.getInt(3));
+						order.setOrderDate(rs.getString(4));
+						order.setAddress(rs.getString(5));
+						order.setCardNumber(rs.getString(6));
 						
 						
 					} 
@@ -155,12 +1261,11 @@ public class Accessor {
 		}
 		
 		public ArrayList<Order> GetOrdersByUser(int ID){
-			String SQL = "SELECT * FROM Orders;";
+			String SQL = "SELECT * FROM orders;";
 		    Statement stat;
 		   
 		    ArrayList<Order> orders = new ArrayList<Order>();
 		    
-		    Utilities util = new Utilities();
 			try {
 				stat = conn.createStatement();
 				ResultSet rs = stat.executeQuery(SQL);
@@ -168,23 +1273,15 @@ public class Accessor {
 				while (rs.next()){
 										
 					if(ID == rs.getInt(2)) {
-						Order order = new Order(rs.getInt(1),
-												GetUserByID(rs.getInt(2)),
-												util.splitDBEntry(rs.getString(3), GetUserNameByID(rs.getInt(2))),
-												rs.getString(4),
-												rs.getInt(5),
-												GetMovieShowingByID(rs.getInt(6)),
-												rs.getString(7)
-								
-								);
-						/*
-						order.setUser(GetUserByID(rs.getInt(2)));
-						order.setAddress(util.splitDBEntry(rs.getString(3), order.getUser().getUserName()));
-						order.setOrderTotal(rs.getString(4));
-						order.setCount(rs.getInt(5));
-						order.setMovie(GetMovieShowingByID(rs.getInt(6)));
-						order.setStatus(rs.getString(7));
-						*/
+						Order order = new Order();
+						
+						order.setOrderID(rs.getInt(1));
+						order.setUserID(rs.getInt(2));
+						order.setCost(rs.getInt(3));
+						order.setOrderDate(rs.getString(4));
+						order.setAddress(rs.getString(5));
+						order.setCardNumber(rs.getString(6));
+						
 						orders.add(order);
 					} 
 			    }
@@ -200,126 +1297,67 @@ public class Accessor {
 			
 		}
 		
-		public Transaction GetTransactionByID(int ID){
-			String SQL = "SELECT * FROM Transaction;";
-		    Statement stat;
-		   
-		    Transaction transaction = new Transaction();
-		    
-		    Utilities util = new Utilities();
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-										
-					if(ID == rs.getInt(1)) {
-						transaction.setCardNumber(rs.getString(2));
-						transaction.setMonth(rs.getString(3));
-						transaction.setYear(rs.getString(4));
-						transaction.setUser(GetUserByID(rs.getInt(5)));
-						transaction.setAddress(util.splitDBEntry(rs.getString(6), transaction.getUser().getUserName()));
-						transaction.setCode(rs.getInt(7));
-												
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return transaction;
-			
-			
-		}
-		
-		public Transaction GetTransactionByUser(String userName){
-			String SQL = "SELECT * FROM Transaction;";
-		    Statement stat;
-		   
-		    Transaction transaction = new Transaction();
-		    
-		    Utilities util = new Utilities();
-		    
-		    int ID = GetUserIDByName(userName);
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					
-					if(ID == rs.getInt(5)) {
-						transaction.setCardNumber(rs.getString(2));
-						transaction.setMonth(rs.getString(3));
-						transaction.setYear(rs.getString(4));
-						transaction.setUser(GetUserByID(rs.getInt(5)));
-						transaction.setAddress(util.splitDBEntry(rs.getString(6), transaction.getUser().getUserName()));
-						transaction.setCode(rs.getInt(7));
-												
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return transaction;
-			
-			
-		}
-		
-		public void addTransaction(Transaction transaction){
+		public void UpdateOrder(Order order){
 			try{
 				stmt = conn.createStatement();
 				String sql;
-				String cardNumber = transaction.getCardNumber();
-				String month = transaction.getMonth();
-				String year = transaction.getYear();
-				int user_ID = GetUserIDByName(transaction.getUser().getUserName());
-				String address = transaction.getAddress().toString();
-				int code = transaction.getCode();
+				int orderID = order.getOrderID();
+				int userID = order.getUserID();
+				int cost = order.getCost();
+				String date = order.getOrderDate();
+				String address = order.getAddress();
+				String card = order.getCardNumber();
 						
 				
-				sql = "INSERT INTO Transaction (card_number, month, year, user_id, address, code)"+
-						"VALUES ('" + cardNumber +
-						"', '" + month +
-						"', '" + year +
-						"', '" + user_ID +
-						"', '" + address +
-						"', '" + code +
-						 "')";
-				
-				 stmt.executeUpdate(sql);
-			}catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		}
-			
-		}
-		
-		public void addReview(Review review){
-			try{
-				stmt = conn.createStatement();
-				String sql;
-				String description = review.getDescription();
-				int rating = review.getRating();
-				int user = GetUserIDByName(review.getUser().getUserName());
-				String movie = review.getMovie().getTitle();
-				String date = review.getDate();
-						
-				
-				sql = "INSERT INTO Review (description, rating, user, movie, date)"+
-						"VALUES ('" + description +
-						"', '" + rating +
-						"', '" + user +
-						"', '" + movie +
+				sql = "Update orders (CustomerId, TotalCost, OrderDate, BillingAddress, CreditCardNumber)"+
+						"VALUES ('" + userID +
+						"', '" + cost +
 						"', '" + date +
+						"', '" + address +
+						"', '" + card +
+						 "') Where 'Id'='" + orderID + "'";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+			
+			
+		}
+		
+		public void removeOrder(Order order){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+				int orderID = order.getOrderID();
+
+				sql = "DELETE FROM orders Where 'Id'='" + orderID + "'";
+				
+				 stmt.executeUpdate(sql);
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+		}
+		
+		
+		//Order Items Methods
+		public void addOrderItems(OrderItems order){
+			try{
+				stmt = conn.createStatement();
+				String sql;
+
+				int orderID = order.getOrderID();
+				int showingID = order.getShowingID();
+				int count = order.getCount();
+						
+				
+				sql = "INSERT INTO orderitems (OrderId, ShowingID, Quantity)"+
+						"VALUES ('" + orderID +
+						"', '" + showingID +
+						"', '" + count +
 						 "')";
 				
 				 stmt.executeUpdate(sql);
@@ -328,76 +1366,14 @@ public class Accessor {
 				e.printStackTrace();
 		}
 			
-		}
-		
-		public Review returnReviewByTitle(String title) {
-			String SQL = "SELECT * FROM Review;";
-		    Statement stat;
-		   
-		    Review review = new Review();
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-										
-					if(title.equals( rs.getString(5) )) {
-						review.setDescription(rs.getString(2));
-						review.setRating(rs.getInt(3));
-						review.setUser(GetUserByID(rs.getInt(4)));
-						review.setMovie(returnMovieByTitle(rs.getString(5)));
-						review.setDate(rs.getString(6));
-						
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 			
-			return review;
 		}
 		
-		public int GetUserIDByName(String userName){
-			String SQL = "SELECT * FROM Users;";
+		public OrderItems GetOrderItemsByID(int ID){
+			String SQL = "SELECT * FROM orderitems;";
 		    Statement stat;
 		   
-		    Users user = new Users();
-		    int value = 0;
-		    Utilities util = new Utilities();
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-										
-					if(userName.equals(rs.getString(4))) {
-						value = rs.getInt(1);
-						
-						
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return value;
-		}
-		
-		public String GetUserNameByID(int ID){
-			String SQL = "SELECT * FROM Users;";
-		    Statement stat;
-		   
-		    Users user = new Users();
-		    
-		    Utilities util = new Utilities();
-		    
-		    String returnValue = "";
+		    OrderItems order = new OrderItems();
 		    
 			try {
 				stat = conn.createStatement();
@@ -406,8 +1382,11 @@ public class Accessor {
 				while (rs.next()){
 										
 					if(ID == rs.getInt(1)) {
+						order.setItemID(rs.getInt(1));
+						order.setOrderID(rs.getInt(2));
+						order.setShowingID(rs.getInt(3));
+						order.setCount(rs.getInt(4));
 						
-						returnValue = rs.getString(4);
 						
 					} 
 			    }
@@ -418,35 +1397,28 @@ public class Accessor {
 				e.printStackTrace();
 			}
 			
-			return returnValue;
+			return order;
 			
 			
 		}
 		
-		public Users GetUserByID(int ID){
-			String SQL = "SELECT * FROM Users;";
+		public OrderItems GetOrderItemsByOrder(int ID){
+			String SQL = "SELECT * FROM orderitems;";
 		    Statement stat;
-		   
-		    Users user = new Users();
 		    
-		    Utilities util = new Utilities();
+		    OrderItems order = new OrderItems();
+		    
 			try {
 				stat = conn.createStatement();
 				ResultSet rs = stat.executeQuery(SQL);
 				
 				while (rs.next()){
 										
-					if(ID == rs.getInt(1)) {
-						user.setFirstName(rs.getString(2));
-						user.setLastName(rs.getString(3));
-						user.setUserName(rs.getString(4));
-						user.setPassword(rs.getString(5));
-						user.setPhone(rs.getString(6));
-						user.setAddress(util.splitDBEntry(rs.getString(7), rs.getString(4)));
-						user.setEmail(rs.getString(8));
-						user.setType(rs.getString(9));
-						
-						
+					if(ID == rs.getInt(2)) {
+						order.setItemID(rs.getInt(1));
+						order.setOrderID(rs.getInt(2));
+						order.setShowingID(rs.getInt(3));
+						order.setCount(rs.getInt(4));
 					} 
 			    }
 				
@@ -456,406 +1428,62 @@ public class Accessor {
 				e.printStackTrace();
 			}
 			
-			return user;
+			return order;
 			
 			
 		}
 		
-		public int GetMovieShowingIDByName(String title) {
-			String SQL = "SELECT * FROM MovieShowing;";
-		    Statement stat;
-		   
-		    MovieShowing movie = new MovieShowing();
-		    int value = 0;
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-										
-					if(title.equalsIgnoreCase(rs.getString(2))) {
-						value = rs.getInt(1);
-						
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return value;
-		}
-		
-		public MovieShowing GetMovieShowingByID(int ID) {
-			String SQL = "SELECT * FROM MovieShowing;";
-		    Statement stat;
-		   
-		    MovieShowing movie = new MovieShowing();
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-										
-					if(ID == rs.getInt(1)) {
-						movie.setMovie(returnMovieByTitle(rs.getString(2)));
-						movie.setShowroom(GetShowroomByID(rs.getInt(3)));
-						movie.setSeatSold(rs.getInt(4));
-						movie.setSeatCount(rs.getInt(5));
-						movie.setPrice(rs.getString(6));
-						movie.setStartTime(rs.getString(7));
-						movie.setEndTime(rs.getString(8));
-						
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return movie;
-		}
-		
-		public MovieShowing returnMovieShowingByTitle(String title) {
-			String SQL = "SELECT * FROM MovieShowing;";
-		    Statement stat;
-		   
-		    MovieShowing movie = new MovieShowing();
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-										
-					if(title.equals( rs.getString(2) )) {
-						movie.setMovie(returnMovieByTitle(rs.getString(2)));
-						movie.setShowroom(GetShowroomByID(rs.getInt(3)));
-						movie.setSeatSold(rs.getInt(4));
-						movie.setSeatCount(rs.getInt(5));
-						movie.setPrice(rs.getString(6));
-						movie.setStartTime(rs.getString(7));
-						movie.setEndTime(rs.getString(8));
-						
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return movie;
-		}
-		
-		public void addShowroom(Showroom showroom){
-
+		public void UpdateOrderItems(OrderItems order){
 			try{
 				stmt = conn.createStatement();
 				String sql;
-				String theatre = showroom.getTheatre();
-				int capacity = showroom.getCapacity();
-				int roomNumber = showroom.getRoomNumber();
-				
-				sql = "INSERT INTO Theatre (theatre, capacity, room_number)"+
-						"VALUES ('" + theatre +
-						"', '" + capacity +
-						"', '" + roomNumber +
-						 "')";			
-					
-				
-				stmt.executeUpdate(sql);
-			}catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		public Showroom GetShowroomByID(int ID){
-			String SQL = "SELECT * from Showroom";
-		    Statement stat;   		    
-		    
-		    Showroom showroom = new Showroom();		
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(ID == rs.getInt(1) ) {
-						//showroom = new Showroom(rs.getString(2),rs.getInt(3),rs.getInt(4));
-						showroom.setTheatre(rs.getString(2));
-						showroom.setCapacity(rs.getInt(3));
-						showroom.setRoomNumber(rs.getInt(4));
+				int itemID = order.getItemID();
+				int orderID = order.getOrderID();
+				int showingID = order.getShowingID();
+				int count = order.getCount();
 						
-					} 
-			    }
 				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return showroom;
-		}
-		
-		public ArrayList<Showroom> getShowroomByTheatre(String theatre) {
-			String SQL = "SELECT * from Showroom";
-		    Statement stat;   		    
-		    
-		    ArrayList<Showroom> showrooms = new ArrayList<Showroom>();		
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
+				sql = "Update orderitems (OrderId, ShowingID, Quantity)"+
+						"VALUES ('" + orderID +
+						"', '" + showingID +
+						"', '" + count +
+						 "') Where 'Id'='" + itemID + "'";
 				
-				while (rs.next()){
-					if(theatre.equals( rs.getString(2) )) {
-						Showroom showroom = new Showroom(rs.getString(2),rs.getInt(3),rs.getInt(4));
-						showrooms.add(showroom);
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return showrooms;
-		}	
-		
-		public void addTheatre(Theatre theatre){
-
-			try{
-				stmt = conn.createStatement();
-				String sql;
-				String name = theatre.getName();
-				String owner = theatre.getOwner();
-				String address = theatre.getAddress().toString();
-				String roomCount = theatre.getRoomCount();
-				
-				
-				
-				sql = "INSERT INTO Theatre (name, owner, address, theatre_rooms)"+
-						"VALUES ('" + name +
-						"', '" + owner +
-						"', '" + address +
-						"', '" + roomCount +
-						 "')";			
-					
-				
-				stmt.executeUpdate(sql);
+				 stmt.executeUpdate(sql);
 			}catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-		
+		}
+			
+			
 		}
 		
-		public Theatre returnTheatreByName(String name) {
-			String SQL = "SELECT * from Theatres";
-		    Statement stat;
-		   
-		    Theatre theatre = new Theatre();
-		    Utilities util = new Utilities();
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(name.equals( rs.getString(1) )) {
-						theatre.setName(rs.getString(1));
-						theatre.setOwner(rs.getString(2));
-						theatre.setAddress(util.splitDBEntry(rs.getString(3), rs.getString(2)));
-						theatre.setRoomCount(rs.getString(4));
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return theatre;
-		}		
-		
-		public void addMovie(Movie movie){
-
+		public void removeOrderItems(OrderItems order){
 			try{
 				stmt = conn.createStatement();
 				String sql;
-				String title = movie.getTitle();
-				String year = movie.getYear();
-				String length = movie.getLength();
-				String mpaa = movie.getMpaa();
-				String description = movie.getDescription();
-				String genre = movie.getGenre();
-				String location = movie.getLocation();
+				int itemID = order.getItemID();
+
+				sql = "DELETE FROM orderitems Where 'Id'='" + itemID + "'";
 				
-				sql = "INSERT INTO Movie (title, year, length, mpaa, description, genre, location)"+
-						"VALUES ('" + title +
-						"', '" + year +
-						"', '" + length +
-						"', '" + mpaa +
-						"', '" + description +
-						"', '" + genre +
-						"', '" + location +
-						 "')";			
-					
-				
-				stmt.executeUpdate(sql);
+				 stmt.executeUpdate(sql);
 			}catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-		
 		}
-		
-		public Movie returnMovieByTitle(String title) {
-			String SQL = "SELECT * from Movies";
-		    Statement stat;
-		   
-		    Movie movie = new Movie();
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(title.equals( rs.getString(1) )) {
-						movie.setTitle(rs.getString(1));
-						movie.setYear(rs.getString(2));
-						movie.setLength(rs.getString(3));
-						movie.setMpaa(rs.getString(4));
-						movie.setDescription(rs.getString(5));
-						movie.setGenre(rs.getString(6));
-						movie.setLocation(rs.getString(7));
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 			
-			return movie;
+			
 		}
 		
-		public ArrayList<Movie> returnMovieByYear(String year) {
-			String SQL = "SELECT * from Movies";
-		    Statement stat;   
-		    
-		    
-		    ArrayList<Movie> movies = new ArrayList<Movie>();		
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(year.equals( rs.getString(2) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
-						movies.add(movie);
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return movies;
-		}
 		
-		public ArrayList<Movie> returnMovieByLength(String length) {
-			String SQL = "SELECT * from Movies";
-		    Statement stat;   
-		    
-		    
-		    ArrayList<Movie> movies = new ArrayList<Movie>();		
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(length.equals( rs.getString(3) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
-						movies.add(movie);
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return movies;
-		}
-
-		public ArrayList<Movie> returnMovieByMpaa(String mpaa) {
-			String SQL = "SELECT * from Movies";
-		    Statement stat;   
-		    
-		    
-		    ArrayList<Movie> movies = new ArrayList<Movie>();		
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(mpaa.equals( rs.getString(4) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
-						movies.add(movie);
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return movies;
-		}
-
-		public ArrayList<Movie> returnMovieByGenre(String genre) {
-			String SQL = "SELECT * from Movies";
-		    Statement stat;   
-		    
-		    
-		    ArrayList<Movie> movies = new ArrayList<Movie>();		
-		    
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(genre.equals( rs.getString(6) )) {
-						Movie movie = new Movie(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7) );
-						movies.add(movie);
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return movies;
-		}
 		
+		
+		
+		
+		
+		
+		
+		//Other Methods
 		public void addAddress(Address address){
 			try{
 				stmt = conn.createStatement();
@@ -881,158 +1509,11 @@ public class Accessor {
 		}
 		}
 		
-		public void addSingleUser(Users aUser) {
-			  
-			try {
-			  stmt = conn.createStatement();
-			  String sql;
-			  
-			  String firstName = aUser.getFirstName();
-			  String lastName = aUser.getLastName();
-			  String userName = aUser.getUserName();
-			  String password = aUser.getPassword();
-			  String email = aUser.getEmail();
-			  String phone = aUser.getPhone();
-			  String address = aUser.getAddress().toString();
-			  String type = aUser.getType();
-			  
-
-			  sql = "INSERT INTO Users (First_Name, Last_Name, User_Name, Password, phone_number, address, email, type)" +
-			          "VALUES ('" + firstName +
-					  "', '" + lastName + 
-					  "', '" + userName + 
-					  "', '" + password + 
-					  "', '" + phone +
-					  "', '" + address +
-					  "', '" + email +
-					  "', '" + type +
-					  "')";
-			  stmt.executeUpdate(sql);
-			  
-			  
-			  } catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-			}
-			
-		}
 		
-		public boolean findUserByUsername(String aUserName) {
-			boolean userExists = false;
-			String SQL = "SELECT * from Users";
-		    Statement stat;
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){	
-					if(aUserName.equals( rs.getString(4) )) {
-						userExists = true;
-					}    
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return userExists;
-		}
 		
-		public boolean findUserByPassword(String password) {
-			boolean passwordMatches = false;
-			String SQL = "SELECT * from Users";
-		    Statement stat;
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){	
-					if(password.equals( rs.getString(5) )) {
-						passwordMatches = true;
-					}    
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		
 			
-			return passwordMatches;
-		}
-			
-		public Users returnUserByUsername(String aUserName) {
-			String SQL = "SELECT * from Users";
-		    Statement stat;
-		   
-		    Users aUser = new Users();
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-					if(aUserName.equals( rs.getString(4) )) {
-						aUser.setFirstName(rs.getString(2));
-						aUser.setLastName(rs.getString(3));
-						aUser.setUserName(rs.getString(4));
-						aUser.setPassword(rs.getString(5));
-					} 
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return aUser;
-		}
-	
-		public void displayAllUsers() {
-			String SQL = "SELECT * from Users";
-		    Statement stat;
-			try {
-				stat = conn.createStatement();
-				ResultSet rs = stat.executeQuery(SQL);
-				
-				while (rs.next()){
-			        System.out.println(rs.getString(1) + " " + rs.getString(2) +  " " + rs.getString(3)
-			        		+ " " + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7)
-			        		+ " " + rs.getString(8) + " " + rs.getString(9));
-			    }
-				
-			    stat.close();
-			        
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		public void connectMeIn() {
-			try{
-				//Register the JDBC driver
-				Class.forName("com.mysql.jdbc.Driver");			
-			}catch(ClassNotFoundException e){
-				System.err.println(e);
-				System.exit (-1);
-			}
-			try {
-				 //Open a connection
-				conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			} catch (SQLException e){
-				e.printStackTrace();
-			}
-		}
-			
-		public void closeConnection(){
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		
 
 
 }

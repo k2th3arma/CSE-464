@@ -1,91 +1,71 @@
 package model;
 
-import model.Showroom;
-import model.Movie;
-
 public class MovieShowing {
-
-	private Movie movie;
-	private Showroom showroom;
-	private int seatSold;
-	private int seatCount;
-	private String price;
+	private int showingID;
+	private int price;
+	private int numberPurchased;
 	private String startTime;
 	private String endTime;
+	private int movieID;
+	private int showroomID;
 	
 	public MovieShowing(){
 		super();
 	}
 	
-	public MovieShowing(Movie movie, Showroom showroom, int seatSold, int seatCount, String price, String startTime, String endTIme){
-		this.movie = movie;
-		this.showroom = showroom;
-		this.seatSold = seatSold;
-		this.seatCount = seatCount;
+	public MovieShowing(int price, int numberPurchased, String startTime, String endTime, int movieID, int showroomID){
 		this.price = price;
+		this.numberPurchased = numberPurchased;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.movieID = movieID;
+		this.showroomID = showroomID;
 	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-
-	public Showroom getShowroom() {
-		return showroom;
-	}
-
-	public void setShowroom(Showroom showroom) {
-		this.showroom = showroom;
-	}
-	
-	public int getSeatSold() {
-		return seatSold;
-	}
-
-	public void setSeatSold(int seatSold) {
-		this.seatSold = seatSold;
-	}
-
-	public int getSeatCount() {
-		return seatCount;
-	}
-
-	public void setSeatCount(int seatCount) {
-		this.seatCount = seatCount;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}	
-	
 	public String getStartTime() {
 		return startTime;
 	}
-
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-
 	public String getEndTime() {
 		return endTime;
 	}
-
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-
-	@Override
-	public String toString(){
-		return "{"+movie +"} {"+ showroom +"} "+ seatSold +" "+ seatCount +" "+ price +" "+ startTime +" "+ endTime;
+	public int getPrice() {
+		return price;
 	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public int getNumberPurchased() {
+		return numberPurchased;
+	}
+	public void setNumberPurchased(int numberPurchased) {
+		this.numberPurchased = numberPurchased;
+	}
+	public int getMovieID() {
+		return movieID;
+	}
+	public void setMovieID(int movieID) {
+		this.movieID = movieID;
+	}
+	public int getShowroomID() {
+		return showroomID;
+	}
+	public void setShowroomID(int showroomID) {
+		this.showroomID = showroomID;
+	}
+
+	public int getShowingID() {
+		return showingID;
+	}
+
+	public void setShowingID(int showingID) {
+		this.showingID = showingID;
+	}
+	
+	
 	
 }

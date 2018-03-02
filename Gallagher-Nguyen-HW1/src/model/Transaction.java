@@ -2,87 +2,80 @@ package model;
 
 public class Transaction {
 
+	private int creditCardID;
+	private String cardHolderName;
 	private String cardNumber;
-	private String month;
-	private String year;
+	private float balance;
+	private String cardType;
+	private int userID;
+	private String CVV;
 	private String expiration;
-	private Users user;
-	private Address address;
-	private int code;
 	
 	public Transaction(){
 		super();
 	}
-	
-	public Transaction(String cardNumber, String month, String year, Users user, Address address, int code){
-		this.cardNumber = cardNumber;
-		this.month = month;
-		this.year = year;
-		this.expiration = month +"/"+ year;
-		this.user = user;
-		this.address = address;
-		this.code = code;
-	}
 
+	public Transaction(String cardHolderName, String cardNumber, float balance,
+			String cardType, int userID, String CVV, String expiration) {
+		super();
+		this.cardHolderName = cardHolderName;
+		this.cardNumber = cardNumber;
+		this.balance = balance;
+		this.cardType = cardType;
+		this.userID = userID;
+		this.CVV = CVV;
+		this.expiration = expiration;
+	}
+	public int getCreditCardID() {
+		return creditCardID;
+	}
+	public void setCreditCardID(int creditCardID) {
+		this.creditCardID = creditCardID;
+	}
+	public String getCardHolderName() {
+		return cardHolderName;
+	}
+	public void setCardHolderName(String cardHolderName) {
+		this.cardHolderName = cardHolderName;
+	}
 	public String getCardNumber() {
 		return cardNumber;
 	}
-
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
 	}
-
-	public String getMonth() {
-		return month;
+	public float getBalance() {
+		return balance;
 	}
-
-	public void setMonth(String month) {
-		this.month = month;
+	public void setBalance(float balance) {
+		this.balance = balance;
 	}
-
-	public String getYear() {
-		return year;
+	public String getCardType() {
+		return cardType;
 	}
-
-	public void setYear(String year) {
-		this.year = year;
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
 	}
-
+	public int getUserID() {
+		return userID;
+	}
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	public String getCVV() {
+		return CVV;
+	}
+	public void setCVV(String cVV) {
+		CVV = cVV;
+	}
 	public String getExpiration() {
-		return this.month + "/" + this.year;
+		return expiration;
 	}
-
 	public void setExpiration(String expiration) {
 		this.expiration = expiration;
 	}
-
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		this.user = user;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public int getCode() {
-		return code;
-	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-	@Override
-	public String toString(){
-		return cardNumber +" "+ month +"/"+ year +" {"+ user +"} {"+ address +"} "+ code;
-	}
+	
+	
 	
 	
 }

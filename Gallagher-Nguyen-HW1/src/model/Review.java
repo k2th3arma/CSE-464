@@ -1,71 +1,62 @@
 package model;
 
 public class Review {
-
-	private String description;
-	private int rating;
-	private Users user;
-	private Movie movie;
+	private int reviewID;
+	private int movieID;
+	private int userID;
 	private String date;
+	private int rating;
+	private String description;
 	
 	public Review(){
 		super();
 	}
 	
-	public Review(String description, int rating, Users user,  Movie movie, String date ){
+	public Review(int movieID, int userID, String date, int rating, String description){
+		this.movieID = movieID;
+		this.userID = userID;
 		this.description = description;
 		this.rating = rating;
-		this.user = user;
-		this.movie = movie;
 		this.date = date;
 	}
-	
-
+	public int getReviewID() {
+		return reviewID;
+	}
+	public void setReviewID(int reviewID) {
+		this.reviewID = reviewID;
+	}
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public int getRating() {
 		return rating;
 	}
-
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		this.user = user;
-	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-	
-	
 	public String getDate() {
 		return date;
 	}
-
 	public void setDate(String date) {
 		this.date = date;
 	}
-
-	@Override
-	public String toString(){
-		return description +" "+ rating +" {"+ user +"} {"+ movie + "}" +" "+ date;
+	public int getMovieID() {
+		return movieID;
 	}
+	public void setMovieID(int movieID) {
+		this.movieID = movieID;
+	}
+	public int getUserID() {
+		return userID;
+	}
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	
 	
 	
 }

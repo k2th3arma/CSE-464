@@ -5,7 +5,7 @@ import model.Users;
 
 public class UsersDB {
 	
-
+	//Add user
     public void registerUser(Users aUser) {
        	Accessor db = new Accessor();
        	db.connectMeIn();
@@ -13,6 +13,7 @@ public class UsersDB {
        	db.closeConnection();
     }
     
+    //Check Methods
     public boolean validateUserByUsername(String aUserName) {
     	    boolean userExists = false;
     	    Accessor db = new Accessor();
@@ -33,7 +34,7 @@ public class UsersDB {
    	    return passwordMatches;
     }
     
-    
+    //Get User
     public Users getUser(String aUserName) {   
     	Accessor db = new Accessor();
 	   	db.connectMeIn();
@@ -42,5 +43,22 @@ public class UsersDB {
 	   	
 	   	return aUser;
     }
+    
+    //Update User
+    public void updateUser(Users aUser) {
+       	Accessor db = new Accessor();
+       	db.connectMeIn();
+       	db.updateSingleUser(aUser);
+       	db.closeConnection();
+    }
+    
+    //Remove User
+    public void removeUser(Users aUser) {
+       	Accessor db = new Accessor();
+       	db.connectMeIn();
+       	db.removeSingleUser(aUser);
+       	db.closeConnection();
+    }
+    
 
 }

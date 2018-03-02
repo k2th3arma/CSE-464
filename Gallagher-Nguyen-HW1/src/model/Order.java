@@ -2,88 +2,61 @@ package model;
 
 public class Order {
 
-	private int orderNumber;
-	private Users user;
-	private Address address;
-	private String orderTotal;
-	private int count;
-	private MovieShowing movie;
-	private String status;
+	private int orderID;
+	private int userID;
+	private int cost;
+	private String orderDate;
+	private String address;
+	private String cardNumber;
 	
 	public Order(){
 		super();
 	}
-	
-	public Order(int orderNumber, Users user, Address address, String orderTotal, int count, MovieShowing movie, String status){
-		this.orderNumber = orderNumber;
-		this.user = user;
+
+	public Order(int userID, int cost, String orderDate, String address, String cardNumber) {
+		this.userID = userID;
+		this.cost = cost;
+		this.orderDate = orderDate;
 		this.address = address;
-		this.orderTotal = orderTotal;
-		this.count = count;
-		this.movie = movie;
-		this.status = status;
+		this.cardNumber = cardNumber;
 	}
-
-	
-	public int getOrderNumber() {
-		return orderNumber;
+	public int getOrderID() {
+		return orderID;
 	}
-
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
 	}
-
-	public Users getUser() {
-		return user;
+	public int getUserID() {
+		return userID;
 	}
-
-	public void setUser(Users user) {
-		this.user = user;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
-
-	public Address getAddress() {
+	public int getCost() {
+		return cost;
+	}
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+	public String getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+	public String getAddress() {
 		return address;
 	}
-
-	public void setAddress(Address address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public String getOrderTotal() {
-		return orderTotal;
+	public String getCardNumber() {
+		return cardNumber;
 	}
-
-	public void setOrderTotal(String orderTotal) {
-		this.orderTotal = orderTotal;
-	}
-
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
-	public MovieShowing getMovie() {
-		return movie;
-	}
-
-	public void setMovie(MovieShowing movie) {
-		this.movie = movie;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 	
-	@Override
-	public String toString(){
-		return "{" + user +"} {"+ address +"} "+ orderTotal +" "+ count +" {"+ movie +"} "+ status;
-	}
+	
 	
 }

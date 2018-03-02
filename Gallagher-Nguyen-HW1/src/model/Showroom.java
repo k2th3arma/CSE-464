@@ -1,46 +1,37 @@
 package model;
 
 public class Showroom {
-	private String theatre;
-	private int capacity;
-	private int roomNumber;
+	private int showroomID;
+	private int seats;
+	private int theatre;
 	
 	public Showroom(){
 		super();
 	}
 	
-	public Showroom(String theatre, int capacity, int roomNumber){
+	public Showroom(int seats, int theatre){
 		this.theatre = theatre;
-		this.capacity = capacity;
-		this.roomNumber = roomNumber;
+		this.seats = seats;
 	}
-
-	public String getTheatre() {
+	public int getShowroomID() {
+		return showroomID;
+	}
+	public void setShowroomID(int showroomID) {
+		this.showroomID = showroomID;
+	}
+	public int getSeats() {
+		return seats;
+	}
+	public void setSeats(int seats) {
+		this.seats = seats;
+	}
+	public int getTheatre() {
 		return theatre;
 	}
-
-	public void setTheatre(String theatre) {
+	public void setTheatre(int theatre) {
 		this.theatre = theatre;
 	}
 
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-
-	public int getRoomNumber() {
-		return roomNumber;
-	}
-
-	public void setRoomNumber(int roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-	@Override
-	public String toString(){
-		return theatre +", "+ capacity +", "+ roomNumber;
-	}
+	
 	
 }

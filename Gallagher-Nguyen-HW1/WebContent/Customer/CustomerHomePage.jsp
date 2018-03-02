@@ -29,7 +29,13 @@
 		<input type=submit value=Movie> <br> 
 	</form>
 </div>
-		
+	
+<%
+
+
+
+
+%>	
 
 
 

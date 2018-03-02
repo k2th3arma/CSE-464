@@ -56,91 +56,9 @@ public class MovieServlet extends HttpServlet {
 		
 		System.out.println("The search point: "+search +", The type: "+ type);
 		
-		MovieDB movie = new MovieDB();
-				
-		TheatreDB theatre = new TheatreDB();
 		
-		ShowroomDB showroom = new ShowroomDB();
 		
-		MovieShowingDB movieShowing = new MovieShowingDB();
 		
-		ReviewDB review = new ReviewDB();
-		
-		TransactionDB transaction = new TransactionDB();
-		
-		OrderDB order = new OrderDB();
-		
-		if(type.contentEquals("Title")){
-			
-			System.out.println(movie.getMovie(search).toString());
-			
-			session.setAttribute("Movies", movie.getMovie(search));
-			
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Year")){
-			
-			System.out.println(movie.getMovieByYear(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByYear(search);			
-			
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Length")){
-			
-			System.out.println(movie.getMovieByLength(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByLength(search);
-						
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("MPAA")){
-			
-			System.out.println(movie.getMovieByMpaa(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByMpaa(search);
-						
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Genre")){
-			
-			System.out.println(movie.getMovieByGenre(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByGenre(search);
-						
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Theatre")){
-			System.out.println(theatre.getTheatre(search));
-		}
-		else if(type.contentEquals("Showroom")){
-			System.out.println(showroom.getShowroom(search));
-		}
-		else if(type.contentEquals("MovieShowing")){
-			System.out.println(movieShowing.GetMovieShowing(search));
-		}
-		else if(type.contentEquals("Review")){
-			System.out.println(review.GetReviewByMovie(search));
-		}
-		else if(type.contentEquals("Transaction")){
-			//System.out.println(transaction.GetTransactionByID(Integer.parseInt(search)));
-			
-			System.out.println(transaction.GetTransactionByUser(search));
-		}
-		else if(type.contentEquals("Order")){
-			//System.out.println(order.GetOrderByID(Integer.parseInt(search)));
-			
-			System.out.println(order.GetOrdersByUser(Integer.parseInt(search)));
-		}
-		else{
-			response.sendError(404, "Error");
-			
-		}
 	}
 
 	/**

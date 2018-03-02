@@ -1,25 +1,28 @@
 package model;
 
 public class Movie {
+	private int movieID;
 	private String title;
-	private String year;
-	private String length;
-	private String mpaa;
 	private String description;
-	private String genre;
-	private String location;
+	private String thumbnail;
+	private String rating;
 	
 	public Movie(){
 		super();
 	}
-	public Movie(String title, String year, String length, String mpaa, String description, String genre, String location){
+	public Movie(String title, String description, String thumbnail, String rating){
 		this.title = title;
-		this.year = year;
-		this.length = length;
-		this.mpaa = mpaa;
 		this.description = description;
-		this.genre = genre;
-		this.location = location;
+		this.thumbnail = thumbnail;
+		this.rating = rating;
+	
+	}
+	
+	public int getMovieID() {
+		return movieID;
+	}
+	public void setMovieID(int movieID) {
+		this.movieID = movieID;
 	}
 	public String getTitle() {
 		return title;
@@ -27,45 +30,24 @@ public class Movie {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getYear() {
-		return year;
-	}
-	public void setYear(String year) {
-		this.year = year;
-	}
-	public String getLength() {
-		return length;
-	}
-	public void setLength(String length) {
-		this.length = length;
-	}
-	public String getMpaa() {
-		return mpaa;
-	}
-	public void setMpaa(String mpaa) {
-		this.mpaa = mpaa;
-	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getGenre() {
-		return genre;
+	public String getThumbnail() {
+		return thumbnail;
 	}
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	public String getRating() {
+		return rating;
+	}
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
 	
-	public String getLocation() {
-		return location;
-	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	public String toString(){
-		return title +" "+ year +" "+ length +" "+ mpaa +" "+ description +" "+genre;
-	}
 	
 }
