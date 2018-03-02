@@ -1,5 +1,5 @@
 <jsp:include page="../Shared/Partial.jsp"></jsp:include>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
 <title>Search Results</title>
 </head>
@@ -21,19 +21,20 @@
 </thead>
 <tbody>
 	<tr>
-		<td>Star Wars: The Last Jedi</td>
-		<td>Marcus Lincoln Grand Cinema</td>
+		<td><c:out value="${Movies.title}"/></td>
+		<td><c:out value="${MoviesShowing.showroom}"/></td>
 		<td>12</td>
-		<td>7:30pm</td>
-		<td>20</td>
-		<td>$10</td>
+		<td><c:out value="${MoviesShowing.startTime}"/></td>
+		<td><c:out value="${MoviesShowing.seatCount}"/></td>
+		<td><c:out value="${MoviesShowing.price}"/></td>
 		<td><img src="lastjedithumbnail.jpg" /></td>
 		<td><input type="button" onclick="location.href='MovieDetailsSelection.jsp';" value="View Details"/></td>
 	</tr>
 </tbody>
 </table>
 
-
+<!--<c:out value="${Movies})"/><br>-->
+<c:out value="${MoviesShowing}"/><br>
 
 <br>
 <!-- Navigation links --> 

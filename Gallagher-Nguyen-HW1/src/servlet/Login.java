@@ -42,6 +42,7 @@ public class Login extends HttpServlet {
 		
 		UsersDB user = new UsersDB();
 		Users usr = new Users();
+<<<<<<< HEAD
 		Cookie cookie = new Cookie("user_name", userName);
 		
 		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
@@ -52,6 +53,13 @@ public class Login extends HttpServlet {
 				response.addCookie(cookie);
 			}
 
+=======
+		Cookie cookie = new Cookie("User", userName);	
+		
+		
+		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
+		{
+>>>>>>> 0a8e8cdee7bb5f76266835689819c4a5de175899
 			session.setAttribute("user_name", userName);
 			usr.setLog(true);
 					
@@ -59,6 +67,7 @@ public class Login extends HttpServlet {
 			
 
 			response.sendRedirect("Customer/CustomerHomePage.jsp");
+			response.addCookie(cookie);
 		} 
 		else
 		{
