@@ -1,12 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<jsp:include page="../Shared/Partial.jsp"></jsp:include>
 
-</body>
+<body id="back">
+		<br>
+		<br>
+		
+		<h2> Add Movie</h2>
+		
+		<div id="rcorners2" class="container2">
+		<form action=../MovieServlet name="userForm" method="post" >
+		
+			Movie Name: 	<input type=text name=movie> <br>
+			Description: 		<input type=text name=description> <br>
+			Thumbnail: 		<input type="file" name=thumbnail>				<br>
+			Rating:  		<input type=number name=rating> <br>
+			
+						
+			
+			<input type=submit value=Add> <br> 
+		
+		</form>
+		</div>
+		<br>
+		<br>
+		
+	</body>
 </html>

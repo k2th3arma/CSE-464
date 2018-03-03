@@ -36,7 +36,7 @@ function showPartial(){
                 <ul class="nav navbar-nav navbar-right">                    
                     <li class="collapse-hidden">
                         <ul class="nav navbar-nav navbar-right">
-                        	<li><a class="navbar-right">Welcome <%=session.getAttribute("user_name")%></a></li>                        
+                        	<li><a class="navbar-right">Welcome <%=session.getAttribute("userName")%></a></li>                        
                         	<li> <a href="ViewOrders.jsp"> View Orders </a> </li>
                             <li> <a href="../Welcome.jsp"> Log Out </a></li>                               
                         </ul>

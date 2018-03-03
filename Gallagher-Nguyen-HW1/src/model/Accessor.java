@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -52,7 +53,7 @@ public class Accessor {
 		//User Methods
 		public boolean findUserByUsername(String aUserName) {
 			boolean userExists = false;
-			String SQL = "SELECT * from Users";
+			String SQL = "SELECT * from users";
 		    Statement stat;
 			try {
 				stat = conn.createStatement();
@@ -258,6 +259,7 @@ public class Accessor {
 			  stmt = conn.createStatement();
 			  String sql;
 			  
+			  int index = GetRows("users") + 1;
 			  String firstName = aUser.getFirstName();
 			  String lastName = aUser.getLastName();
 			  String userName = aUser.getUserName();
@@ -274,8 +276,9 @@ public class Accessor {
 			  int numberOfVisits = aUser.getNumberOfVisits();
 			  
 
-			  sql = "INSERT INTO users (FirstName, " + 
-					  					"LastName, "
+			  sql = "INSERT INTO users (Id, "
+			  							+ "FirstName, " 
+					  					+ "LastName, "
 					  					+ "Address,"
 					  					+ "City,"
 					  					+ "State, "
@@ -288,7 +291,8 @@ public class Accessor {
 					  					+ "NumOfVisits, "
 					  					+ "Username, "
 					  					+ "Password)" +
-			          "VALUES ('" + firstName +
+			          "VALUES ('" + index +
+			          "', '" + firstName + 
 					  "', '" + lastName + 
 					  "', '" + address + 
 					  "', '" + city + 
@@ -399,13 +403,15 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
+				int index = GetRows("movies") + 1;
 				String title = movie.getTitle();
 				String description = movie.getDescription();
-				String thumbnail = movie.getThumbnail();
+				byte[] thumbnail = movie.getThumbnail();
 				String rating = movie.getRating();
 				
-				sql = "INSERT INTO movies (Movie name, Description, Thumbnail, Rating)"+
-						"VALUES ('" + title +
+				sql = "INSERT INTO movies (id, MovieName, Description, Thumbnail, Rating)"+
+						"VALUES ('" + index +
+						"', '" + title +
 						"', '" + description +
 						"', '" + thumbnail +
 						"', '" + rating +
@@ -434,7 +440,7 @@ public class Accessor {
 						movie.setMovieID(rs.getInt(1));
 						movie.setTitle(rs.getString(2));
 						movie.setDescription(rs.getString(3));
-						movie.setThumbnail(rs.getString(4));
+						movie.setThumbnail(rs.getBytes(4));
 						movie.setRating(rs.getString(5));
 					} 
 			    }
@@ -455,7 +461,7 @@ public class Accessor {
 				int movieID = movie.getMovieID();
 				String title = movie.getTitle();
 				String description = movie.getDescription();
-				String thumbnail = movie.getThumbnail();
+				byte[] thumbnail = movie.getThumbnail();
 				String rating = movie.getRating();
 				
 				sql = "UPDATE movies (Movie name, Description, Thumbnail, Rating)"+
@@ -495,6 +501,7 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
+				int index = GetRows("theatreBuildings") + 1;
 				String name = theatre.getName();
 				int owner = theatre.getOwner();
 				String address = theatre.getAddress();
@@ -502,8 +509,9 @@ public class Accessor {
 				String state = theatre.getState();
 				String postalCode = theatre.getPostalCode();
 
-				sql = "INSERT INTO theatreBuildings (Name, Address, ownerID, City, State, PostalCode)"+
-						"VALUES ('" + name +
+				sql = "INSERT INTO theatreBuildings (Id, Name, Address, ownerID, City, State, PostalCode)"+
+						"VALUES ('" + index +
+						"', '" + name +
 						"', '" + address +
 						"', '" + owner +
 						"', '" + city +
@@ -606,11 +614,13 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
+				int index = GetRows("Showrooms") + 1;
 				int seats = showroom.getSeats();
 				int theatre = showroom.getTheatre();
 				
-				sql = "INSERT INTO Showrooms (availableSeats, theatreBuilding)"+
-						"VALUES ('" + seats +
+				sql = "INSERT INTO Showrooms (Id, availableSeats, theatreBuilding)"+
+						"VALUES ('" + index +
+						"', '" + seats +
 						"', '" + theatre +
 						 "')";			
 					
@@ -719,6 +729,7 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
+				int index = GetRows("movieShowing") + 1;
 				int price = movie.getPrice();
 				int numberPurchased = movie.getNumberPurchased();
 				String startTime = movie.getStartTime();
@@ -726,8 +737,9 @@ public class Accessor {
 				int movieID = movie.getMovieID();
 				int showroomID = movie.getShowroomID();
 				
-				sql = "INSERT INTO movieShowing (Price, NumberPurchased, StartTime, EndTime, movieID, showroomID)"+
-						"VALUES ('" + price +
+				sql = "INSERT INTO movieShowing (Id, Price, NumberPurchased, StartTime, EndTime, movieID, showroomID)"+
+						"VALUES ('" + index +
+						"', '" + price +
 						"', '" + numberPurchased +
 						"', '" + startTime +
 						"', '" + endTime +
@@ -887,6 +899,7 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
+				int index = GetRows("customerreviews") + 1;
 				int movieID = review.getMovieID();
 				int userID = review.getUserID();
 				String date = review.getDate();
@@ -894,8 +907,9 @@ public class Accessor {
 				String description = review.getDescription();
 						
 				
-				sql = "INSERT INTO customerreviews (movieID, userID, ReviewDate, Rating, Review)"+
-						"VALUES ('" + movieID +
+				sql = "INSERT INTO customerreviews (Id, movieID, userID, ReviewDate, Rating, Review)"+
+						"VALUES ('" + index +
+						"', '" + movieID +
 						"', '" + userID +
 						"', '" + date +
 						"', '" + rating +
@@ -1049,6 +1063,7 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
+				int index = GetRows("creditcards") + 1;
 				String cardHolder = transaction.getCardHolderName();
 				String cardNumber = transaction.getCardNumber();
 				float balance = transaction.getBalance();
@@ -1058,8 +1073,9 @@ public class Accessor {
 				String expiration = transaction.getExpiration();
 						
 				
-				sql = "INSERT INTO creditcards (CardHolderName, CreditCardNumber, Balance CardType, UserId, CVV, ExpirationDate)"+
-						"VALUES ('" + cardHolder +
+				sql = "INSERT INTO creditcards (Id, CardHolderName, CreditCardNumber, Balance CardType, UserId, CVV, ExpirationDate)"+
+						"VALUES ('" + index +
+						"', '" + cardHolder +
 						"', '" + cardNumber +
 						"', '" + balance +
 						"', '" + type +
@@ -1200,7 +1216,7 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
-
+				int index = GetRows("orders") + 1;
 				int userID = order.getUserID();
 				int cost = order.getCost();
 				String date = order.getOrderDate();
@@ -1208,8 +1224,9 @@ public class Accessor {
 				String card = order.getCardNumber();
 						
 				
-				sql = "INSERT INTO orders (CustomerId, TotalCost, OrderDate, BillingAddress, CreditCardNumber)"+
-						"VALUES ('" + userID +
+				sql = "INSERT INTO orders (Id, CustomerId, TotalCost, OrderDate, BillingAddress, CreditCardNumber)"+
+						"VALUES ('" + index +
+						"', '" + userID +
 						"', '" + cost +
 						"', '" + date +
 						"', '" + address +
@@ -1348,14 +1365,15 @@ public class Accessor {
 			try{
 				stmt = conn.createStatement();
 				String sql;
-
+				int index = GetRows("orderitems") + 1;
 				int orderID = order.getOrderID();
 				int showingID = order.getShowingID();
 				int count = order.getCount();
 						
 				
 				sql = "INSERT INTO orderitems (OrderId, ShowingID, Quantity)"+
-						"VALUES ('" + orderID +
+						"VALUES ('" + index +
+						"', '" + orderID +
 						"', '" + showingID +
 						"', '" + count +
 						 "')";
@@ -1509,7 +1527,22 @@ public class Accessor {
 		}
 		}
 		
-		
+		//Returns the count of table string provided
+		public int GetRows(String table){
+			
+			Statement stat;
+			String SQL = "SELECT COUNT(*) FROM "+table;
+			int returnValue = 0;
+			try {
+				stat = conn.createStatement();
+				ResultSet rs = stat.executeQuery(SQL);
+				returnValue = rs.getInt(1);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return returnValue;
+		}
 		
 		
 			

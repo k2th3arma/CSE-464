@@ -4,13 +4,13 @@ public class Movie {
 	private int movieID;
 	private String title;
 	private String description;
-	private String thumbnail;
+	private byte[] thumbnail;
 	private String rating;
 	
 	public Movie(){
 		super();
 	}
-	public Movie(String title, String description, String thumbnail, String rating){
+	public Movie(String title, String description, byte[] thumbnail, String rating){
 		this.title = title;
 		this.description = description;
 		this.thumbnail = thumbnail;
@@ -36,10 +36,10 @@ public class Movie {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getThumbnail() {
+	public byte[] getThumbnail() {
 		return thumbnail;
 	}
-	public void setThumbnail(String thumbnail) {
+	public void setThumbnail(byte[] thumbnail) {
 		this.thumbnail = thumbnail;
 	}
 	public String getRating() {

@@ -42,7 +42,6 @@ public class Users {
 						String type,
 						int status,
 						int numberOfVisits) {
-			super();
 			this.firstName = firstName;
 			this.lastName = lastName;
 			this.userName = userName;
