@@ -2,7 +2,7 @@
 <jsp:include page="Shared/Header.jsp"></jsp:include>
 
 <html>
-	<script>
+	<script type=text/javascript>
 			function validateForm() {
 			    var x = document.forms["userForm"]["userName"].value;
 			    var y = document.forms["userForm"]["password"].value;
@@ -11,9 +11,10 @@
 			        return false;
 			    }
 			    
-			    if (y == "") {
+			    if (y == "") {s
 			        alert("Password must be filled out");
 			        return false;
+			        
 			    }
 			}
 	</script>   	

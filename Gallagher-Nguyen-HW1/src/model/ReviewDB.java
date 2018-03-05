@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class ReviewDB {
 
 	//Add Methods
@@ -20,16 +22,16 @@ public class ReviewDB {
     	return review;
 	}
 	
-	public Review GetReviewByMovieID(int ID){
+	public ArrayList<Review> GetReviewsByMovieID(int ID){
 		Accessor db = new Accessor();
     	db.connectMeIn();
-    	Review review = db.GetReviewByID(ID);
+    	ArrayList<Review> review = db.GetReviewsByMovieID(ID);
     	db.closeConnection();
     	
     	return review;
 	}
 	
-	public Review GetReviewByShowro0m (int ID){
+	public Review GetReviewByShowroom (int ID){
 		Accessor db = new Accessor();
     	db.connectMeIn();
     	Review review = db.GetReviewByID(ID);

@@ -3,7 +3,7 @@ package model;
 public class MovieShowingDB {
 
 	//Add Method
-	public void addMovieShwoing(MovieShowing movie){
+	public void addMovieShowing(MovieShowing movie){
 		Accessor db = new Accessor();
     	db.connectMeIn();
     	db.addMovieShowing(movie);

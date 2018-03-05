@@ -2,6 +2,7 @@ package model;
 
 import model.Theatre;
 import model.Accessor;
+import java.util.*;
 
 public class TheatreDB {
 	
@@ -18,6 +19,33 @@ public class TheatreDB {
     	Accessor db = new Accessor();
     	db.connectMeIn();
     	Theatre theatre = db.returnTheatreByName(name);
+    	db.closeConnection();
+    	
+    	return theatre;
+    }
+    
+    public ArrayList<Theatre> getTheatres(int ID){
+    	Accessor db = new Accessor();
+    	db.connectMeIn();
+    	ArrayList<Theatre> theatre = db.GetTheatresByOwnerID(ID);
+    	db.closeConnection();
+    	
+    	return theatre;
+    }
+    
+    public ArrayList<Theatre> getAllTheatres(){
+    	Accessor db = new Accessor();
+    	db.connectMeIn();
+    	ArrayList<Theatre> theatre = db.GetTheatres();
+    	db.closeConnection();
+    	
+    	return theatre;
+    }
+    
+    public String getTheatreName(int ID){
+    	Accessor db = new Accessor();
+    	db.connectMeIn();
+    	String theatre = db.GetTheatreName(ID);
     	db.closeConnection();
     	
     	return theatre;

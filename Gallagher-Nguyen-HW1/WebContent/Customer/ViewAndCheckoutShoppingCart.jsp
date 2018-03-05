@@ -1,4 +1,5 @@
 <jsp:include page="../Shared/Partial.jsp"></jsp:include>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
 <title>View Checkout</title>
 </head>
@@ -10,27 +11,43 @@
 			<th>Movie Name</th>
 			<th>Image</th>
 			<th>Theater Name</th>
-			<th>Theater Number</th>
 			<th>Showtime</th>
-			<th>Date</th>
 			<th># of tickets</th>
 			<th>Total Price</th>
 			<th>Remove item</th>
 		</tr>
 	</thead>
+	<c:forEach var="item" items="${Shoppingcart}">
 	<tbody>
 		<tr>
-			<td>Star Wars: The Last Jedi</td>
-			<td><img src="lastjedithumbnail.jpg" /></td>
-			<td>Marcus Lincoln Grand Theater</td>
-			<td>12</td>
-			<td>7:30pm</td>
-			<td>1/31/2018</td>
-			<td>1</td>
-			<td>$10.00</td>
-			<td><input type="button"  value="Remove"/></td>
+
+			<td>${item.movieName}</td>
+			<td><img src=${item.image}></td>
+					<td>${item.theatreName}</td>
+					<td>${item.startTime}</td>
+					<td>${item.tickets}</td>
+					<td>${item.price} * ${item.tickets}</td>
+					<td>
+					<form action=../UpdateCartServlet name="userForm" method="get">
+					<input hidden=true type=text name=tickets value=${item.tickets}>	
+								<input hidden=true type=text name=remove value="false">				
+			<input hidden=true type=number name=id value=<%=session.getAttribute("userID")%>>
+			<input hidden=true type=text name=movie value=${item.movieName}>
+			<input hidden=true type=number name=movieID value=${item.movieID}>
+			<input hidden=true type=number name=price value=${item.price}>			
+			<input hidden=true type=text name=theatre value=${item.theatreName}>
+			<input hidden=true type=text name=startTime value=${item.startTime}>
+			<input hidden=true type=text name=image value=${item.image}>
+								
+							<input type=submit value=${item.movieName}> <br>
+
+						</form>
+					
+					
+					</td>
 		</tr>
 	</tbody>
+	</c:forEach>
 </table>
 <br>
 Total Cost: $10.00 <br>

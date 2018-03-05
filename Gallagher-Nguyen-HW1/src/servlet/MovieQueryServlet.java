@@ -12,22 +12,17 @@ import java.util.*;
 
 import model.Movie;
 import model.MovieDB;
-
+import model.SearchModel;
 import model.Theatre;
 import model.TheatreDB;
-
 import model.Showroom;
 import model.ShowroomDB;
-
 import model.MovieShowing;
 import model.MovieShowingDB;
-
 import model.Review;
 import model.ReviewDB;
-
 import model.Transaction;
 import model.TransactionDB;
-
 import model.Order;
 import model.OrderDB;
 
@@ -36,118 +31,135 @@ import model.OrderDB;
  */
 public class MovieQueryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MovieQueryServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String search = request.getParameter("Search");
-		String type = request.getParameter("type");
-		HttpSession session = request.getSession();
-		
-		System.out.println("The search point: "+search +", The type: "+ type);
-		
-		MovieDB movie = new MovieDB();
-				
-		TheatreDB theatre = new TheatreDB();
-		
-		ShowroomDB showroom = new ShowroomDB();
-		
-		MovieShowingDB movieShowing = new MovieShowingDB();
-		
-		ReviewDB review = new ReviewDB();
-		
-		TransactionDB transaction = new TransactionDB();
-		
-		OrderDB order = new OrderDB();
-		
-		if(type.contentEquals("Title")){
-			
-			System.out.println(movie.getMovie(search).toString());
-			
-			session.setAttribute("Movies", movie.getMovie(search));
-			
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Year")){
-			
-			System.out.println(movie.getMovieByYear(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByYear(search);			
-			
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Length")){
-			
-			System.out.println(movie.getMovieByLength(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByLength(search);
-						
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("MPAA")){
-			
-			System.out.println(movie.getMovieByMpaa(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByMpaa(search);
-						
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Genre")){
-			
-			System.out.println(movie.getMovieByGenre(search).toString());
-			
-			ArrayList<Movie> movies = movie.getMovieByGenre(search);
-						
-			response.sendRedirect("Customer/MovieSearchResults.jsp");
-			
-		}
-		else if(type.contentEquals("Theatre")){
-			System.out.println(theatre.getTheatre(search));
-		}
-		else if(type.contentEquals("Showroom")){
-			System.out.println(showroom.getShowroom(search));
-		}
-		else if(type.contentEquals("MovieShowing")){
-			System.out.println(movieShowing.GetMovieShowing(search));
-		}
-		else if(type.contentEquals("Review")){
-			System.out.println(review.GetReviewByMovie(search));
-		}
-		else if(type.contentEquals("Transaction")){
-			//System.out.println(transaction.GetTransactionByID(Integer.parseInt(search)));
-			
-			System.out.println(transaction.GetTransactionByUser(search));
-		}
-		else if(type.contentEquals("Order")){
-			//System.out.println(order.GetOrderByID(Integer.parseInt(search)));
-			
-			System.out.println(order.GetOrdersByUser(Integer.parseInt(search)));
-		}
-		else{
-			response.sendError(404, "Error");
-			
-		}
+	public MovieQueryServlet() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		// Sets the session
+		HttpSession session = request.getSession();
+
+		// Returns all theatres available for searching
+		TheatreDB theatre = new TheatreDB();
+		ArrayList<Theatre> theatres = theatre.getAllTheatres();
+
+		// Adds the theatres to the session
+		session.setAttribute("theatres", theatres);
+
+		response.sendRedirect("Customer/CustomerHomePage.jsp");
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		// Getting data from search jsp
+		String search = request.getParameter("search");
+		int theatreID = Integer.parseInt(request.getParameter("theatre"));
+		String date = request.getParameter("date");
+		HttpSession session = request.getSession();
+
+		// Calling methods
+		MovieDB callMovie = new MovieDB();
+		ShowroomDB callShowroom = new ShowroomDB();
+		MovieShowingDB callShowings = new MovieShowingDB();
+		TheatreDB callTheatre = new TheatreDB();
+
+		ArrayList<SearchModel> models = new ArrayList<SearchModel>();
+
+		// A list of each showroom for the theater selected
+		ArrayList<Showroom> showrooms = callShowroom.getShowroom(theatreID);
+
+		// A list of showings that are available based on showrooms
+		ArrayList<MovieShowing> showings = new ArrayList<MovieShowing>();
+
+		// Should retrieve each showing that is assigned a showroom
+		for (Showroom item : showrooms) {
+			MovieShowing show = callShowings.GetMovieShowingByShowroom(item
+					.getShowroomID());
+			if (show.getMovieID() != 0) {
+				showings.add(callShowings.GetMovieShowingByShowroom(item
+						.getShowroomID()));
+			}
+
+		}
+
+		// End result, searching a filtered list of movies only available by
+		// supplied values.
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		// Adds movies that have a showing
+		for (MovieShowing item : showings) {
+			movies.add(callMovie.getMovieByMovieID(item.getMovieID()));
+		}
+
+		// Filters the movies by the search parameter
+		ArrayList<Movie> searchedMovies = new ArrayList<Movie>();
+
+		if (movies.isEmpty()) {
+			response.sendRedirect("Error/NoItemsFound.jsp");
+		} else {
+			for (Movie item : movies) {
+				if (item.getTitle().contains(search)) {
+					searchedMovies.add(item);
+				} else if (item.getDescription().contains(search)) {
+					searchedMovies.add(item);
+				}
+			}
+			for (Movie item : searchedMovies) {
+				SearchModel model = new SearchModel();
+				for (MovieShowing show : showings) {
+					if (show.getMovieID() == item.getMovieID()) {
+						int seats = 0;
+						if(show.getStartTime().contains(date) | date.isEmpty()){
+						model.setMovieName(item.getTitle());
+						model.setMovieID(item.getMovieID());
+						model.setImage(item.getThumbnail());
+						model.setTheatreName(callTheatre
+								.getTheatreName(theatreID));
+
+						model.setStartTime(show.getStartTime());
+						model.setEndTime(show.getEndTime());
+						model.setPrice(show.getPrice());
+						model.setTheatreNumber(show.getShowroomID());
+						seats = callShowroom.getShowroomSeats(show
+								.getShowroomID());
+						model.setAvailableSeats(seats
+								- show.getNumberPurchased());
+						}
+					}
+					
+
+				}
+				models.add(model);
+			}
+
+		}
+
+		// Sets the movies session for the result page
+		session.setAttribute("movies", models);
+
+		if (models.isEmpty()) {
+			response.sendRedirect("Error/NoItemsFound.jsp");
+		} else {
+			response.sendRedirect("Customer/MovieSearchResults.jsp");
+		}
+
 	}
 
 }

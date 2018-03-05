@@ -1,5 +1,5 @@
-<jsp:include page="../Shared/Partial.jsp"></jsp:include>
-
+<jsp:include page="../Shared/OwnerPartial.jsp"></jsp:include>
+<html>
 <body id="back">
 		<br>
 		<br>

@@ -1,14 +1,33 @@
 package servlet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+
+
+
+
+
+
+
+
+
+import sun.misc.IOUtils;
+
+import java.sql.Blob;
 import java.util.*;
 
 import model.Movie;
@@ -45,11 +64,7 @@ public class MovieServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String search = request.getParameter("Search");
-		String type = request.getParameter("type");
-		HttpSession session = request.getSession();
-		
-		System.out.println("The search point: "+search +", The type: "+ type);
+		response.sendRedirect("Owner/AddMovie.jsp");
 
 		
 		
@@ -62,15 +77,40 @@ public class MovieServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String movieName = request.getParameter("movie");
 		String description = request.getParameter("description");
-		byte[] thumbnail = request.getParameter("thumbnail").getBytes();
+		String file = request.getParameter("thumbnail");
 		String rating = request.getParameter("rating");
+		
+		Path path = Paths.get(file);
+		byte[] data = Files.readAllBytes(path);
+		File newFile = new File(file);
+		byte[] array = Files.readAllBytes(new File(file).toPath());
 		
 		MovieDB movieD = new MovieDB();
 		
-		movieD.addMovie(new Movie(movieName, description, thumbnail, rating));
+		movieD.addMovie(new Movie(movieName, description, read(newFile), rating));
 		
 		response.sendRedirect("Owner/OwnerHomePage.jsp");
 		
+	}
+	
+	private byte[] read(File file) throws IOException, FileNotFoundException {
+
+	    byte[] buffer = new byte[(int) file.length()];
+	    InputStream ios = null;
+	    try {
+	        ios = new FileInputStream(file);
+	        if (ios.read(buffer) == -1) {
+	            throw new IOException(
+	                    "EOF reached while trying to read the whole file");
+	        }
+	    } finally {
+	        try {
+	            if (ios != null)
+	                ios.close();
+	        } catch (IOException e) {
+	        }
+	    }
+	    return buffer;
 	}
 
 }

@@ -4,43 +4,73 @@
 <title>Search Results</title>
 </head>
 <body>
-<h1>Search Results</h1> <br> <br>
+	<h1>Search Results</h1>
+	<br>
+	<br>
 
-<table border="1">
-<thead>
-	<tr>
-		<th>Movie Name</th>
-		<th>Theater Showing</th>
-		<th>Theater Number</th>
-		<th>Showtime</th>
-		<th>Available Seats</th>
-		<th>Price</th>
-		<th>Image</th>
-		<th>View Details</th>
-	</tr>
-</thead>
-<tbody>
-	<tr>
-		<td><c:out value="${Movies.title}"/></td>
-		<td><c:out value="${MoviesShowing.showroom}"/></td>
-		<td>12</td>
-		<td><c:out value="${MoviesShowing.startTime}"/></td>
-		<td><c:out value="${MoviesShowing.seatCount}"/></td>
-		<td><c:out value="${MoviesShowing.price}"/></td>
-		<td><img src="lastjedithumbnail.jpg" /></td>
-		<td><input type="button" onclick="location.href='MovieDetailsSelection.jsp';" value="View Details"/></td>
-	</tr>
-</tbody>
-</table>
+	<table>
+		<thead>
+			<tr>
+				<th>Movie Name</th>
+				<th>Theater Showing</th>
+				<th>Theater Number</th>
+				<th>Showtime</th>
+				<th>Available Seats</th>
+				<th>Price</th>
+				<th>Image</th>
+				<th>View Details</th>
+			</tr>
+		</thead>
+		<c:forEach var="item" items="${movies}">
+			<tbody>
+				<tr>
 
-<!--<c:out value="${Movies})"/><br>-->
-<c:out value="${MoviesShowing}"/><br>
+					<td>${item.movieName}</td>
+					<td>${item.theatreName}</td>
+					<td>${item.theatreNumber}</td>
+					<td>${item.startTime}</td>
+					<td>${item.availableSeats}</td>
+					<td>${item.price}</td>
+					<td><img src=${item.image}></td>
+					<td>
+						<form action=../MovieDetailsServlet name="userForm" method="get">
+								<input hidden=true type=number name=id value=${item.movieID}>
+								<input hidden=true type=text name=theatre value=${item.theatreName}>
+							<input type=submit value=${item.movieName}> <br>
 
-<br>
-<!-- Navigation links --> 
+						</form>
 
-<a href="CustomerHomePage.jsp"> Home Page </a> <br>
-<a href="../Register.jsp"> New User </a> <br>
-<a href="../Welcome.jsp"> Log Out </a> <br>
+
+
+
+
+
+					</td>
+
+
+				</tr>
+			</tbody>
+		</c:forEach>
+	</table>
+
+
+	<!--<c:out value="${Movies})"/><br>-->
+	<c:out value="${MoviesShowing}" />
+	<br>
+
+	<br>
+
+	<br>
 </body>
 </html>
+
+<style>
+table,th,td {
+	border: 1px solid black;
+	margin: 0px auto
+}
+
+th,td {
+	padding: 10px;
+}
+</style>

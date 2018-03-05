@@ -41,8 +41,9 @@ public class Login extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		UsersDB user = new UsersDB();
-		Users usr = new Users();
-
+		Users usr = user.getUser(userName);
+		
+		
 		Cookie cookie = new Cookie("user_name", userName);
 		
 		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
@@ -53,11 +54,29 @@ public class Login extends HttpServlet {
 				System.out.println("true");
 				response.addCookie(cookie);
 			}
+			int id = usr.getUserID();
+			String type = usr.getType();
+			
 			session.setAttribute("userName", userName);
-			response.sendRedirect("Customer/CustomerHomePage.jsp");
+			session.setAttribute("userID", id);
+			session.setAttribute("userType", usr.getType());
+			
+			System.out.println(usr.getType());
+			
+			if(type.equals("customer")){
+				response.sendRedirect("MovieQueryServlet");
+			}
+			else if(type.equals("owner")){
+				response.sendRedirect("OwnerServlet");
+			}
+			else{
+				response.sendRedirect("Register.jsp");
+			}
+			
 		}
 		else
 		{
+			
 			response.sendRedirect("Register.jsp");
 		}
 		

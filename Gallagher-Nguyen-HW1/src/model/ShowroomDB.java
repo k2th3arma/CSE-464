@@ -21,6 +21,16 @@ public class ShowroomDB {
     	
     	return showroom;
     }
+    
+    public int getShowroomSeats(int ID){
+    	Accessor db = new Accessor();
+    	db.connectMeIn();
+    	int showroom = db.GetShowroomSeats(ID);
+    	db.closeConnection();
+    	
+    	return showroom;
+    	
+    }
 
     //Update Method
     public void updateShowroom(Showroom showroom) {

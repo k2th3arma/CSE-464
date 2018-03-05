@@ -1,4 +1,5 @@
 <jsp:include page="../Shared/Partial.jsp"></jsp:include>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
 <title>Customer Home Page</title>
 <html>
@@ -11,21 +12,15 @@
 <br>
 
 <div id="rcorners2" class="container2">
-	<form action="../MovieServlet" name="userForm" method="get" >
-		Search Bar <input type=text name=Search><br>
-		Search Type <select name=type> 
-			<option>Title</option>
-			<option>Year</option>
-			<option>Length</option>
-			<option>MPAA</option>
-			<option>Genre</option>
-			<option>Theatre</option>
-			<option>Showroom</option>
-			<option>MovieShowing</option>
-			<option>Review</option>
-			<option>Transaction</option>
-			<option>Order</option>
-			</select> <br>
+	<form action="../MovieQueryServlet" name="userForm" method="post" >
+		Search Bar <input type=text name=search><br>
+		Theatere: 		<select name=theatre>
+								<c:forEach var="item" items="${theatres}">
+									<option value="${item.theatreID}"> ${item.name}</option>							
+								</c:forEach>						
+							</select> <br>
+		Date: <input type="date" name=date> <br>	
+			
 		<input type=submit value=Movie> <br> 
 	</form>
 </div>

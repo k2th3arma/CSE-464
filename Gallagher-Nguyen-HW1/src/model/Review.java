@@ -4,6 +4,7 @@ public class Review {
 	private int reviewID;
 	private int movieID;
 	private int userID;
+	private String userName;
 	private String date;
 	private int rating;
 	private String description;
@@ -18,6 +19,13 @@ public class Review {
 		this.description = description;
 		this.rating = rating;
 		this.date = date;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public int getReviewID() {
 		return reviewID;

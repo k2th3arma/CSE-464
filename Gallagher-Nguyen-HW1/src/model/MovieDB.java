@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import model.Movie;
 import model.Accessor;
 
@@ -18,6 +20,24 @@ public class MovieDB {
     	Accessor db = new Accessor();
     	db.connectMeIn();
     	Movie movie = db.returnMovieByTitle(title);
+    	db.closeConnection();
+    	
+    	return movie;
+    }
+    
+    public Movie getMovieByMovieID(int ID){
+    	Accessor db = new Accessor();
+    	db.connectMeIn();
+    	Movie movie = db.GetMovieByID(ID);
+    	db.closeConnection();
+    	
+    	return movie;
+    }
+    
+    public ArrayList<Movie> GetMovies(){
+    	Accessor db = new Accessor();
+    	db.connectMeIn();
+    	ArrayList<Movie> movie = db.GetAllMovies();
     	db.closeConnection();
     	
     	return movie;

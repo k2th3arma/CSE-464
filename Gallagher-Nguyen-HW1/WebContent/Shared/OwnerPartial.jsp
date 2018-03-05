@@ -31,15 +31,11 @@ document.ready(function(){
 
 <body>
 
-
-
-
-	<div id="customer">
+	<div id="owner">
 		<div class="navbar navbar-inverse navbar-fixed-top" id="partial">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="CustomerHomePage.jsp" class="navbar-brand">Tickets
-						Plus</a>
+					<a href="OwnerHomePage.jsp" class="navbar-brand">Tickets Plus</a>
 				</div>
 				<div class="navbar-collapse collapse" id="MainMenu"
 					style="height: 1px;">
@@ -51,7 +47,7 @@ document.ready(function(){
 						<li class="collapse-hidden">
 							<ul class="nav navbar-nav navbar-right">
 								<li><a class="navbar-right">Welcome <%=session.getAttribute("userName")%></a></li>
-								<li><a href="ViewOrders.jsp"> View Orders </a></li>
+
 								<li><a href="../Logout"> Log Out </a></li>
 							</ul>
 						</li>
@@ -60,7 +56,6 @@ document.ready(function(){
 			</div>
 		</div>
 	</div>
-
 	<br>
 	<br>
 </body>
