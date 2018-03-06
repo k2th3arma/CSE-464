@@ -1,5 +1,5 @@
 <jsp:include page="../Shared/Partial.jsp"></jsp:include>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
 <title>Transaction Confirmation</title>
 </head>
@@ -14,17 +14,32 @@
 			<th>Total Price</th>
 		</tr>
 	</thead>
+	<c:forEach var="item" items="${Shoppingcart}">
 	<tbody>
 		<tr>
-			<td>Star Wars: The Last Jedi</td>
-			<td>Marcus Lincoln Grand Theater</td>
-			<td>1</td>
-			<td>$10.00</td>
+					<td>${item.movieName}</td>
+					<td>${item.theatreName}</td>
+					<td>${item.tickets}</td>
+					<td>${item.price} * ${item.tickets}</td>
+					<td>
+					<br>
+									
+					</td>
 		</tr>
 	</tbody>
+	</c:forEach>
 </table>
+
+<p>Name: ${transaction.cardHolderName}</p>
+<p>Card Type: ${transaction.cardType}</p>
+<p>Card Number: ${transaction.cardNumber}</p>
+<p>Card Security Code: ${transaction.CVV}</p>
+<p>Card Expiration: ${transaction.expiration}</p>
+<p>Billing Address: ${order.address}</p>
+<p>Date Ordered: ${order.orderDate}</p>
+
 <br>
-Total Cost: $10.00 <br>
+Total Cost: ${total} <br>
 <br>
 
 <input type="button" onclick="location.href='ViewOrders.jsp';" value="View Orders"/> <br>

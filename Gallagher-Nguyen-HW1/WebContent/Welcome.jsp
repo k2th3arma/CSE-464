@@ -11,7 +11,7 @@
 			        return false;
 			    }
 			    
-			    if (y == "") {s
+			    if (y == "") {
 			        alert("Password must be filled out");
 			        return false;
 			        

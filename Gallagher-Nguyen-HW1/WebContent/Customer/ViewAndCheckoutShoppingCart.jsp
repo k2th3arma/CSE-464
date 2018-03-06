@@ -1,3 +1,4 @@
+<%@page import="com.sun.xml.internal.txw2.Document"%>
 <jsp:include page="../Shared/Partial.jsp"></jsp:include>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
@@ -50,7 +51,7 @@
 	</c:forEach>
 </table>
 <br>
-Total Cost: $10.00 <br>
+Total Cost: $${total} <br>
 <input type="button" onclick="location.href='CustomerTransaction.jsp';" value="Checkout"/> <br>
 <br>
 <!-- Navigation links --> 

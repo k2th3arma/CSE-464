@@ -1,9 +1,12 @@
 <jsp:include page="../Shared/Partial.jsp"></jsp:include>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
 <title>Customer Transaction</title>
 </head>
 <body>
 <h1>Transaction Page</h1>
+
+<form action=../CustomerTransactionServlet name="transactionForm" method="get">
 <table border="1">
 	<thead>
 		<tr>
@@ -13,19 +16,26 @@
 			<th>Total Price</th>
 		</tr>
 	</thead>
+	<c:forEach var="item" items="${Shoppingcart}">
 	<tbody>
 		<tr>
-			<td>Star Wars: The Last Jedi</td>
-			<td>Marcus Lincoln Grand Theater</td>
-			<td>1</td>
-			<td>$10.00</td>
+					<td>${item.movieName}</td>
+					<td>${item.startTime}</td>
+					<td>${item.tickets}</td>
+					<td>${item.price} * ${item.tickets}</td>
+					<td>
+					<br>
+									
+					</td>
 		</tr>
 	</tbody>
+	</c:forEach>
 </table>
 <br>
-Total Cost: $10.00 <br>
+Total Cost: ${total} <br>
 <br>
 <h2>Payment Info</h2>
+
 	Account Holder First Name:
 	<input type="text" name="firstName"><br>
 	
@@ -33,7 +43,7 @@ Total Cost: $10.00 <br>
 	<input type="text" name="lastName"><br>
 	
 	Card Type:
-	<select name="country">
+	<select name="cardType">
 		<option value ="Visa">Visa</option>
 		<option>Mastercard</option>
 		<option>Discover</option>
@@ -47,29 +57,29 @@ Total Cost: $10.00 <br>
 	
 	Expiration Date:
 	<select name="expMonth">
-		<option>01</option>
-		<option>02</option>
-		<option>03</option>
-		<option>04</option>
-		<option>05</option>
-		<option>06</option>
-		<option>07</option>
-		<option>08</option>
-		<option>09</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+		<option>9</option>
 		<option>10</option>
 		<option>11</option>
 		<option>12</option>
 	</select>
 	<select name="expDay">
-		<option>01</option>
-		<option>02</option>
-		<option>03</option>
-		<option>04</option>
-		<option>05</option>
-		<option>06</option>
-		<option>07</option>
-		<option>08</option>
-		<option>09</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+		<option>9</option>
 		<option>10</option>
 		<option>11</option>
 		<option>12</option>
@@ -100,8 +110,9 @@ Total Cost: $10.00 <br>
 	Shipping Address:
 	<input type="text" name="shippingAddress"><br>
 	
-
-<input type="button" onclick="location.href='CustomerTransactionConfirmation.jsp';" value="Confirm Payment"/> <br>
+							<input type=submit value="Confirm payment"> <br>
+</form>
+ <br>
 <input type="button" onclick="location.href='ViewAndCheckoutShoppingCart.jsp';" value="Cancel Payment"/> <br>
 <input type="button" onclick="location.href='ViewOrders.jsp';" value="View Orders"/> <br>
 <br>

@@ -41,8 +41,9 @@ public class UpdateCartServlet extends HttpServlet {
 		int price = Integer.parseInt(request.getParameter("price"));
 		int tickets = Integer.parseInt(request.getParameter("tickets"));
 		int userID = Integer.parseInt(request.getParameter("id"));
+		double total = price * tickets;
 		
-		String theatreName = request.getParameter("theareName");
+		String theatreName = request.getParameter("theatre");
 		String startTime = request.getParameter("startTime");
 		byte[] image = request.getParameter("image").getBytes();
 		
@@ -64,6 +65,7 @@ public class UpdateCartServlet extends HttpServlet {
 				shop.add(shopItem);
 		
 				//Set session to track the shopping cart
+				session.setAttribute("total", total);
 				session.setAttribute("Shoppingcart", shop);
 		
 		
