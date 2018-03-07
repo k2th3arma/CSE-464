@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,19 +17,21 @@ import model.Order;
 import model.OrderDB;
 import model.OrderItems;
 import model.OrderItemsDB;
+import model.Showroom;
 import model.ShowroomDB;
+import model.Theatre;
 import model.TheatreDB;
 
 /**
- * Servlet implementation class CancelOrderServlet
+ * Servlet implementation class ManageOrdersServlet
  */
-public class CancelOrderServlet extends HttpServlet {
+public class ManageOrdersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CancelOrderServlet() {
+    public ManageOrdersServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,7 +40,6 @@ public class CancelOrderServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		int orderID = Integer.parseInt(request.getParameter("orderid"));
 		
@@ -53,15 +56,18 @@ public class CancelOrderServlet extends HttpServlet {
 		System.out.println("Showing ID = " + orderItems.getItemID());
 		MovieShowing movieShowing = callMovieShowing.GetMovieShowingByID(orderItems.getShowingID());
 		Movie movie = callMovie.getMovieByMovieID(movieShowing.getMovieID());
-		String theatreName = callTheatre.getTheatreName(movieShowing.getMovieID());	
+		String theatreName = callTheatre.getTheatreName(movieShowing.getMovieID());
+		
+		
 		
 		session.setAttribute("order", order);
 		session.setAttribute("movieShowing", movieShowing);
 		session.setAttribute("movie", movie);
 		session.setAttribute("orderItems", orderItems);
 		session.setAttribute("theatre", theatreName);
+	
 		
-		response.sendRedirect("Customer/CancelOrder.jsp");
+		response.sendRedirect("Customer/ManageOrder.jsp");
 	}
 
 	/**

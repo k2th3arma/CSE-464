@@ -199,4 +199,14 @@
     <servlet-name>MovieDetailsServlet</servlet-name>
     <url-pattern>/MovieDetailsServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CancelTransactionServlet</display-name>
+    <servlet-name>CancelTransactionServlet</servlet-name>
+    <servlet-class>servlet.CancelTransactionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CancelTransactionServlet</servlet-name>
+    <url-pattern>/CancelTransactionServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

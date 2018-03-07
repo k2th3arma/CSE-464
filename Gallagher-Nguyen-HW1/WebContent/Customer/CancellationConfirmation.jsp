@@ -14,27 +14,26 @@
 			<th>Theater Name</th>
 			<th># of tickets</th>
 			<th>Total Price</th>
-			<th>Date</th>
+			<th>Purchase Date</th>
 			<th>Show Time</th>
-			<th>Status</th>
-					
+			<th>Order Status</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td><a href="MovieDetailsSelection.jsp">Star Wars: The Last Jedi</a></td>
-			<td>Marcus Lincoln Grand Theater</td>
-			<td>1</td>
-			<td>$10.00</td>
-			<td>1/20/18</td>
-			<td>17:30</td>
-			<td>Pending Cancellation</td>
+			<td>${movie.title}</td>
+			<td>${theatre}</td>
+			<td>${orderItems.count}</td>
+			<td>${order.cost}</td>
+			<td>${order.orderDate}</td>
+			<td>${movieShowing.startTime}</td>
+			<td> Cancelled</td>	
 		</tr>
 	</tbody>
 </table>
 
 <div align="right">
-	Refund Total: $10.00 <br>
+	Refund Total: $${order.cost} <br>
 	Refund Date: <%= (new java.util.Date()).toLocaleString()%> <br>
 	<a href="CustomerHomePage.jsp"> Cancel Order </a> <br>
 </div>

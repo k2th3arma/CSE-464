@@ -21,7 +21,7 @@ public class OrderItemsDB {
 		
 	}
 	
-	public OrderItems GetOrdersItemsByUser(int ID){
+	public OrderItems GetOrderItemsByOrder(int ID){
 		Accessor db = new Accessor();
     	db.connectMeIn();
     	OrderItems order = db.GetOrderItemsByOrder(ID);

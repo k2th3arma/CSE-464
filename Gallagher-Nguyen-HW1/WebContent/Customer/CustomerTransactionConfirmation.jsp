@@ -42,7 +42,8 @@
 Total Cost: ${total} <br>
 <br>
 
-<input type="button" onclick="location.href='ViewOrders.jsp';" value="View Orders"/> <br>
+<form action=../ViewOrdersServlet method="get">
+							<input type=submit value="View Orders"> <br>
 <br>
 <!-- Navigation links --> 
 <a href="CustomerHomePage.jsp"> Home Page </a> <br>

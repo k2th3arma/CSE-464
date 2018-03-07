@@ -56,7 +56,7 @@ public class CustomerTransactionServlet extends HttpServlet {
 		transaction.setCardType(cardType);
 		transaction.setCardNumber(cardNumber);
 		transaction.setCVV(securityCode);
-		transaction.setExpiration(expMonth + " " + expDay);
+		transaction.setExpiration(expMonth + "/" + expDay);
 		
 		
 		order.setAddress(billingAddress);

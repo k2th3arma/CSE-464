@@ -19,15 +19,15 @@ import model.ShowroomDB;
 import model.TheatreDB;
 
 /**
- * Servlet implementation class CancelOrderServlet
+ * Servlet implementation class CancelTransactionServlet
  */
-public class CancelOrderServlet extends HttpServlet {
+public class CancelTransactionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CancelOrderServlet() {
+    public CancelTransactionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -53,7 +53,7 @@ public class CancelOrderServlet extends HttpServlet {
 		System.out.println("Showing ID = " + orderItems.getItemID());
 		MovieShowing movieShowing = callMovieShowing.GetMovieShowingByID(orderItems.getShowingID());
 		Movie movie = callMovie.getMovieByMovieID(movieShowing.getMovieID());
-		String theatreName = callTheatre.getTheatreName(movieShowing.getMovieID());	
+		String theatreName = callTheatre.getTheatreName(movieShowing.getMovieID());
 		
 		session.setAttribute("order", order);
 		session.setAttribute("movieShowing", movieShowing);
@@ -61,7 +61,7 @@ public class CancelOrderServlet extends HttpServlet {
 		session.setAttribute("orderItems", orderItems);
 		session.setAttribute("theatre", theatreName);
 		
-		response.sendRedirect("Customer/CancelOrder.jsp");
+		response.sendRedirect("Customer/CancellationConfirmation.jsp");
 	}
 
 	/**

@@ -36,14 +36,9 @@
 						<form action=../MovieDetailsServlet name="userForm" method="get">
 								<input hidden=true type=number name=id value=${item.movieID}>
 								<input hidden=true type=text name=theatre value=${item.theatreName}>
-							<input type=submit value=${item.movieName}> <br>
+							<input type=submit value="Details"> <br>
 
 						</form>
-
-
-
-
-
 
 					</td>
 

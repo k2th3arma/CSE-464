@@ -14,7 +14,7 @@
 <div id="rcorners2" class="container2">
 	<form action="../MovieQueryServlet" name="userForm" method="post" >
 		Search Bar <input type=text name=search><br>
-		Theatere: 		<select name=theatre>
+		Theatre: 		<select name=theatre>
 								<c:forEach var="item" items="${theatres}">
 									<option value="${item.theatreID}"> ${item.name}</option>							
 								</c:forEach>						

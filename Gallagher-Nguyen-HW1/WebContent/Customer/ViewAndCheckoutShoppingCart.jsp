@@ -40,7 +40,7 @@
 			<input hidden=true type=text name=startTime value=${item.startTime}>
 			<input hidden=true type=text name=image value=${item.image}>
 								
-							<input type=submit value=${item.movieName}> <br>
+							<input type=submit value="Cancel"> <br>
 
 						</form>
 					
