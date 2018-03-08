@@ -42,7 +42,7 @@ public class UpdateCartServlet extends HttpServlet {
 		String remove = request.getParameter("remove");
 		int movieID = Integer.parseInt(request.getParameter("movieID"));
 		
-		if(remove.equals("false")){
+		
 		//Getting data from the form
 		String movieName = request.getParameter("movie");
 		int price = Integer.parseInt(request.getParameter("price"));
@@ -85,14 +85,16 @@ public class UpdateCartServlet extends HttpServlet {
 				
 				Transaction data = callTrans.GetTransactionByUserID(userID);
 				
-				if(data != null){
+				
 					QuickCheckout check = new QuickCheckout();
 					check.setCardNumber(data.getCardNumber());
 					check.setCardType(data.getCardType());
 					check.setCvv(data.getCVV());
+					if(data.getExpiration() != null){
 					String[] half = data.getExpiration().split("/");
 					check.setMonth(half[0]);
 					check.setYear(half[1]);
+					}
 					check.setFirstName(user.getFirstName());
 					check.setLastName(user.getLastName());
 					check.setBilling(user.getAddress() +" "+ user.getCity() +", "+ user.getState() +" "+ user.getPostalCode());
@@ -102,18 +104,9 @@ public class UpdateCartServlet extends HttpServlet {
 					
 					
 					session.setAttribute("userData", userData);
-				}
-		}
+				
 		
 		
-		if(remove.equals("true")){			
-			ArrayList<ShoppingCart> shop = (ArrayList<ShoppingCart>)session.getAttribute("Shoppingcart");
-			for(ShoppingCart item: shop){
-				if(item.getMovieID() == movieID){
-					shop.remove(item);
-				}
-			}
-		}
 		
 		
 		

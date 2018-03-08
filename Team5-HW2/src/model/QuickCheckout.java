@@ -1,15 +1,15 @@
 package model;
 
 public class QuickCheckout {
-	private String firstName;
-	private String lastName;
-	private String cardType;
-	private String cardNumber;
-	private String cvv;
-	private String month;
-	private String year;
-	private String billing;
-	private String shipping;
+	private String firstName = "";
+	private String lastName= "";
+	private String cardType= "";
+	private String cardNumber= "";
+	private String cvv= "";
+	private String month= "";
+	private String year= "";
+	private String billing= "";
+	private String shipping= "";
 	
 	public QuickCheckout(){
 		super();

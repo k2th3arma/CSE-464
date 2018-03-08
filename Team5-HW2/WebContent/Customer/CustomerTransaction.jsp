@@ -23,10 +23,7 @@
 					<td>${item.startTime}</td>
 					<td>${item.tickets}</td>
 					<td>${item.total}</td>
-					<td>
-					<br>
-									
-					</td>
+					
 		</tr>
 	</tbody>
 	</c:forEach>
