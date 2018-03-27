@@ -42,8 +42,11 @@
 <c:forEach var="item" items="${theOrder}">
 	Refund Total: ${item.total} <br>
 	</c:forEach>
-	Refund Date: <%= (new java.util.Date()).toLocaleString()%> <br>
+	Refund Date: <p id="date"></p> <br>
 	<a href="CustomerHomePage.jsp"> Cancel Order </a> <br>
 </div>
 </body>
+<script>
+document.getElementById("date").innerHTML = Date();
+</script>
 </html>
