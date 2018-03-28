@@ -49,7 +49,137 @@ public class Accessor {
 			e.printStackTrace();
 		}
 	}
+	
+	// Bank Methods
+	public void addBank(Bank bank) {
 
+		try {
+			
+			String sql;
+			int index = GetRows("Bank") + 1;
+			String accountName = bank.getAccountName();
+			String accountNumber = bank.getAccountNumber();
+			double balance = bank.getBalance();
+
+			sql = "INSERT INTO Bank (Id, accountName, accountNumber, balance)"
+					+ "VALUES (?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setString(2, accountName);
+			ps.setString(3, accountNumber);
+			ps.setDouble(4, balance);
+			
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Bank GetBankByID(int ID) {
+		String SQL = "SELECT * from Bank";
+		Statement stat;
+
+		Bank bank = new Bank();
+
+		try {
+			stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery(SQL);
+
+			while (rs.next()) {
+				if (ID == rs.getInt(1)) {
+					bank.setId(rs.getInt(1));
+					bank.setAccountName(rs.getString(2));
+					bank.setAccountNumber(rs.getString(3));
+					bank.setBalance(rs.getDouble(4));
+
+				}
+			}
+
+			stat.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return bank;
+	}
+	
+	public Bank GetBankByNumber(String number) {
+		String SQL = "SELECT * from Bank";
+		Statement stat;
+
+		Bank bank = new Bank();
+
+		try {
+			stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery(SQL);
+
+			while (rs.next()) {
+				if (number.equals(rs.getString(3))) {
+					bank.setId(rs.getInt(1));
+					bank.setAccountName(rs.getString(2));
+					bank.setAccountNumber(rs.getString(3));
+					bank.setBalance(rs.getDouble(4));
+					
+				}
+			}
+
+			stat.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return bank;
+	}
+
+	public void updateBank(Bank bank) {
+		try {
+			
+			String sql;
+			int ID = bank.getId();
+			String accountName = bank.getAccountName();
+			String accoutnNumber = bank.getAccountNumber();
+			double balance = bank.getBalance();
+
+			sql = "UPDATE Bank (accountName, accountNumber, balance)"
+					+ "VALUES (?,?,?) Where 'Id'=?";
+			ps  = conn.prepareStatement(sql);
+			
+			ps.setString(1, accountName);
+			ps.setString(2, accoutnNumber);
+			ps.setDouble(3, balance);
+			ps.setInt(4, ID);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void removeBank(Bank bank) {
+		try {
+			
+			String sql;
+			int ID = bank.getId();
+
+			sql = "DELETE FROM Bank Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, ID);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	// User Methods
 	public boolean findUserByUsername(String aUserName) {
 		boolean userExists = false;
@@ -929,7 +1059,7 @@ public class Accessor {
 			String sql;
 			int ID = showroom.getShowroomID();
 
-			sql = "DELETE FROM Showrooms Where 'Id'='" + ID + "'";
+			sql = "DELETE FROM Showrooms Where 'Id'=?";
 			ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, ID);
@@ -1620,7 +1750,7 @@ public class Accessor {
 			String sql;
 			int orderID = order.getOrderID();
 			
-			sql = "DELETE FROM orders Where Id = ?;";
+			sql = "DELETE FROM orders Where Id = ?";
 			
 			ps = conn.prepareStatement(sql);
 			
