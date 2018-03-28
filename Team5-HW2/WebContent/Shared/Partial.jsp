@@ -9,7 +9,8 @@
 	href="${pageContext.request.contextPath}/css/style.css" type="text/css" />
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+		</script>
 
 <script type=text/javascript>
 
@@ -51,6 +52,7 @@ document.ready(function(){
 						<li class="collapse-hidden">
 							<ul class="nav navbar-nav navbar-right">
 								<li><a class="navbar-right">Welcome <%=session.getAttribute("userName")%></a></li>
+								<li><a href="../Customer/ViewAndCheckoutShoppingCart.jsp"> Shopping Cart</a>
 								<li><a href="../ViewOrdersServlet"> View Orders </a></li>
 								<li><a href="../Logout"> Log Out </a></li>
 							</ul>

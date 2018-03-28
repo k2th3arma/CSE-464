@@ -9,7 +9,8 @@
 	href="${pageContext.request.contextPath}/css/style.css" type="text/css" />
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+		</script>
 
 <script type=text/javascript>
 

@@ -40,6 +40,7 @@ public class UpdateCartServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		String remove = request.getParameter("remove");
+		
 		int movieID = Integer.parseInt(request.getParameter("movieID"));
 		
 		
@@ -54,6 +55,10 @@ public class UpdateCartServlet extends HttpServlet {
 		String theatreName = request.getParameter("theatre");
 		String startTime = request.getParameter("startTime");
 		byte[] image = request.getParameter("image").getBytes();
+		
+		
+		System.out.println("I made it");
+		
 		
 		//Create shopping cart
 				ArrayList<ShoppingCart> shop = new ArrayList<ShoppingCart>();
@@ -110,7 +115,7 @@ public class UpdateCartServlet extends HttpServlet {
 		
 		
 		
-		response.sendRedirect("Customer/ViewAndCheckoutShoppingCart.jsp");
+		//response.sendRedirect("Customer/ViewAndCheckoutShoppingCart.jsp");
 	}
 
 	/**

@@ -39,6 +39,8 @@ public class CustomerReviewServlet extends HttpServlet {
 		int userID = Integer.parseInt(request.getParameter("id"));
 		int movieID = Integer.parseInt(request.getParameter("movieID"));
 		
+		System.out.println("In the review section");
+		
 		ArrayList<Review> reviews = new ArrayList<Review>();
 		
 		long time = System.currentTimeMillis();		
