@@ -25,7 +25,7 @@
 		<h2> Login here</h2>
 		<div id="rcorners2" >
 		<form name="userForm" action=Login 
-		      onsubmit="return validateForm()" method="post">
+		      onsubmit="return validateForm()" method="get">
 		
 			User Name: <input type=text name=userName>		<br>
 			Password:  <input type=password name=password>	<br>

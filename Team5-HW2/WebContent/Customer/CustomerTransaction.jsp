@@ -1,8 +1,38 @@
 <jsp:include page="../Shared/Partial.jsp"></jsp:include>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+		</script>
+		
 <title>Customer Transaction</title>
 </head>
+<script>
+function CheckLogin(){
+	var txt;
+    var username = prompt("Please enter your username:", "username");
+    var password = prompt("Please enter your password:", "password");
+    
+    if (username == null || username == "") {
+        txt = "User cancelled the prompt.";
+    } 
+    else if (password == null || password == "") {
+        txt = "User cancelled the prompt.";
+    }else {
+        txt = "Hello " + username + "! How are you today?";
+    }
+    $.post("../Login", {username:username, password:password}, function(data,status) {
+    	
+    	if(data != 1){
+    		location.reload();
+    		alert("Login information incorrect");
+    	}
+		//Insert the result in your page
+	$("#results").html(data);
+		
+	});
+	alert("Notification");
+    //document.getElementById("demo").innerHTML = txt;
+}
+</script>
 <body>
 <h1>Transaction Page</h1>
 
@@ -90,7 +120,7 @@ Total Cost: ${total} <br>
 	<input hidden=true type=number name=showroomID value=${item.showroomID}>
 	</c:forEach>
 	
-							<input type=submit value="Confirm payment"> <br>
+							<input type=submit value="Confirm payment" onClick="CheckLogin()"> <br>
 </form>
  <br>
 <input type="button" onclick="location.href='ViewAndCheckoutShoppingCart.jsp';" value="Cancel Payment"/> <br>

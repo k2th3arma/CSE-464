@@ -4,6 +4,8 @@ import model.UsersDB;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import util.PasswordUtil;
 import model.Users;
 
 /**
@@ -46,7 +49,16 @@ public class Login extends HttpServlet {
 		
 		Cookie cookie = new Cookie("user_name", userName);
 		
-		if(user.validateUserByUsername(userName) && user.validateUserByPassword(password))
+		String hashedPassword = "";
+		try {
+			hashedPassword = PasswordUtil.hashPassword(password);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+				
+		if(user.validateUserByUsername(userName) && user.validateUserByPassword(hashedPassword))
 		{
 			
 			if(persist)
@@ -87,7 +99,42 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		String userName = request.getParameter("username");
+		String password = request.getParameter("password");
+		HttpSession session = request.getSession();
+		
+		UsersDB user = new UsersDB();
+		Users usr = user.getUser(userName);
+		
+		int status = 0;
+		
+		String hashedPassword = "";
+		try {
+			hashedPassword = PasswordUtil.hashPassword(password);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+				
+		if(user.validateUserByUsername(userName) && user.validateUserByPassword(hashedPassword))
+		{
+			
+			
+			status = 1;
+			
+			
+			
+			
+		}
+		else
+		{
+			status = -1;
+			
+		}
+		
+		PrintWriter out = response.getWriter(); 
+		out.println(status);
 	}
 
 }

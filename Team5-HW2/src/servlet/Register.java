@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 //import java.sql.Date;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import model.Address;
 import model.AddressDB;
 import model.Users;
 import model.UsersDB;
+import util.PasswordUtil;
 import util.Utilities;
 
 /**
@@ -69,12 +71,18 @@ public class Register extends HttpServlet {
 		}		
 		else
 		{
-		
+		String hashedPassword = "";
+		try {
+			hashedPassword = PasswordUtil.hashPassword(password);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Users aUser = new Users(firstName,
 								lastName, 
 								userName, 
-								password, 
+								hashedPassword, 
 								street,
 								city,
 								state,
