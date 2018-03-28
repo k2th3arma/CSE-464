@@ -219,4 +219,8 @@
     <servlet-name>Images</servlet-name>
     <url-pattern>/Images</url-pattern>
   </servlet-mapping>
+  <error-page>
+  	<error-code>java.lang.Exception</error-code>
+  	<location>/error.jsp</location>
+  </error-page>
 </web-app>

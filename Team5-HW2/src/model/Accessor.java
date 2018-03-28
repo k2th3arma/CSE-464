@@ -273,45 +273,39 @@ public class Accessor {
 			int status = aUser.getStatus();
 			int numberOfVisits = aUser.getNumberOfVisits();
 
-			stmt = conn.createStatement();
 			String sql;
-
+			
+			PreparedStatement updateUsers;
+						
 			sql = "INSERT INTO users (Id, " + "FirstName, " + "LastName, "
 					+ "Address," + "City," + "State, " + "PostalCode, "
 					+ "EmailAddress, " + "PhoneNumber, " + "Birthday, "
 					+ "Type," + "Status, " + "NumOfVisits, " + "Username, "
-					+ "Password)" + "VALUES ('"
-					+ index
-					+ "', '"
-					+ firstName
-					+ "', '"
-					+ lastName
-					+ "', '"
-					+ address
-					+ "', '"
-					+ city
-					+ "', '"
-					+ state
-					+ "', '"
-					+ postalCode
-					+ "', '"
-					+ email
-					+ "', '"
-					+ phone
-					+ "', '"
-					+ birthday
-					+ "', '"
-					+ type
-					+ "', '"
-					+ status
-					+ "', '"
-					+ numberOfVisits
-					+ "', '"
-					+ userName
-					+ "', '"
-					+ password
-					+ "')";
-			stmt.executeUpdate(sql);
+					+ "Password)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			
+			updateUsers = conn.prepareStatement(sql);
+			
+			updateUsers.setInt(1, index);
+			updateUsers.setString(2, firstName);
+			updateUsers.setString(3, lastName);
+			updateUsers.setString(4, address);
+			updateUsers.setString(5, city);
+			updateUsers.setString(6, state);
+			updateUsers.setString(7, postalCode);
+			updateUsers.setString(8, email);
+			updateUsers.setString(9, phone);
+			updateUsers.setString(10, birthday);
+			updateUsers.setString(11, type);
+			updateUsers.setInt(12, status);
+			updateUsers.setInt(13, numberOfVisits);
+			updateUsers.setString(14, userName);
+			updateUsers.setString(15, password);
+				
+			
+			updateUsers.executeUpdate();
+			
+			
+			//stmt.executeUpdate(sql);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -323,8 +317,9 @@ public class Accessor {
 	public void updateSingleUser(Users aUser) {
 		try {
 			stmt = conn.createStatement();
+			
 			String sql;
-
+			
 			int ID = aUser.getUserID();
 			String firstName = aUser.getFirstName();
 			String lastName = aUser.getLastName();
@@ -345,38 +340,29 @@ public class Accessor {
 					+ "City," + "State, " + "PostalCode, " + "EmailAddress, "
 					+ "PhoneNumber, " + "Birthday, " + "Type," + "Status, "
 					+ "NumOfVisits, " + "Username, " + "Password)"
-					+ "VALUES ('"
-					+ firstName
-					+ "', '"
-					+ lastName
-					+ "', '"
-					+ address
-					+ "', '"
-					+ city
-					+ "', '"
-					+ state
-					+ "', '"
-					+ postalCode
-					+ "', '"
-					+ email
-					+ "', '"
-					+ phone
-					+ "', '"
-					+ birthday
-					+ "', '"
-					+ type
-					+ "', '"
-					+ status
-					+ "', '"
-					+ numberOfVisits
-					+ "', '"
-					+ userName
-					+ "', '"
-					+ password
-					+ "') Where 'Id'='"
-					+ ID
-					+ "'";
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) Where Id = ?";
+			
+			ps = conn.prepareStatement(sql);
+			
+			
+			ps.setString(1, firstName);
+			ps.setString(2, lastName);
+			ps.setString(3, address);
+			ps.setString(4, city);
+			ps.setString(5, state);
+			ps.setString(6, postalCode);
+			ps.setString(7, email);
+			ps.setString(8, phone);
+			ps.setString(9, birthday);
+			ps.setString(10, type);
+			ps.setInt(11, status);
+			ps.setInt(12, numberOfVisits);
+			ps.setString(13, userName);
+			ps.setString(14, password);
+			ps.setInt(15, ID);
+			
+			
+			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -387,14 +373,18 @@ public class Accessor {
 
 	public void removeSingleUser(Users aUser) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
-
+			
 			int ID = aUser.getUserID();
 
-			sql = "DELETE FROM users  Where 'Id'='" + ID + "'";
+			sql = "DELETE FROM users  Where Id = ?";
 
-			stmt.executeUpdate(sql);
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, ID);
+			
+			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -406,7 +396,7 @@ public class Accessor {
 	public void addMovie(Movie movie) {
 
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int index = GetRows("movies") + 1;
 			String title = movie.getTitle();
@@ -415,14 +405,16 @@ public class Accessor {
 			String rating = movie.getRating();
 
 			sql = "INSERT INTO movies (id, MovieName, Description, Thumbnail, Rating)"
-					+ "VALUES ('"
-					+ index
-					+ "', '"
-					+ title
-					+ "', '"
-					+ description + "', '" + thumbnail + "', '" + rating + "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setString(2, title);
+			ps.setString(3, description);
+			ps.setBlob(4, thumbnail);
+			ps.setString(5, rating);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -433,7 +425,7 @@ public class Accessor {
 	public Movie returnMovieByTitle(String title) {
 		String SQL = "SELECT * from movies";
 		Statement stat;
-
+		
 		Movie movie = new Movie();
 		try {
 			stat = conn.createStatement();
@@ -544,7 +536,7 @@ public class Accessor {
 
 	public void updateMovie(Movie movie) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int movieID = movie.getMovieID();
 			String title = movie.getTitle();
@@ -553,11 +545,16 @@ public class Accessor {
 			String rating = movie.getRating();
 
 			sql = "UPDATE movies (Movie name, Description, Thumbnail, Rating)"
-					+ "VALUES ('" + title + "', '" + description + "', '"
-					+ thumbnail + "', '" + rating + "') Where 'Id'='" + movieID
-					+ "'";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?) Where 'Id'= ?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, title);
+			ps.setString(2, description);
+			ps.setBytes(3, thumbnail);
+			ps.setString(4, rating);
+			ps.setInt(5, movieID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -566,13 +563,17 @@ public class Accessor {
 
 	public void removeMovie(Movie movie) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int movieID = movie.getMovieID();
 
-			sql = "DELETE FROM movies Where 'id'='" + movieID + "'";
-
-			stmt.executeUpdate(sql);
+			sql = "DELETE FROM movies Where 'id'=?";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, movieID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -583,7 +584,7 @@ public class Accessor {
 	public void addTheatre(Theatre theatre) {
 
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int index = GetRows("theatreBuildings") + 1;
 			String name = theatre.getName();
@@ -594,22 +595,18 @@ public class Accessor {
 			String postalCode = theatre.getPostalCode();
 
 			sql = "INSERT INTO theatreBuildings (Id, Name, Address, ownerID, City, State, PostalCode)"
-					+ "VALUES ('"
-					+ index
-					+ "', '"
-					+ name
-					+ "', '"
-					+ address
-					+ "', '"
-					+ owner
-					+ "', '"
-					+ city
-					+ "', '"
-					+ state
-					+ "', '"
-					+ postalCode + "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setString(2, name);
+			ps.setString(3, address);
+			ps.setInt(4, owner);
+			ps.setString(5, city);
+			ps.setString(6, state);
+			ps.setString(7, postalCode);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -744,7 +741,7 @@ public class Accessor {
 	public void updateTheatre(Theatre theatre) {
 
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = theatre.getTheatreID();
 			String name = theatre.getName();
@@ -755,21 +752,18 @@ public class Accessor {
 			String postalCode = theatre.getPostalCode();
 
 			sql = "UPDATE theatreBuildings (Name, Address, ownerID, City, State, PostalCode)"
-					+ "VALUES ('"
-					+ name
-					+ "', '"
-					+ address
-					+ "', '"
-					+ owner
-					+ "', '"
-					+ city
-					+ "', '"
-					+ state
-					+ "', '"
-					+ postalCode
-					+ "') Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?) Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, name);
+			ps.setString(2, address);
+			ps.setInt(3, owner);
+			ps.setString(4, city);
+			ps.setString(5, state);
+			ps.setString(6, postalCode);
+			ps.setInt(7, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -780,13 +774,17 @@ public class Accessor {
 	public void removeTheatre(Theatre theatre) {
 
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = theatre.getTheatreID();
 
-			sql = "DELETE FROM theatreBuildings Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+			sql = "DELETE FROM theatreBuildings Where 'Id'=?";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -798,17 +796,22 @@ public class Accessor {
 	public void addShowroom(Showroom showroom) {
 
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int index = GetRows("Showrooms") + 1;
 			int seats = showroom.getSeats();
 			int theatre = showroom.getTheatre();
 
 			sql = "INSERT INTO Showrooms (Id, availableSeats, theatreBuilding)"
-					+ "VALUES ('" + index + "', '" + seats + "', '" + theatre
-					+ "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setInt(2, seats);
+			ps.setInt(3, theatre);
+			
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -899,17 +902,21 @@ public class Accessor {
 
 	public void updateShowroom(Showroom showroom) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = showroom.getShowroomID();
 			int seats = showroom.getSeats();
 			int theatre = showroom.getTheatre();
 
 			sql = "UPDATE Showrooms (availableSeats, theatreBuilding)"
-					+ "VALUES ('" + seats + "', '" + theatre
-					+ "') Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?) Where 'Id'=?";
+			ps  = conn.prepareStatement(sql);
+			
+			ps.setInt(1, seats);
+			ps.setInt(2, theatre);
+			ps.setInt(3, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -918,13 +925,16 @@ public class Accessor {
 
 	public void removeShowroom(Showroom showroom) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = showroom.getShowroomID();
 
 			sql = "DELETE FROM Showrooms Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -934,7 +944,7 @@ public class Accessor {
 	// MovieShowing Methods
 	public void addMovieShowing(MovieShowing movie) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int index = GetRows("movieShowing") + 1;
 			int price = movie.getPrice();
@@ -945,19 +955,18 @@ public class Accessor {
 			int showroomID = movie.getShowroomID();
 
 			sql = "INSERT INTO movieShowing (Id, Price, NumberPurchased, StartTime, EndTime, movieID, showroomID)"
-					+ "VALUES ('"
-					+ index
-					+ "', '"
-					+ price
-					+ "', '"
-					+ numberPurchased
-					+ "', '"
-					+ startTime
-					+ "', '"
-					+ endTime
-					+ "', '" + movieID + "', '" + showroomID + "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setInt(2, price);
+			ps.setInt(3, numberPurchased);
+			ps.setString(4, startTime);
+			ps.setString(5, endTime);
+			ps.setInt(7, movieID);
+			ps.setInt(8, showroomID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1091,7 +1100,6 @@ public class Accessor {
 
 	public void updateMovieShowing(MovieShowing movie) {
 		try {
-			stmt = conn.createStatement();
 			String sql;
 			int Id = movie.getShowingID();
 			int price = movie.getPrice();
@@ -1102,20 +1110,18 @@ public class Accessor {
 			int showroomID = movie.getShowroomID();
 
 			sql = "UPDATE movieShowing (Price, NumberPurchased, StartTime, EndTime, movieID, showroomID)"
-					+ "VALUES ('"
-					+ price
-					+ "', '"
-					+ numberPurchased
-					+ "', '"
-					+ startTime
-					+ "', '"
-					+ endTime
-					+ "', '"
-					+ movieID
-					+ "', '"
-					+ showroomID + "') Where 'Id'='" + Id + "'";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?) Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, price);
+			ps.setInt(2, numberPurchased);
+			ps.setString(3, startTime);
+			ps.setString(4, endTime);
+			ps.setInt(5, movieID);
+			ps.setInt(6, showroomID);
+			ps.setInt(7, Id);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1124,13 +1130,17 @@ public class Accessor {
 
 	public void removeMovieShowing(MovieShowing movie) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int Id = movie.getShowingID();
 
-			sql = "DELETE FROM movieShowing Where 'Id'='" + Id + "'";
-
-			stmt.executeUpdate(sql);
+			sql = "DELETE FROM movieShowing Where 'Id'=?";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, Id);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1140,7 +1150,7 @@ public class Accessor {
 	// Review Methods
 	public void addReview(Review review) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int index = GetRows("customerreviews") + 1;
 			int movieID = review.getMovieID();
@@ -1150,21 +1160,17 @@ public class Accessor {
 			String description = review.getDescription();
 
 			sql = "INSERT INTO customerreviews (Id, movieID, userID, ReviewDate, Rating, Review)"
-					+ "VALUES ('"
-					+ index
-					+ "', '"
-					+ movieID
-					+ "', '"
-					+ userID
-					+ "', '"
-					+ date
-					+ "', '"
-					+ rating
-					+ "', '"
-					+ description
-					+ "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setInt(2, movieID);
+			ps.setInt(3, userID);
+			ps.setString(4, date);
+			ps.setInt(5, rating);
+			ps.setString(6, description);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1266,7 +1272,7 @@ public class Accessor {
 
 	public void updateReview(Review review) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = review.getReviewID();
 			int movieID = review.getMovieID();
@@ -1276,19 +1282,17 @@ public class Accessor {
 			String description = review.getDescription();
 
 			sql = "UPDATE customerreviews (movieID, userID, ReviewDate, Rating, Review)"
-					+ "VALUES ('"
-					+ movieID
-					+ "', '"
-					+ userID
-					+ "', '"
-					+ date
-					+ "', '"
-					+ rating
-					+ "', '"
-					+ description
-					+ "') Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?) Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, movieID);
+			ps.setInt(2, userID);
+			ps.setString(3, date);
+			ps.setInt(4, rating);
+			ps.setString(5, description);
+			ps.setInt(6, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1298,13 +1302,17 @@ public class Accessor {
 
 	public void removeReview(Review review) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = review.getReviewID();
 
-			sql = "DELETE FROM customerreviews Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+			sql = "DELETE FROM customerreviews Where 'Id'=?";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1315,7 +1323,7 @@ public class Accessor {
 	// Credit Card Methods
 	public void addTransaction(Transaction transaction) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int index = GetRows("creditcards") + 1;
 			String cardHolder = transaction.getCardHolderName();
@@ -1327,20 +1335,19 @@ public class Accessor {
 			String expiration = transaction.getExpiration();
 			
 			sql = "INSERT INTO creditcards (Id, CardHolderName, CreditCardNumber, Balance, CardType, UserId, CVV, ExpirationDate)"
-					+ "VALUES ('"
-					+ index
-					+ "', '"
-					+ cardHolder
-					+ "', '"
-					+ cardNumber
-					+ "', '"
-					+ balance
-					+ "', '"
-					+ type
-					+ "', '"
-					+ userID + "', '" + cvv + "', '" + expiration + "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setString(2, cardHolder);
+			ps.setString(3, cardNumber);
+			ps.setFloat(4, balance);
+			ps.setString(5, type);
+			ps.setInt(6, userID);
+			ps.setString(7, cvv);
+			ps.setString(8, expiration);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1418,7 +1425,7 @@ public class Accessor {
 
 	public void updateTransaction(Transaction transaction) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = transaction.getCreditCardID();
 			String cardHolder = transaction.getCardHolderName();
@@ -1429,22 +1436,20 @@ public class Accessor {
 			String cvv = transaction.getCVV();
 			String expiration = transaction.getExpiration();
 
-			sql = "UPDATE creditcards (CardHolderName, CreditCardNumber, Balance CardType, UserId, CVV, ExpirationDate)"
-					+ "VALUES ('"
-					+ cardHolder
-					+ "', '"
-					+ cardNumber
-					+ "', '"
-					+ balance
-					+ "', '"
-					+ type
-					+ "', '"
-					+ userID
-					+ "', '"
-					+ cvv
-					+ "', '" + expiration + "') Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+			sql = "UPDATE creditcards (CardHolderName, CreditCardNumber, Balance, CardType, UserId, CVV, ExpirationDate)"
+					+ "VALUES (?,?,?,?,?,?,?) Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, cardHolder);
+			ps.setString(2, cardNumber);
+			ps.setFloat(3, balance);
+			ps.setString(4, type);
+			ps.setInt(5, userID);
+			ps.setString(6, cvv);
+			ps.setString(7, expiration);
+			ps.setInt(8, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1454,13 +1459,16 @@ public class Accessor {
 
 	public void removeTransaction(Transaction transaction) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int ID = transaction.getCreditCardID();
 
-			sql = "DELETE FROM creditcards Where 'Id'='" + ID + "'";
-
-			stmt.executeUpdate(sql);
+			sql = "DELETE FROM creditcards Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, ID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1481,23 +1489,19 @@ public class Accessor {
 			String card = order.getCardNumber();
 			int showingID = order.getShowingID();
 			String tickets = (order.getTickets());
-			
-			System.out.println(index);
-			
-			
-			
-			stmt = conn.createStatement();
-			
+						
 			sql = "INSERT INTO orders (Id, CustomerId, TotalCost, OrderDate, BillingAddress, CreditCardNumber)"
-					+ "VALUES ('"
-					+ index
-					+ "', '"
-					+ userID
-					+ "', '"
-					+ cost
-					+ "', '" + date + "', '" + address + "', '" + card + "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setInt(2, userID);
+			ps.setInt(3, cost);
+			ps.setString(4, date);
+			ps.setString(5, address);
+			ps.setString(6, card);
+			
+			ps.executeUpdate();
 			
 			addOrderItems(new OrderItems(index, showingID, tickets));
 			
@@ -1582,7 +1586,7 @@ public class Accessor {
 
 	public void UpdateOrder(Order order) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int orderID = order.getOrderID();
 			int userID = order.getUserID();
@@ -1592,20 +1596,17 @@ public class Accessor {
 			String card = order.getCardNumber();
 
 			sql = "Update orders (CustomerId, TotalCost, OrderDate, BillingAddress, CreditCardNumber)"
-					+ "VALUES ('"
-					+ userID
-					+ "', '"
-					+ cost
-					+ "', '"
-					+ date
-					+ "', '"
-					+ address
-					+ "', '"
-					+ card
-					+ "') Where 'Id'='"
-					+ orderID + "'";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?,?) Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, userID);
+			ps.setInt(2, cost);
+			ps.setString(3, date);
+			ps.setString(4, address);
+			ps.setString(5, card);
+			ps.setInt(6, orderID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1615,13 +1616,17 @@ public class Accessor {
 
 	public void removeOrder(Order order) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int orderID = order.getOrderID();
 			
-			sql = "DELETE FROM orders Where Id = "+orderID+";";
+			sql = "DELETE FROM orders Where Id = ?;";
 			
-			stmt.executeUpdate(sql);
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, orderID);
+			
+			ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1633,7 +1638,7 @@ public class Accessor {
 	// Order Items Methods
 	public void addOrderItems(OrderItems order) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int index = GetRows("orderitems") + 1;
 			int orderID = order.getOrderID();
@@ -1641,10 +1646,15 @@ public class Accessor {
 			String count = order.getCount();
 
 			sql = "INSERT INTO orderitems (Id, OrderId, ShowingID, Quantity)"
-					+ "VALUES ('" + index + "', '" + orderID + "', '"
-					+ showingID + "', '" + count + "')";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, index);
+			ps.setInt(2, orderID);
+			ps.setInt(3, showingID);
+			ps.setString(4, count);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1715,7 +1725,7 @@ public class Accessor {
 
 	public void UpdateOrderItems(OrderItems order) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int itemID = order.getItemID();
 			int orderID = order.getOrderID();
@@ -1723,10 +1733,15 @@ public class Accessor {
 			String count = order.getCount();
 
 			sql = "Update orderitems (OrderId, ShowingID, Quantity)"
-					+ "VALUES ('" + orderID + "', '" + showingID + "', '"
-					+ count + "') Where 'Id'='" + itemID + "'";
-
-			stmt.executeUpdate(sql);
+					+ "VALUES (?,?,?) Where 'Id'=?";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, orderID);
+			ps.setInt(2, showingID);
+			ps.setString(3, count);
+			ps.setInt(4, itemID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1736,13 +1751,17 @@ public class Accessor {
 
 	public void removeOrderItems(OrderItems order) {
 		try {
-			stmt = conn.createStatement();
+			
 			String sql;
 			int itemID = order.getItemID();
 
-			sql = "DELETE FROM orderitems Where 'Id'='" + itemID + "'";
-
-			stmt.executeUpdate(sql);
+			sql = "DELETE FROM orderitems Where 'Id'=?";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, itemID);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1751,7 +1770,7 @@ public class Accessor {
 	}
 
 	// Other Methods
-	public void addAddress(Address address) {
+	public void addAddress(Address address) { //Not used
 		try {
 			stmt = conn.createStatement();
 			String sql;

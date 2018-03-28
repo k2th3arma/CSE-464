@@ -28,12 +28,22 @@ document.ready(function(){
 	
 </script>
 
+<script type="text/javascript">
+$(document).click(function(){
+     if(typeof timeOutObj != "undefined") {
+         clearTimeout(timeOutObj);
+     }
+
+     timeOutObj = setTimeout(function(){ 
+         localStorage.clear();
+         window.location = "../Logout";
+     }, 600000);   //will expire after ten minutes
+
+});
+</script>
 </head>
 
 <body>
-
-
-
 
 	<div id="customer">
 		<div class="navbar navbar-inverse navbar-fixed-top" id="partial">
