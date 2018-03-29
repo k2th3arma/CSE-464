@@ -49,10 +49,10 @@ function CheckLogin(){
 	<c:forEach var="item" items="${Shoppingcart}">
 	<tbody>
 		<tr>
-					<td>${item.movieName}</td>
-					<td>${item.startTime}</td>
-					<td>${item.tickets}</td>
-					<td>${item.total}</td>
+					<td><c:out value="${item.movieName}"/></td>
+					<td><c:out value="${item.startTime}"/></td>
+					<td><c:out value="${item.tickets}"/></td>
+					<td><c:out value="${item.total}"/></td>
 					
 		</tr>
 	</tbody>

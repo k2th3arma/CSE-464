@@ -63,13 +63,13 @@
 		<img src="../Images?id=${item.movieID}">
 		<br>
 
-	Description: <div>${item.description}</div><br>
-	Rating: <div>${item.rating}</div><br>
-	Theatre Name: <div>${item.theatreName}</div><br>
-	Showroom: <div>${item.showroomID}</div><br>
-	Showtime: <div>${item.startTime}</div><br>
-	Price per seat: <div>${item.price}</div><br>
-	Available Seats: <div>${item.availableSeats}</div><br>
+	Description: <c:out value="${item.description}"/><br>
+	Rating: <c:out value="${item.rating}"/><br>
+	Theatre Name: <c:out value="${item.theatreName}"/><br>
+	Showroom: <c:out value="${item.showroomID}"/><br>
+	Showtime: <c:out value="${item.startTime}"/><br>
+	Price per seat: <c:out value="${item.price}"/><br>
+	Available Seats: <c:out value="${item.availableSeats}"/><br>
 	<br>
 	<!--  <form action=../UpdateCartServlet name="userForm" method="get" > -->
 			Number of Tickets: 		<select id=tickets>
@@ -106,9 +106,9 @@
 	
 	<c:forEach var="item" items="${reviews}">
 	<h3>${item.userName}</h3>
-	Rating: <div>${item.rating}</div><br>
-	Description: <div>${item.description}</div><br>	
-	Date: <div>${item.date}</div><br>
+	Rating: <c:out value="${item.rating}"/><br>	
+	Description: <c:out value="${item.description}"/><br>	
+	Date: <c:out value="${item.date}"/><br>
 	</c:forEach>
 	
 	<br>

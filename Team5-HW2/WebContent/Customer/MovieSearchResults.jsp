@@ -25,12 +25,12 @@
 			<tbody>
 				<tr>
 					
-					<td>${item.movieName}</td>
-					<td>${item.theatreName}</td>
-					<td>${item.theatreNumber}</td>
-					<td>${item.startTime}</td>
-					<td>${item.availableSeats}</td>
-					<td>${item.price}</td>
+					<td><c:out value="${item.movieName}"/></td>
+					<td><c:out value="${item.theatreName}"/></td>
+					<td><c:out value="${item.theatreNumber}"/></td>
+					<td><c:out value="${item.startTime}"/></td>
+					<td><c:out value="${item.availableSeats}"/></td>
+					<td><c:out value="${item.price}"/></td>
 					<td><img src="../Images?id=${item.movieID}"></td>
 					<td>
 						<form action=../MovieDetailsServlet name="userForm" method="get">

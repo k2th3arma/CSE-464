@@ -17,23 +17,23 @@
 	<c:forEach var="item" items="${Shoppingcart}">
 	<tbody>
 		<tr>
-					<td>${item.movieName}</td>
-					<td>${item.theatreName}</td>
-					<td>${item.tickets}</td>
-					<td>${item.total}</td>
+					<td><c:out value="${item.movieName}"/></td>
+					<td><c:out value="${item.theatreName}"/></td>
+					<td><c:out value="${item.tickets}"/></td>
+					<td><c:out value="${item.total}"/></td>
 
 		</tr>
 	</tbody>
 	</c:forEach>
 </table>
 
-<p>Name: ${transaction.cardHolderName}</p>
-<p>Card Type: ${transaction.cardType}</p>
-<p>Card Number: ${transaction.cardNumber}</p>
-<p>Card Security Code: ${transaction.CVV}</p>
-<p>Card Expiration: ${transaction.expiration}</p>
-<p>Billing Address: ${order.address}</p>
-<p>Date Ordered: ${order.orderDate}</p>
+<p>Name: <c:out value="${transaction.cardHolderName}"/></p>
+<p>Card Type: <c:out value="${transaction.cardType}"/></p>
+<p>Card Number: <c:out value="${transaction.cardNumber}"/></p>
+<p>Card Security Code: <c:out value="${transaction.CVV}"/></p>
+<p>Card Expiration: <c:out value="${transaction.expiration}"/></p>
+<p>Billing Address: <c:out value="${order.address}"/></p>
+<p>Date Ordered: <c:out value="${order.orderDate}"/></p>
 
 <br>
 Total Cost: ${total} <br>

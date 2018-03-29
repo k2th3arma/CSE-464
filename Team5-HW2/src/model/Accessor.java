@@ -54,7 +54,7 @@ public class Accessor {
 	public void addBank(Bank bank) {
 
 		try {
-			
+			 
 			String sql;
 			int index = GetRows("Bank") + 1;
 			String accountName = bank.getAccountName();

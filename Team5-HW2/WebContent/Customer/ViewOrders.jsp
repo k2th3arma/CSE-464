@@ -18,9 +18,9 @@
 	<c:forEach var="item" items="${orders}">
 	<tbody>
 		<tr>
-					<td>${item.orderID}</td>
-					<td>$${item.cost}</td>
-					<td>${item.orderDate}</td>
+					<td><c:out value="${item.orderID}"/></td>
+					<td><c:out value="$${item.cost}"/></td>
+					<td><c:out value="${item.orderDate}"/></td>
 					<td>
 					
 					<form action=../ManageOrdersServlet name="userForm" method="get">

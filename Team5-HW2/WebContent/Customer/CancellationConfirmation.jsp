@@ -26,12 +26,12 @@
 	<tbody>
 		<tr>
 		
-			<td>${item.movieName}</td>
-			<td>${item.theatreName}</td>
-			<td>${item.tickets}</td>
-			<td>${item.total}</td>
-			<td>${item.date}</td>
-			<td>${item.startTime}</td>
+			<td><c:out value="${item.movieName}"/></td>
+			<td><c:out value="${item.theatreName}"/></td>
+			<td><c:out value="${item.tickets}"/></td>
+			<td><c:out value="${item.total}"/></td>
+			<td><c:out value="${item.date}"/></td>
+			<td><c:out value="${item.startTime}"/></td>
 			<td> Cancelled</td>	
 		</tr>
 	</tbody>
