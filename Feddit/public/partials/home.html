@@ -1,0 +1,16 @@
+<h1>Feddit Home Page</h1>
+
+<p><a href="/#/add-article">Add an article?</a></p>
+
+<p>Current News Articles:</p>
+
+<ul>
+    <li ng-repeat='article in articles'>
+        <a href="{{article.URL}}">{{article.title}}</a> posted by {{article.user}}, 
+        Vote Count: {{article.votes}}, 
+        <a>view comments</a>
+        <a href ="/#/article/delete/{{article._id}}">
+            <i class="glyphicon glyphicon-remove"></i>
+        </a>
+    </li>
+</ul>
