@@ -7,8 +7,14 @@
 <ul>
     <li ng-repeat='article in articles'>
         <a href="{{article.URL}}">{{article.title}}</a> posted by {{article.user}}, 
-        Vote Count: {{article.votes}}, 
-        <a>view comments</a>
+        Vote Count: {{article.votes}} 
+        <a href = "/#/article/upvote/{{article._id}}"
+            <i class="glyphicon glyphicon-arrow-up"></i>
+        </a>
+        <a href = "/#/article/downvote/{{article._id}}"
+            <i class="glyphicon glyphicon-arrow-down"></i>, 
+        </a>
+        <a href = "/#/article/comments/{{article._id}}">view comments</a>
         <a href ="/#/article/delete/{{article._id}}">
             <i class="glyphicon glyphicon-remove"></i>
         </a>

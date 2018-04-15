@@ -1,0 +1,12 @@
+<h1>Comments for <a href="{{article.URL}}">{{article.title}}</a></h1>
+<h2>Votes: {{article.votes}}</h2>
+
+<p><a href="/#/">Back to Home Page?</a></p>
+
+<p><a href="/#/add-comment/{{article._id}}">Add a comment?</a></p>
+<p>Comments:</p>
+
+<ul>
+    <li ng-repeat='comment in comments'>
+    "{{comment.body}}" posted by {{comment.user}} on {{comment.date}} with {{comment.votes}} votes.
+</ul>

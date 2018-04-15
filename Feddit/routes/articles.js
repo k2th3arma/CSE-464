@@ -45,4 +45,30 @@ router.post('/', function(req,res){
     });
 });
 
+router.post('/:id', function(req,res){
+    var collection = db.get('articles/:id');
+    collection.comments.insert({
+        user: req.body.user,
+        date: "empty",
+        votes: 0,
+        body: req.body.body
+    }, function(err, article){
+        if(err) throw err;
+
+        res.json(article);
+    });
+});
+
+/*
+router.put('/:id', function(req,res){
+    var collection = db.get('articles');
+    collection.findOne({_id: req.params.id} , function(err, article){
+        if (err) throw err;
+        
+        collection.votes = collection.votes + 1;
+        res.json(article);
+    });
+});
+*/
+
 module.exports = router;
