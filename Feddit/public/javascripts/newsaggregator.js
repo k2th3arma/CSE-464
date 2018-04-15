@@ -16,14 +16,6 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/article-delete.html',
             controller: 'DeleteArticleCtrl'
         })
-        .when('/article/upvote/:id', {
-            templateUrl: 'partials/article-upvote.html',
-            controller: 'UpvoteArticleCtrl'
-        })
-        .when('/article/downvote/:id', {
-            templateUrl: 'partials/article-downvote.html',
-            controller: 'UpvoteArticleCtrl'
-        })
         .when('/article/comments/:id',{
             templateUrl: 'partials/comments.html',
             controller: 'CommentsCtrl'
@@ -43,7 +35,16 @@ app.controller('HomeCtrl', ['$scope', '$resource',
         Article.query(function(articles){
             $scope.articles = articles;
         })
+
+        $scope.upvote = function(article){
+            article.votes++;
+        }
+        
+        $scope.downvote = function(article){
+            article.votes--;
+        }
 }]);
+
 
 app.controller('CommentsCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
@@ -68,12 +69,16 @@ app.controller('AddArticleCtrl', ['$scope', '$resource', '$location',
 
 app.controller('AddCommentCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
-        $scope.save = function(){
-            var Article = $resource('/api/articles/:id');
-            Article.save($scope.article, function(){
-                $location.path('/#/article/comments/:id');
-            });
-        };
+        var Articles = $resource('/api/articles/:id');
+
+    Articles.get({ id: $routeParams.id }, function(article){
+        $scope.article = article;
+        $scope.comments = article.comments;
+    })
+
+    $scope.comment = function(){
+
+    }
 }]);
 
 app.controller('DeleteArticleCtrl', ['$scope', '$resource', '$location', '$routeParams',
@@ -89,21 +94,6 @@ function($scope, $resource, $location, $routeParams){
             $location.path('/');
         });
     }
-}]);
-
-app.controller('UpvoteArticleCtrl', ['$scope', '$resource', '$location', '$routeParams',
-function($scope, $resource, $location, $routeParams){
-    var Articles = $resource('/api/articles/:id');
-
-    Articles.get({ id: $routeParams.id }, function(article){
-        $scope.article = article;
-    })
-
-    $scope.upvote = function(){
-        $scope.article.votes++;
-    };
-    
-
 }]);
 
 

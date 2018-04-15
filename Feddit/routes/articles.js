@@ -4,6 +4,7 @@ var router = express.Router();
 var monk = require('monk');
 var db = monk('localhost:27017/feddit');
 
+/*Obtain articles from db*/
 router.get('/', function(req, res){
     var collection = db.get('articles');
     collection.find({}, function(err, articles){
@@ -12,6 +13,7 @@ router.get('/', function(req, res){
     });
 });
 
+/*Obtain an article via ID*/
 router.get('/:id', function(req, res) {
     var collection = db.get('articles');
     collection.findOne({ _id: req.params.id }, function(err, articles){
@@ -21,6 +23,7 @@ router.get('/:id', function(req, res) {
     });
 });
 
+/*Delete article via ID*/
 router.delete('/:id', function(req,res){
     var collection = db.get('articles');
     collection.remove({_id: req.params.id}, function(err,article){
@@ -30,6 +33,7 @@ router.delete('/:id', function(req,res){
     });
 });
 
+/*Add new article*/
 router.post('/', function(req,res){
     var collection = db.get('articles');
     collection.insert({
@@ -45,8 +49,9 @@ router.post('/', function(req,res){
     });
 });
 
+/*Add new comment to article*/
 router.post('/:id', function(req,res){
-    var collection = db.get('articles/:id');
+    var collection = db.get('articles');
     collection.comments.insert({
         user: req.body.user,
         date: "empty",
@@ -59,7 +64,7 @@ router.post('/:id', function(req,res){
     });
 });
 
-/*
+/* Upvote and downvote articles
 router.put('/:id', function(req,res){
     var collection = db.get('articles');
     collection.findOne({_id: req.params.id} , function(err, article){

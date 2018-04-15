@@ -8,12 +8,12 @@
     <li ng-repeat='article in articles'>
         <a href="{{article.URL}}">{{article.title}}</a> posted by {{article.user}}, 
         Vote Count: {{article.votes}} 
-        <a href = "/#/article/upvote/{{article._id}}"
+        <a><span ng-click="upvote(article)">
             <i class="glyphicon glyphicon-arrow-up"></i>
-        </a>
-        <a href = "/#/article/downvote/{{article._id}}"
-            <i class="glyphicon glyphicon-arrow-down"></i>, 
-        </a>
+        </span></a>
+        <a><span ng-click="downvote(article)">
+                <i class="glyphicon glyphicon-arrow-down"></i>
+        </span></a>
         <a href = "/#/article/comments/{{article._id}}">view comments</a>
         <a href ="/#/article/delete/{{article._id}}">
             <i class="glyphicon glyphicon-remove"></i>

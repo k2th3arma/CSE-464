@@ -7,6 +7,6 @@
 <p>Comments:</p>
 
 <ul>
-    <li ng-repeat='comment in comments'>
+    <li ng-repeat="comment in comments | orderBy: '-votes'">
     "{{comment.body}}" posted by {{comment.user}} on {{comment.date}} with {{comment.votes}} votes.
 </ul>
