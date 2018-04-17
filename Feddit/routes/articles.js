@@ -52,11 +52,14 @@ router.post('/', function(req,res){
 /*Add new comment to article*/
 router.post('/:id', function(req,res){
     var collection = db.get('articles');
-    collection.comments.insert({
-        user: req.body.user,
-        date: "empty",
-        votes: 0,
-        body: req.body.body
+    collection.update( {_id: req.params.id},
+        {$push: {
+            comments: {
+            user: req.body.user,
+            date: "empty",
+            votes: 0,
+            body: req.body.body
+        }}
     }, function(err, article){
         if(err) throw err;
 
