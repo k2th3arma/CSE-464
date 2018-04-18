@@ -9,12 +9,14 @@
 </br>
 
 <ul>
-    <li ng-repeat='article in articles | filter: searchText'>
+    <li ng-repeat="article in articles | filter: searchText | orderBy: '-votes'">
         <a href="{{article.URL}}">{{article.title}}</a> posted by {{article.user}}, 
         Vote Count: {{article.votes}} 
         <a>
             <a><span ng-click="upvote(article)">
+                <a href ="/#/article/upvote/{{article._id}}">
             <i class="glyphicon glyphicon-arrow-up"></i>
+                    </a>
             </span>
             </a>
         </a>

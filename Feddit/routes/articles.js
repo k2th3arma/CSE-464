@@ -11,14 +11,19 @@ var monk = require('monk');
 var db = monk('localhost:27017/articles');
 
 /* Upvote and downvote articles*/
-app.put('/:id', function(req,res){
+app.post('/:id/up', function(req,res){
     var collection = db.get('articles');
-
-    collection.findOne({_id: req.params.id} , function(err, articles){
-        if (err) throw err;
-
-        res.json(articles);
-    });
+    console.log("I'm trying to control up/down votes " + req.body.votes);
+    var adding = req.body.votes + 1;
+    collection.update(
+        { _id: req.params.id },
+        { $set: { votes: Number(adding) } },
+        {multi:false},
+        function(err,doc,next){
+            console.log(err);
+            console.log(doc);
+            res.send(doc);
+        });
 
 });
 

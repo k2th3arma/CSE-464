@@ -131,14 +131,15 @@ app.controller('DeleteCommentCtrl', ['$scope', '$resource', '$location', '$route
 
 app.controller('UpvoteArticleCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
-        var Articles = $resource('/api/articles/:id');
-
+        var Articles = $resource('/api/articles/:id/up', { id: '@_id' }, {
+            update: { method: 'POST' }
+        });
         Articles.get({ id: $routeParams.id }, function(article){
             $scope.article = article;
         })
 
-        $scope.put = function(article){
-            Articles.put({ id: $routeParams.id }, function(article){
+        $scope.upvote = function(){
+            Articles.update($scope.article, function(){
                 $location.path('/');
             });
         }
