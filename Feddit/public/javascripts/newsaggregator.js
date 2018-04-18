@@ -69,7 +69,9 @@ app.controller('AddArticleCtrl', ['$scope', '$resource', '$location',
 
 app.controller('AddCommentCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
-        var Articles = $resource('/api/articles/:id');
+        var Articles = $resource('/api/articles/:id', { id: '@_id' }, {
+            update: { method: 'POST' }
+        });
 
     Articles.get({ id: $routeParams.id }, function(article){
         $scope.article = article;
@@ -77,7 +79,9 @@ app.controller('AddCommentCtrl', ['$scope', '$resource', '$location', '$routePar
     })
 
     $scope.comment = function(){
-
+        Articles.update($scope.article, function(){
+            $location.path('/');
+        });
     }
 }]);
 
