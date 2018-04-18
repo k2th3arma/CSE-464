@@ -8,7 +8,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 
 var monk = require('monk');
-var db = monk('localhost:27017/articles');
+var db = monk('localhost:27017/feddit');
 
 /* Upvote and downvote articles*/
 app.put('/:id', function(req,res){
@@ -106,10 +106,11 @@ app.post('/:id', function(req,res){
     collection.update( {_id: req.params.id},
         {$push: {
             comments: {
-            user: req.body.user,
+            commentid: 3,
+            user: req.body.commentuser,
             date: "empty",
             votes: 0,
-            body: req.body.body
+            body: req.body.commentbody
         }}
     }, function(err, article){
         if(err) throw err;
