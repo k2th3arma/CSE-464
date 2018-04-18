@@ -9,6 +9,15 @@
 <ul>
     <li ng-repeat="comment in comments | orderBy: '-votes'" >
     "{{comment.body}}" posted by {{comment.user}} on {{comment.date}} with {{comment.votes}} votes.
+        <a>edit</a>
+        <a><span ng-click="upvote(article)">
+            <i class="glyphicon glyphicon-arrow-up"></i>
+            </span>
+            </a>
+        <a><span ng-click="downvote(article)">
+                <i class="glyphicon glyphicon-arrow-down"></i>
+        </span></a>
+        
         <a href ="/#/article/deleteComment/{{article._id}}/{{comment.commentid}}">
             <i class="glyphicon glyphicon-remove"></i>
         </a>
