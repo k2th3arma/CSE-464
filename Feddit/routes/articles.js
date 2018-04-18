@@ -103,10 +103,11 @@ app.post('/', function(req,res){
 /*Add new comment to article*/
 app.post('/:id', function(req,res){
     var collection = db.get('articles');
+    var ObjectID = require('mongodb').ObjectID;
     collection.update( {_id: req.params.id},
         {$push: {
             comments: {
-            commentid: 3,
+            commentid: new ObjectID(),
             user: req.body.commentuser,
             date: new Date(),
             votes: 0,
