@@ -108,7 +108,7 @@ app.post('/:id', function(req,res){
             comments: {
             commentid: 3,
             user: req.body.commentuser,
-            date: "empty",
+            date: new Date(),
             votes: 0,
             body: req.body.commentbody
         }}
