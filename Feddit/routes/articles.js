@@ -4,11 +4,11 @@ var bodyParser = require("body-parser");
 var app = express();
 app.use(bodyParser.json());
 
-var MongoClient = require('mongodb').MongoClient;
+const {ObjectId} = require('mongodb');
 
 
 var monk = require('monk');
-var db = monk('localhost:27017/feddit');
+var db = monk('localhost:27017/articles');
 
 /* Upvote and downvote articles*/
 app.put('/:id', function(req,res){
@@ -73,7 +73,7 @@ app.delete('/:id/:commentid', function(req,res){
     var key = req.params.commentid;
     collection.update(
         { _id: req.params.id },
-        { $pull: { comments: { commentid: Number(key) } } },
+        { $pull: { comments: { commentid: ObjectId(key) } } },
         {multi:false},
         function(err,doc,next){
         console.log(err);
