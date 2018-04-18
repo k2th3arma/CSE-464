@@ -4,13 +4,20 @@
 
 <p>Current News Articles:</p>
 
+</br>
+<label>Search: <input ng-model="searchText"></label>
+</br>
+
 <ul>
-    <li ng-repeat='article in articles'>
+    <li ng-repeat='article in articles | filter: searchText'>
         <a href="{{article.URL}}">{{article.title}}</a> posted by {{article.user}}, 
         Vote Count: {{article.votes}} 
-        <a><span ng-click="upvote(article)">
+        <a>
+            <a><span ng-click="upvote(article)">
             <i class="glyphicon glyphicon-arrow-up"></i>
-        </span></a>
+            </span>
+            </a>
+        </a>
         <a><span ng-click="downvote(article)">
                 <i class="glyphicon glyphicon-arrow-down"></i>
         </span></a>
@@ -20,3 +27,4 @@
         </a>
     </li>
 </ul>
+

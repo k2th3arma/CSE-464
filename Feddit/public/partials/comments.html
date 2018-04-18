@@ -7,6 +7,9 @@
 <p>Comments:</p>
 
 <ul>
-    <li ng-repeat="comment in comments | orderBy: '-votes'">
+    <li ng-repeat="comment in comments | orderBy: '-votes'" >
     "{{comment.body}}" posted by {{comment.user}} on {{comment.date}} with {{comment.votes}} votes.
+        <a href ="/#/article/deleteComment/{{article._id}}/{{comment.commentid}}">
+            <i class="glyphicon glyphicon-remove"></i>
+        </a>
 </ul>

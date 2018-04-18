@@ -1,0 +1,17 @@
+<h1>Update article</h1>
+<p>
+    Are you sure you want to update this Article?
+</p>
+
+
+<ul>
+    <li>Title: {{article.title}}</li>
+    <li>URL: {{article.URL}}</li>
+    <li>Posted by: {{article.user}}</li>
+    <li>Vote count: {{article.votes}}</li>
+</ul>
+
+<input type="button" value="Yes, update" class="btn btn-danger" ng-click="put()"/>
+
+<a class="btn btn-default" href="/#/">No, Go Back</a>
+

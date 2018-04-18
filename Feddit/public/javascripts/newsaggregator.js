@@ -1,7 +1,5 @@
 var app = angular.module('NewsAggregator',['ngResource','ngRoute']);
 
-
-
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
         .when('/', {
@@ -16,6 +14,14 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/article-delete.html',
             controller: 'DeleteArticleCtrl'
         })
+        .when('/article/deleteComment/:id/:commentid', {
+            templateUrl: 'partials/comment-delete.html',
+            controller: 'DeleteCommentCtrl'
+        })
+        .when('/article/upvote/:id', {
+            templateUrl: 'partials/article-upvote.html',
+            controller: 'UpvoteArticleCtrl'
+        })
         .when('/article/comments/:id',{
             templateUrl: 'partials/comments.html',
             controller: 'CommentsCtrl'
@@ -29,19 +35,23 @@ app.config(['$routeProvider', function($routeProvider){
         });
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$resource', 
-    function($scope,$resource){
-        var Article = $resource('/api/articles');
+app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$routeParams',
+    function($scope, $resource, $location, $routeParams){
+        var Article = $resource('/api/articles/');
         Article.query(function(articles){
             $scope.articles = articles;
         })
 
         $scope.upvote = function(article){
             article.votes++;
+
         }
         
         $scope.downvote = function(article){
             article.votes--;
+        }
+        $scope.search= function(val) {
+           console.log("hey")
         }
 }]);
 
@@ -82,18 +92,50 @@ app.controller('AddCommentCtrl', ['$scope', '$resource', '$location', '$routePar
 }]);
 
 app.controller('DeleteArticleCtrl', ['$scope', '$resource', '$location', '$routeParams',
-function($scope, $resource, $location, $routeParams){
-    var Articles = $resource('/api/articles/:id');
+    function($scope, $resource, $location, $routeParams){
+        var Articles = $resource('/api/articles/:id');
 
-    Articles.get({ id: $routeParams.id }, function(article){
-        $scope.article = article;
-    })
+        Articles.get({ id: $routeParams.id}, function(article){
+            $scope.article = article;
+        })
 
-    $scope.delete = function(){
-        Articles.delete({ id: $routeParams.id }, function(article){
-            $location.path('/');
-        });
-    }
-}]);
+        $scope.delete = function(){
+            Articles.delete({ id: $routeParams.id }, function(article){
+                $location.path('/');
+            });
+        }
+    }]);
 
+app.controller('DeleteCommentCtrl', ['$scope', '$resource', '$location', '$routeParams',
+    function($scope, $resource, $location, $routeParams){
+        var Articles = $resource('/api/articles/:id/:commentid');
 
+        $scope.commentid = $routeParams.commentid;
+
+        Articles.get({ id: $routeParams.id, commentid: $routeParams.commentid}, function(article){
+            $scope.article = article;
+            $scope.comments = article.comments;
+
+        })
+
+        $scope.delete = function(){
+            Articles.delete({ id: $routeParams.id, commentid: $routeParams.commentid}, function(article){
+                $location.path('/');
+            });
+        }
+    }]);
+
+app.controller('UpvoteArticleCtrl', ['$scope', '$resource', '$location', '$routeParams',
+    function($scope, $resource, $location, $routeParams){
+        var Articles = $resource('/api/articles/:id');
+
+        Articles.get({ id: $routeParams.id }, function(article){
+            $scope.article = article;
+        })
+
+        $scope.put = function(article){
+            Articles.put({ id: $routeParams.id }, function(article){
+                $location.path('/');
+            });
+        }
+    }]);
