@@ -7,9 +7,30 @@
 <p>Comments:</p>
 
 <ul>
-    <li ng-repeat="comment in comments | orderBy: '-votes'" >
-    "{{comment.body}}" posted by {{comment.user}} on {{comment.date}} with {{comment.votes}} votes.
-        <a href ="/#/article/deleteComment/{{article._id}}/{{comment.commentid}}">
+    <li ng-repeat="comment in comments | orderBy: '-votes'">
+        "{{comment.body}}"
+        posted by {{comment.user}}
+        on {{comment.date}}. <br>
+
+        Vote Count: {{comment.votes}}
+
+        <a>
+            <span ng-click="upvote(comment)">
+
+                <i class="glyphicon glyphicon-arrow-up"></i>
+
+            </span>
+        </a>
+
+        <a>
+            <span ng-click="downvote(comment)">
+
+                <i class="glyphicon glyphicon-arrow-down"></i>
+
+            </span>
+        </a>
+
+        <a href="/#/article/deleteComment/{{article._id}}/{{comment.commentid}}">
             <i class="glyphicon glyphicon-remove"></i>
         </a>
 </ul>

@@ -42,13 +42,31 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$routeParams',
             $scope.articles = articles;
         })
 
+
+
         $scope.upvote = function(article){
             article.votes++;
+
+            var Articles = $resource('/api/articles/'+article._id +'/'+article.votes, { id: '@_id' }, {
+                update: { method: 'POST' }
+            });
+
+            Articles.update($scope.article, function(){
+                $location.path('/');
+            });
 
         }
         
         $scope.downvote = function(article){
             article.votes--;
+
+            var Articles = $resource('/api/articles/'+article._id +'/'+article.votes, { id: '@_id' }, {
+                update: { method: 'POST' }
+            });
+
+            Articles.update($scope.article, function(){
+                $location.path('/');
+            });
         }
         $scope.search= function(val) {
            console.log("hey")
@@ -64,6 +82,31 @@ app.controller('CommentsCtrl', ['$scope', '$resource', '$location', '$routeParam
         $scope.article = article;
         $scope.comments = article.comments;
     })
+
+        $scope.upvote = function(comment){
+            comment.votes++;
+
+            var Articles = $resource('/api/articles/comments/:id/'+comment.commentid+'/'+comment.votes, { id: '@_id' }, {
+                update: { method: 'POST' }
+            });
+
+            Articles.update($scope.article, function(){
+                $location.path('/');
+            });
+
+        }
+
+        $scope.downvote = function(comment){
+            comment.votes--;
+
+            var Articles = $resource('/api/articles/comments/:id/'+comment.commentid+'/'+comment.votes, { id: '@_id' }, {
+                update: { method: 'POST' }
+            });
+
+            Articles.update($scope.article, function(){
+                $location.path('/');
+            });
+        }
 
 }]);
 

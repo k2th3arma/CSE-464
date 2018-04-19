@@ -10,11 +10,32 @@ const {ObjectId} = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/articles');
 
-/* Upvote and downvote articles*/
-app.post('/:id/up', function(req,res){
+
+
+/* Upvote and downvote comments*/
+app.post('/comments/:id/:commentid/:votes', function(req,res){
     var collection = db.get('articles');
-    console.log("I'm trying to control up/down votes " + req.body.votes);
-    var adding = req.body.votes + 1;
+    console.log("I'm trying to control up/down votes " + req.params.votes);
+    var adding = Number(req.params.votes);
+    var key = req.params.commentid;
+    collection.update(
+        { _id: req.params.id, "comments.commentid": ObjectId(key) },
+        { $set: { "comments.$.votes": Number(adding) } },
+        {multi:false, upsert:true},
+        function(err,doc,next){
+            console.log(err);
+            console.log(doc);
+            res.send(doc);
+        });
+
+});
+
+
+/* Upvote and downvote articles*/
+app.post('/:id/:votes', function(req,res){
+    var collection = db.get('articles');
+    console.log("I'm trying to control up/down votes " + req.params.votes);
+    var adding = Number(req.params.votes);
     collection.update(
         { _id: req.params.id },
         { $set: { votes: Number(adding) } },
